@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レトロ/ビンテージデザイン プレゼンテーション</title>
+    <style>
+        /* レトロ/ビンテージデザインの基本スタイル */
+        :root {
+            --primary-color: #E94E1B;
+            --secondary-color: #F4B042;
+            --background-color: #F2E6D8;
+            --card-background: #FEF8EE;
+            --text-primary: #2F2F30;
+            --text-secondary: #635E58;
+            --accent-color: #D62828;
+            --accent-secondary: #5C8001;
+            --border-radius: 0px;
+            --shadow-light: 3px 3px 0 rgba(0, 0, 0, 0.2);
+            --shadow-medium: 5px 5px 0 rgba(0, 0, 0, 0.2);
+            --shadow-deep: 8px 8px 0 rgba(0, 0, 0, 0.2);
+            --transition-standard: all 0.2s ease;
+            --pattern-overlay: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        @font-face {
+            font-family: 'RetroFont';
+            src: local('Courier New'), local('Courier'), local('monospace');
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'RetroFont', 'Courier New', monospace;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            background-image: var(--pattern-overlay);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            border: 2px solid var(--text-primary);
+        }
+
+        /* レトロカードコンポーネント */
+        .retro-card {
+            background: var(--card-background);
+            border: 3px solid var(--text-primary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .retro-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .retro-card.wide {
+            width: 100%;
+        }
+
+        .retro-card.accent {
+            border-top: 8px solid var(--accent-color);
+        }
+
+        .retro-card.secondary-accent {
+            border-top: 8px solid var(--accent-secondary);
+        }
+
+        /* タイポグラフィー */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* レトロボタン */
+        .retro-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: 3px solid var(--text-primary);
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-family: 'RetroFont', 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .retro-button:hover {
+            background-color: var(--secondary-color);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-3px);
+        }
+
+        .retro-button.secondary {
+            background-color: var(--card-background);
+            color: var(--text-primary);
+            border: 3px solid var(--text-primary);
+        }
+
+        .retro-button.secondary:hover {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+        }
+
+        /* ナビゲーションコントロール */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--border-radius);
+            background-color: var(--card-background);
+            border: 3px solid var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-medium);
+            cursor: pointer;
+            transition: var(--transition-standard);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-deep);
+        }
+
+        /* リストスタイル */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        li::marker {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* イメージコンテナ */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            border: 3px solid var(--text-primary);
+            box-shadow: var(--shadow-light);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* グリッドレイアウト */
+        .retro-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .retro-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* アイコンプレースホルダー */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            background-color: var(--primary-color);
+            mask-size: cover;
+            -webkit-mask-size: cover;
+        }
+
+        /* プログレスバー */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: var(--card-background);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-top: 2px solid var(--text-primary);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 20%; /* JSで更新 */
+            transition: width 0.3s ease;
+        }
+
+        /* レトロな装飾 */
+        .retro-badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            transform: rotate(15deg);
+            font-weight: bold;
+            box-shadow: var(--shadow-light);
+            border: 2px solid var(--text-primary);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .retro-divider {
+            width: 100%;
+            height: 10px;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--primary-color),
+                var(--primary-color) 10px,
+                var(--secondary-color) 10px,
+                var(--secondary-color) 20px
+            );
+            margin: 1.5rem 0;
+        }
+
+        .retro-sticker {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background-color: var(--accent-secondary);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-right: 0.5rem;
+            border: 2px solid var(--text-primary);
+            transform: rotate(-2deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- タイトルスライド -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="retro-card wide">
+                    <div class="retro-badge">New!</div>
+                    <h1>レトロ/ビンテージデザイン</h1>
+                    <h3>1950-80年代デザインの魅力と現代的アプローチ</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <div class="retro-divider"></div>
+                    <button class="retro-button">開始する</button>
+                    <button class="retro-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Vintage Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>レトロデザインの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="retro-card wide">
+                    <div class="retro-grid">
+                        <div class="retro-card accent">
+                            <h3>鮮やかな配色</h3>
+                            <p>大胆でビビッドな色使いとカラーブロッキングが特徴。コントラストの強い配色で視覚的インパクトを生み出します。</p>
+                        </div>
+                        <div class="retro-card accent">
+                            <h3>幾何学的なパターン</h3>
+                            <p>繰り返しパターンやシンプルな幾何学形状を多用。装飾とともに視覚的リズムを生み出します。</p>
+                        </div>
+                        <div class="retro-card accent">
+                            <h3>タイポグラフィ</h3>
+                            <p>特徴的なフォントと大胆なテキスト処理。セリフ書体やモノスペースフォントを活用します。</p>
+                        </div>
+                        <div class="retro-card accent">
+                            <h3>テクスチャ</h3>
+                            <p>粗いテクスチャ、紙質感、古びた印象を表現。時代の経過を感じさせる風合いを演出します。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Vintage Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>年代別スタイルの特徴</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="retro-card secondary-accent">
+                    <h3>1950年代</h3>
+                    <p>アトミックエイジデザイン、原子と分子をモチーフにした抽象的パターン</p>
+                    <ul>
+                        <li>パステルカラーと鮮やかな原色の組み合わせ</li>
+                        <li>未来的でありながら楽観的なデザイン要素</li>
+                        <li>ボーメラン形状やスタッカートのリズムパターン</li>
+                    </ul>
+                </div>
+                <div class="retro-card secondary-accent">
+                    <h3>1970-80年代</h3>
+                    <p>ディスコエラとサイケデリックなデザイン要素</p>
+                    <div>
+                        <span class="retro-sticker">ディスコ</span>
+                        <span class="retro-sticker">ネオン</span>
+                        <span class="retro-sticker">グリッド</span>
+                    </div>
+                    <p>太字のタイポグラフィとグラデーションが特徴的な時代です。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Vintage Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>メディア別のレトロデザイン</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="retro-card wide">
+                    <h3>様々なメディアでのアプリケーション</h3>
+                    <p>レトロデザインは多様なメディアで現代的に再解釈されています。</p>
+                    <div class="retro-grid cols-3">
+                        <div class="retro-card">
+                            <h3>印刷物</h3>
+                            <p>ポスター・雑誌・パッケージ</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="レトロ印刷デザイン" />
+                            </div>
+                        </div>
+                        <div class="retro-card">
+                            <h3>Webデザイン</h3>
+                            <p>サイト・バナー・アイコン</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="レトロWebデザイン" />
+                            </div>
+                        </div>
+                        <div class="retro-card">
+                            <h3>ファッション</h3>
+                            <p>Tシャツ・アパレル・アクセサリー</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="レトロファッション" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Vintage Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- まとめスライド -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="retro-card wide">
+                    <h3>レトロデザインの現代的活用法</h3>
+                    <ul>
+                        <li>ノスタルジアを活用して感情的な接続を生み出す</li>
+                        <li>現代的な要素と融合させて新鮮さを保つ</li>
+                        <li>ターゲットオーディエンスの年齢層に合わせた要素選び</li>
+                        <li>文脈に合った時代のデザイン要素を選定する</li>
+                        <li>過剰な使用を避け、アクセントとして取り入れる</li>
+                    </ul>
+                    <div class="retro-divider"></div>
+                    <p>レトロデザインは過去への単なる回帰ではなく、時代を超えた魅力を現代的に再解釈することで新たな表現を生み出します。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="retro-button">リソースダウンロード</button>
+                        <button class="retro-button secondary">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Vintage Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- ナビゲーションコントロール -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- プログレスバー -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // シンプルなスライドナビゲーション
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // スライド更新
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // プログレスバー更新
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // イベントリスナー
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // 初期化
+        updateSlides();
+    </script>
+</body>
+</html>

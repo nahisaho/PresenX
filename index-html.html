@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PresenX - 生成AIを活用した最強・最速のプレゼンテーション作成術</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0078d7;
+            --secondary-color: #106ebe;
+            --accent-color: #ffb900;
+            --text-color: #323130;
+            --background-color: #faf9f8;
+            --card-background: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Meiryo UI', 'Yu Gothic UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            top: -100%;
+            left: -100%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero h2 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            margin-left: 15px;
+        }
+
+        .features {
+            padding: 80px 0;
+            background-color: var(--card-background);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 10px 20px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .toc {
+            padding: 80px 0;
+            background-color: var(--background-color);
+        }
+
+        .toc-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .toc-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .toc-card h3 {
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .toc-list li::before {
+            content: '•';
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+
+        .toc-list li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc-list li a:hover {
+            color: var(--primary-color);
+        }
+
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-links {
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+
+            .btn {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+                text-align: center;
+            }
+
+            .btn-outline {
+                margin-left: 0;
+            }
+
+            .toc-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Presen<span>X</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#features">機能</a></li>
+                    <li><a href="#toc">目次</a></li>
+                    <li><a href="#cta">はじめる</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>PresenX</h1>
+            <h2>生成AIを活用した最強・最速のプレゼンテーション作成術</h2>
+            <p>AI-powered framework for crafting compelling presentations.<br>
+            Seamlessly generate outlines, scenarios, and slide decks with AI-driven precision.<br>
+            Elevate your presentations with structured storytelling and dynamic visuals.</p>
+            <div class="hero-buttons">
+                <a href="#features" class="btn">詳細を見る</a>
+                <a href="#toc" class="btn btn-outline">目次へ</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>主な機能</h2>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI支援プレゼンテーションフレームワーク</h3>
+                    <p>AIの力を活用して、プレゼンテーション作成の各ステップをサポートします。アイデアの発想からスライド作成まで、すべてをスムーズに進めることができます。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>論理的な流れを持つアウトライン生成</h3>
+                    <p>AIが論理的な構造を持つアウトラインを自動生成。説得力のあるストーリーラインを簡単に作成できます。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>インパクトのあるシナリオ構築</h3>
+                    <p>聴衆を引き込むシナリオ構築をAIがサポート。プレゼンテーションの効果を最大化します。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3>ビジュアル提案付きのスライド内容作成</h3>
+                    <p>テキストだけでなく、適切なビジュアル要素の提案も含めたスライド内容を自動生成します。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>ビジネス、教育、パブリックスピーキングに最適化</h3>
+                    <p>様々なシーンに合わせたプレゼンテーションスタイルを提供。どんな場面でも効果的なプレゼンが可能です。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="toc" class="toc">
+        <div class="container">
+            <div class="section-title">
+                <h2>目次</h2>
+            </div>
+            <div class="toc-container">
+                <div class="toc-card">
+                    <h3>基礎編</h3>
+                    <ul class="toc-list">
+                        <li><a href="chapter1.html">第1章 生成AIとプレゼンテーションの革新</a></li>
+                        <li><a href="chapter2.html">第2章 プレゼンテーション作成の基礎知識</a></li>
+                        <li><a href="chapter3.html">第3章 AIを活用したストーリーテリングとアウトライン設計</a></li>
+                        <li><a href="chapter4.html">第4章 スライド内容の詳細設計</a></li>
+                        <li><a href="chapter5.html">第5章 視覚的に魅力的なプレゼン資料の作成</a></li>
+                    </ul>
+                </div>
+                <div class="toc-card">
+                    <h3>応用編</h3>
+                    <ul class="toc-list">
+                        <li><a href="chapter6.html">第6章 説得力のあるトークスクリプトを作成</a></li>
+                        <li><a href="chapter7.html">第7章 VSCodeとCool ClineによるHTML形式のプレゼン資料の作成</a></li>
+                        <li><a href="chapter8.html">第8章 プレゼンテーションの最適化と改善</a></li>
+                        <li><a href="chapter9.html">第9章 特定シーン別AIプレゼン作成テクニック</a></li>
+                        <li><a href="chapter10.html">第10章 実践ワークフロー</a></li>
+                    </ul>
+                </div>
+                <div class="toc-card">
+                    <h3>付録</h3>
+                    <ul class="toc-list">
+                        <li><a href="appendix1.html">役立つデザイン集</a></li>
+                        <li><a href="appendix2.html">役立つプロンプトテンプレート集</a></li>
+                        <li><a href="appendix3.html">おすすめAIツールとリソース</a></li>
+                        <li><a href="appendix4.html">用語集</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="cta">
+        <div class="container">
+            <h2>AIでプレゼンテーションを強化しよう</h2>
+            <p>PresenXがあなたのプレゼンテーションをガイドします！最新のAIテクノロジーを活用して、インパクトのある魅力的なプレゼンテーションを簡単に作成しましょう。</p>
+            <a href="#" class="btn">今すぐ始める</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="#">ホーム</a>
+                <a href="#">機能</a>
+                <a href="#">目次</a>
+                <a href="#">お問い合わせ</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 PresenX. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

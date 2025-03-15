@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダークモードデザイン プレゼンテーション</title>
+    <style>
+        /* ダークモードデザインの基本スタイル */
+        :root {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-color-hover: #2c2c2c;
+            --primary-color: #BB86FC;
+            --secondary-color: #03DAC6;
+            --error-color: #CF6679;
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-disabled: rgba(255, 255, 255, 0.5);
+            --border-radius: 8px;
+            --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.2);
+            --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.3);
+            --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            --elevation-2: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+            --elevation-3: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            background-color: var(--primary-color);
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* ダークモードカードコンポーネント */
+        .dark-card {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--elevation-1);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            overflow: hidden;
+        }
+
+        .dark-card:hover {
+            box-shadow: var(--elevation-2);
+            background: var(--surface-color-hover);
+        }
+
+        .dark-card.wide {
+            width: 100%;
+        }
+
+        .dark-card.accent {
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .dark-card.secondary-accent {
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        /* タイポグラフィー */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* ダークモードボタン */
+        .dark-button {
+            background-color: var(--primary-color);
+            color: #000;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dark-button:hover {
+            background-color: var(--primary-color);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .dark-button.secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+        }
+
+        .dark-button.secondary:hover {
+            background-color: rgba(3, 218, 198, 0.1);
+        }
+
+        /* ナビゲーションコントロール */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--surface-color);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--elevation-1);
+            cursor: pointer;
+            transition: var(--transition-standard);
+            color: var(--text-primary);
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-color);
+            color: #000;
+            box-shadow: var(--elevation-2);
+        }
+
+        /* リストスタイル */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* イメージコンテナ */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* グリッドレイアウト */
+        .dark-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .dark-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* プログレスバー */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+        }
+
+        /* ダークモードの特殊効果 */
+        .glow {
+            color: var(--primary-color);
+            text-shadow: 0 0 8px rgba(187, 134, 252, 0.5);
+        }
+
+        .code-example {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            overflow-x: auto;
+        }
+
+        .color-token {
+            height: 30px;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .color-bg {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .color-surface {
+            background-color: var(--surface-color);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .color-primary {
+            background-color: var(--primary-color);
+        }
+
+        .color-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .color-error {
+            background-color: var(--error-color);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background-color: rgba(187, 134, 252, 0.15);
+            color: var(--primary-color);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- タイトルスライド -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="dark-card wide">
+                    <h1>ダークモード<span class="glow">デザイン</span></h1>
+                    <h3>視覚的快適さと現代的なユーザー体験</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <div style="margin-top: 2rem;">
+                        <button class="dark-button">開始する</button>
+                        <button class="dark-button secondary">詳細情報</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Dark Mode Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>ダークモードの<span class="glow">特徴</span></h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="dark-card wide">
+                    <div class="dark-grid">
+                        <div class="dark-card accent">
+                            <div class="feature-icon">✨</div>
+                            <h3>視覚的快適さ</h3>
+                            <p>暗い環境での目の疲労を軽減し、長時間の使用でも快適な視覚体験を提供します。明るい画面と比較して眼精疲労を軽減します。</p>
+                        </div>
+                        <div class="dark-card accent">
+                            <div class="feature-icon">🔋</div>
+                            <h3>バッテリー効率</h3>
+                            <p>OLED/AMOLEDディスプレイでは、黒色ピクセルは電力を消費しないため、バッテリー寿命を延ばすことができます。</p>
+                        </div>
+                        <div class="dark-card accent">
+                            <div class="feature-icon">🎨</div>
+                            <h3>コントラストとアクセント</h3>
+                            <p>暗い背景に対して色鮮やかなアクセントカラーが際立ち、視覚的階層と焦点を効果的に作り出します。</p>
+                        </div>
+                        <div class="dark-card accent">
+                            <div class="feature-icon">🌙</div>
+                            <h3>現代的なデザイン感覚</h3>
+                            <p>洗練された外観と現代的なデザイン感覚を提供し、ブランドの先進性を表現するのに効果的です。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Dark Mode Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>ダークモードの<span class="glow">カラーシステム</span></h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="dark-card">
+                    <h3>基本的なカラートークン</h3>
+                    <div class="color-token color-bg">Background (#121212)</div>
+                    <div class="color-token color-surface">Surface (#1e1e1e)</div>
+                    <div class="color-token color-primary">Primary (#BB86FC)</div>
+                    <div class="color-token color-secondary">Secondary (#03DAC6)</div>
+                    <div class="color-token color-error">Error (#CF6679)</div>
+                    <p>ダークモードでは単に色を反転するのではなく、視認性と快適さを考慮したカラーシステムが必要です。</p>
+                </div>
+                <div class="dark-card">
+                    <h3>テキストとコントラスト</h3>
+                    <div class="code-example">
+                        /* テキストカラー階層 */
+                        --text-primary: rgba(255, 255, 255, 0.87);
+                        --text-secondary: rgba(255, 255, 255, 0.60);
+                        --text-disabled: rgba(255, 255, 255, 0.38);
+                    </div>
+                    <p>ダークモードでは、WCAGガイドラインに準拠したコントラスト比を確保することが重要です。完全な白（#FFFFFF）ではなく、わずかに暗い白を使用することで目の疲労を軽減します。</p>
+                    <div>
+                        <span class="feature-tag">AA準拠 4.5:1</span>
+                        <span class="feature-tag">AAA準拠 7:1</span>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Dark Mode Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>ダークモードの<span class="glow">実装方法</span></h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="dark-card wide">
+                    <div class="dark-grid cols-3">
+                        <div class="dark-card secondary-accent">
+                            <h3>CSS変数による実装</h3>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="CSS変数" />
+                            </div>
+                            <p>CSSカスタムプロパティを活用して、ライト/ダークモード間の切り替えを効率的に管理します。</p>
+                        </div>
+                        <div class="dark-card secondary-accent">
+                            <h3>prefers-color-scheme</h3>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="メディアクエリ" />
+                            </div>
+                            <p>システム設定に基づいて自動的にテーマを切り替えるメディアクエリを使用します。</p>
+                        </div>
+                        <div class="dark-card secondary-accent">
+                            <h3>テーマ切り替え機能</h3>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="テーマ切り替え" />
+                            </div>
+                            <p>ユーザーが手動でテーマを選択できる切り替え機能を実装します。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Dark Mode Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- まとめスライド -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2><span class="glow">まとめ</span></h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="dark-card wide">
+                    <h3>ダークモードデザインのベストプラクティス</h3>
+                    <ul>
+                        <li>単に色を反転するのではなく、視認性と快適さを考慮したカラーシステムを設計する</li>
+                        <li>純粋な黒（#000000）は避け、より自然な暗さ（#121212など）を基調とする</li>
+                        <li>適切なコントラスト比を確保し、アクセシビリティ基準を満たす</li>
+                        <li>深度と階層を表現するために微妙な明度の違いを活用する</li>
+                        <li>ライトモードとダークモード両方でテストし、一貫性のある体験を提供する</li>
+                    </ul>
+                    <p>ダークモードは単なるトレンドではなく、ユーザビリティとアクセシビリティを向上させる重要な設計要素です。適切に実装することで、すべてのユーザーにとって快適で魅力的な体験を創出できます。</p>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="dark-button">リソースダウンロード</button>
+                        <button class="dark-button secondary">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Dark Mode Design Workshop 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- ナビゲーションコントロール -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- プログレスバー -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // シンプルなスライドナビゲーション
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // スライド更新
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // プログレスバー更新
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // イベントリスナー
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // 初期化
+        updateSlides();
+    </script>
+</body>
+</html>

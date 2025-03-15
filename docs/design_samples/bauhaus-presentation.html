@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バウハウス デザイン プレゼンテーション</title>
+    <style>
+        /* Bauhaus Design System の基本スタイル */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        
+        :root {
+            --primary-color: #E53935;     /* 赤 */
+            --secondary-color: #1565C0;   /* 青 */
+            --tertiary-color: #FDD835;    /* 黄 */
+            --background-color: #f5f5f5;
+            --card-background: #ffffff;
+            --text-primary: #000000;
+            --text-secondary: #333333;
+            --border-radius: 0px;
+            --shadow-light: none;
+            --shadow-medium: 5px 5px 0px rgba(0, 0, 0, 1);
+            --shadow-deep: 8px 8px 0px rgba(0, 0, 0, 1);
+            --transition-standard: all 0.2s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 5px solid var(--text-primary);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-top: 5px solid var(--text-primary);
+        }
+
+        .slide-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+
+        /* Bauhaus Card Components */
+        .bauhaus-card {
+            background: var(--card-background);
+            border: 3px solid var(--text-primary);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-medium);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            position: relative;
+        }
+
+        .bauhaus-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .bauhaus-card.wide {
+            width: 100%;
+        }
+
+        .bauhaus-card.primary {
+            border-top: 15px solid var(--primary-color);
+        }
+
+        .bauhaus-card.secondary {
+            border-top: 15px solid var(--secondary-color);
+        }
+
+        .bauhaus-card.tertiary {
+            border-top: 15px solid var(--tertiary-color);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Bauhaus Button */
+        .bauhaus-button {
+            background-color: var(--text-primary);
+            color: white;
+            border: 3px solid var(--text-primary);
+            padding: 0.7rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-light);
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .bauhaus-button:hover {
+            background-color: white;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .bauhaus-button.primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .bauhaus-button.primary:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        .bauhaus-button.secondary {
+            background-color: white;
+            color: var(--text-primary);
+            border: 3px solid var(--text-primary);
+        }
+
+        .bauhaus-button.secondary:hover {
+            background-color: var(--text-primary);
+            color: white;
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            background-color: var(--text-primary);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-medium);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-color);
+            box-shadow: var(--shadow-deep);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        ul li {
+            list-style-type: square;
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid var(--text-primary);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Grid layout */
+        .bauhaus-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 2rem;
+            width: 100%;
+        }
+
+        .bauhaus-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Bauhaus geometric decorations */
+        .geometric-element {
+            position: absolute;
+        }
+
+        .circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--tertiary-color);
+        }
+
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+        }
+
+        .rectangle {
+            width: 80px;
+            height: 30px;
+            background-color: var(--secondary-color);
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 52px solid var(--primary-color);
+        }
+
+        /* Title slide decorations */
+        .bauhaus-decoration {
+            position: absolute;
+            z-index: -1;
+        }
+
+        .circle-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--tertiary-color);
+            top: 10%;
+            right: 10%;
+        }
+
+        .square-large {
+            width: 100px;
+            height: 100px;
+            background-color: var(--primary-color);
+            bottom: 20%;
+            left: 15%;
+        }
+
+        .rectangle-large {
+            width: 200px;
+            height: 50px;
+            background-color: var(--secondary-color);
+            top: 25%;
+            left: 20%;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+        }
+
+        /* Bauhaus grid pattern */
+        .bauhaus-pattern-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -2;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="bauhaus-pattern-bg"></div>
+        
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="bauhaus-decoration circle-large"></div>
+            <div class="bauhaus-decoration square-large"></div>
+            <div class="bauhaus-decoration rectangle-large"></div>
+            
+            <div class="slide-content">
+                <div class="bauhaus-card wide primary">
+                    <h1>バウハウス デザイン</h1>
+                    <h3>機能と形態の革新</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="bauhaus-button primary">開始する</button>
+                    <button class="bauhaus-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>バウハウスの基本原則</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="bauhaus-card wide">
+                    <div class="bauhaus-grid">
+                        <div class="bauhaus-card primary">
+                            <h3>機能性優先</h3>
+                            <p>「形態は機能に従う」の原則に基づき、無駄を省いた合理的なデザインを追求します。</p>
+                        </div>
+                        <div class="bauhaus-card secondary">
+                            <h3>基本形態と色彩</h3>
+                            <p>円、正方形、三角形の基本形態と、赤・青・黄の原色を中心とした色彩理論を重視します。</p>
+                        </div>
+                        <div class="bauhaus-card tertiary">
+                            <h3>工業化と標準化</h3>
+                            <p>大量生産を可能にする工業デザインの原則を取り入れ、標準化を推進します。</p>
+                        </div>
+                        <div class="bauhaus-card primary">
+                            <h3>素材の誠実さ</h3>
+                            <p>素材の本質を尊重し、その特性を活かしたデザインを展開します。装飾を排除し、素材そのものの表現を重視します。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>デザイン要素</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="bauhaus-card primary">
+                    <h3>タイポグラフィ</h3>
+                    <p>バウハウスのタイポグラフィは明快さと読みやすさを追求しました。</p>
+                    <ul>
+                        <li>サンセリフ書体の積極的な使用</li>
+                        <li>グリッドに基づいた構成と配置</li>
+                        <li>階層を明確にした情報設計</li>
+                        <li>大胆なサイズのコントラスト</li>
+                    </ul>
+                </div>
+                <div class="bauhaus-card secondary">
+                    <h3>視覚的要素</h3>
+                    <p>バウハウスデザインの特徴的な視覚要素。</p>
+                    <div>
+                        <button class="bauhaus-button primary">赤</button>
+                        <button class="bauhaus-button" style="background-color: var(--secondary-color); border-color: var(--secondary-color);">青</button>
+                        <button class="bauhaus-button" style="background-color: var(--tertiary-color); border-color: var(--tertiary-color); color: black;">黄</button>
+                    </div>
+                    <p>原色とシンプルな形状の組み合わせによる強いコントラストが特徴です。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>歴史的背景</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="bauhaus-card wide tertiary">
+                    <h3>モダニズムの礎</h3>
+                    <p>バウハウスは1919年にドイツのヴァイマールで創設され、現代デザインに多大な影響を与えました。</p>
+                    <div class="bauhaus-grid cols-3">
+                        <div class="bauhaus-card">
+                            <h3>創設</h3>
+                            <p>ヴァルター・グロピウス</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ヴァルター・グロピウス" />
+                            </div>
+                        </div>
+                        <div class="bauhaus-card">
+                            <h3>校舎</h3>
+                            <p>デッサウのバウハウス校舎</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="バウハウス校舎" />
+                            </div>
+                        </div>
+                        <div class="bauhaus-card">
+                            <h3>教師陣</h3>
+                            <p>カンディンスキー、クレー、他</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="バウハウスの教師陣" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="bauhaus-card wide primary">
+                    <h3>バウハウスの現代的意義</h3>
+                    <ul>
+                        <li>機能性を最優先し、余分な装飾を排除する</li>
+                        <li>基本的な形と色を使ってメッセージを明確に伝える</li>
+                        <li>タイポグラフィとレイアウトにおけるグリッドシステムの活用</li>
+                        <li>素材の特性を理解し、それを活かしたデザイン</li>
+                        <li>普遍的なデザイン言語と標準化の追求</li>
+                    </ul>
+                    <p>バウハウスの「形態は機能に従う」という基本理念は、現代のデジタルインターフェースデザインにも大きな影響を与えています。ミニマリズムとユーザビリティを重視する近年のデザイントレンドは、バウハウスの思想に深く根ざしています。</p>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="bauhaus-button primary">ダウンロード</button>
+                        <button class="bauhaus-button secondary">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ニューモーフィズムデザインプレゼンテーション</title>
+    <style>
+        /* ニューモーフィズムデザインの基本スタイル */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --bg-color: #e6e7ee;
+            --text-color: #44476a;
+            --text-muted: #6c757d;
+            --primary-color: #5e72e4;
+            --secondary-color: #f5365c;
+            --success-color: #2dce89;
+            --info-color: #11cdef;
+            --light-shadow: #ffffff;
+            --dark-shadow: rgba(136, 152, 170, 0.15);
+            --darker-shadow: rgba(113, 128, 150, 0.2);
+            --border-radius: 16px;
+            --soft-transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--bg-color);
+            padding: 20px;
+        }
+
+        /* ニューモーフィック要素の共通スタイル */
+        .neumorphic {
+            border-radius: var(--border-radius);
+            background-color: var(--bg-color);
+            box-shadow: 8px 8px 16px var(--dark-shadow), 
+                      -8px -8px 16px var(--light-shadow);
+            transition: var(--soft-transition);
+        }
+
+        .neumorphic-inset {
+            border-radius: var(--border-radius);
+            background-color: var(--bg-color);
+            box-shadow: inset 5px 5px 10px var(--dark-shadow), 
+                      inset -5px -5px 10px var(--light-shadow);
+            transition: var(--soft-transition);
+        }
+
+        /* スライド */
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .slide-number {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 3px 3px 6px var(--dark-shadow), 
+                      -3px -3px 6px var(--light-shadow);
+        }
+
+        /* ニューモーフィックカード */
+        .neu-card {
+            padding: 2rem;
+            margin: 1rem;
+            border-radius: var(--border-radius);
+            background-color: var(--bg-color);
+            box-shadow: 8px 8px 16px var(--dark-shadow), 
+                      -8px -8px 16px var(--light-shadow);
+            transition: var(--soft-transition);
+        }
+
+        .neu-card:hover {
+            box-shadow: 10px 10px 20px var(--dark-shadow), 
+                      -10px -10px 20px var(--light-shadow);
+        }
+
+        .neu-card.wide {
+            width: 100%;
+        }
+
+        .neu-card.accent {
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* タイポグラフィ */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: var(--text-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: var(--text-color);
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* ニューモーフィックボタン */
+        .neu-button {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--soft-transition);
+            box-shadow: 5px 5px 10px var(--dark-shadow), 
+                      -5px -5px 10px var(--light-shadow);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+        }
+
+        .neu-button:hover {
+            box-shadow: 7px 7px 14px var(--dark-shadow), 
+                      -7px -7px 14px var(--light-shadow);
+        }
+
+        .neu-button:active {
+            box-shadow: inset 3px 3px 6px var(--dark-shadow), 
+                      inset -3px -3px 6px var(--light-shadow);
+        }
+
+        .neu-button.primary {
+            color: var(--primary-color);
+        }
+
+        .neu-button.secondary {
+            color: var(--secondary-color);
+        }
+
+        /* ナビゲーションコントロール */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 5px 5px 10px var(--dark-shadow), 
+                       -5px -5px 10px var(--light-shadow);
+            cursor: pointer;
+            transition: var(--soft-transition);
+            font-size: 1.2rem;
+        }
+
+        .nav-button:hover {
+            box-shadow: 7px 7px 14px var(--dark-shadow), 
+                      -7px -7px 14px var(--light-shadow);
+        }
+
+        .nav-button:active {
+            box-shadow: inset 3px 3px 6px var(--dark-shadow), 
+                      inset -3px -3px 6px var(--light-shadow);
+        }
+
+        /* リスト */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* イメージプレースホルダー */
+        .image-container {
+            width: 100%;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: inset 3px 3px 6px var(--dark-shadow), 
+                      inset -3px -3px 6px var(--light-shadow);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: calc(var(--border-radius) - 5px);
+        }
+
+        /* グリッド */
+        .neu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 2rem;
+            width: 100%;
+        }
+
+        .neu-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* 進捗バー */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: var(--bg-color);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            box-shadow: inset 2px 2px 4px var(--dark-shadow), 
+                      inset -2px -2px 4px var(--light-shadow);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 20%; /* JSで更新 */
+            transition: width 0.3s ease;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--info-color) 100%);
+        }
+
+        /* カラーチップ */
+        .color-chip {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0.5rem;
+            display: inline-block;
+            box-shadow: 3px 3px 6px var(--dark-shadow), 
+                      -3px -3px 6px var(--light-shadow);
+        }
+
+        /* ツールボックス */
+        .tool-box {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background-color: var(--bg-color);
+            box-shadow: inset 3px 3px 6px var(--dark-shadow), 
+                       inset -3px -3px 6px var(--light-shadow);
+        }
+
+        /* スイッチ */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .neu-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            border-radius: 30px;
+            background-color: var(--bg-color);
+            box-shadow: inset 2px 2px 4px var(--dark-shadow), 
+                       inset -2px -2px 4px var(--light-shadow);
+            margin-right: 1rem;
+        }
+
+        .neu-switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            box-shadow: 2px 2px 4px var(--dark-shadow), 
+                      -2px -2px 4px var(--light-shadow);
+            top: 3px;
+            left: 3px;
+            transition: var(--soft-transition);
+        }
+
+        .neu-switch.active::after {
+            left: 33px;
+        }
+
+        .neu-switch.active {
+            background-color: var(--primary-color);
+        }
+
+        /* ドロップシャドウデモ */
+        .shadow-demo {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            justify-content: center;
+        }
+
+        .shadow-box {
+            width: 120px;
+            height: 120px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            background-color: var(--bg-color);
+        }
+
+        .shadow-soft {
+            box-shadow: 5px 5px 10px var(--dark-shadow), 
+                      -5px -5px 10px var(--light-shadow);
+        }
+
+        .shadow-inset {
+            box-shadow: inset 5px 5px 10px var(--dark-shadow), 
+                       inset -5px -5px 10px var(--light-shadow);
+        }
+
+        .shadow-flat {
+            border: 1px solid rgba(136, 152, 170, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- タイトルスライド -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="neu-card wide">
+                    <h1>ニューモーフィズム<br>デザインガイド</h1>
+                    <h3>モダンUIの新しいトレンド</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <div style="margin-top: 1.5rem;">
+                        <button class="neu-button primary">ガイドを開始</button>
+                        <button class="neu-button secondary">詳細情報</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- 内容スライド1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header neumorphic">
+                <h2>ニューモーフィズムとは</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="neu-card wide">
+                    <p>ニューモーフィズム（Neumorphism）は「New Skeuomorphism（新擬態）」の略で、フラットデザインとスケウモーフィズム（物理的な特徴を模倣するデザイン）を融合させたUIデザインスタイルです。</p>
+                    
+                    <div class="neu-grid">
+                        <div class="neu-card">
+                            <h3>特徴</h3>
+                            <ul>
+                                <li>ソフトで繊細な影と光の表現</li>
+                                <li>背景色と同色の要素（モノトーン）</li>
+                                <li>微妙な浮き出し効果と凹み効果</li>
+                                <li>最小限のコントラストと色使い</li>
+                            </ul>
+                        </div>
+                        <div class="neu-card">
+                            <h3>歴史的背景</h3>
+                            <p>2019年後半から登場し、2020年に人気が高まったデザイントレンド。フラットデザインの単調さへの反動として、奥行きのある表現を取り戻しつつもミニマルな美学を維持しています。</p>
+                            <p>AppleのiOS、GoogleのMaterial Designなどに影響を受けながらも、独自の発展を遂げています。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- 内容スライド2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header neumorphic">
+                <h2>影と光の表現</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="neu-card">
+                    <h3>ニューモーフィズムの基本テクニック</h3>
+                    <p>要素に立体感を与えるための2つの主要な光源効果：</p>
+                    <div class="shadow-demo">
+                        <div>
+                            <div class="shadow-box shadow-soft">凸型</div>
+                            <p style="text-align: center; margin-top: 0.5rem;">浮き出し効果</p>
+                        </div>
+                        <div>
+                            <div class="shadow-box shadow-inset">凹型</div>
+                            <p style="text-align: center; margin-top: 0.5rem;">くぼみ効果</p>
+                        </div>
+                        <div>
+                            <div class="shadow-box shadow-flat">フラット</div>
+                            <p style="text-align: center; margin-top: 0.5rem;">通常状態</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="neu-card">
+                    <h3>CSS実装</h3>
+                    <div class="tool-box">
+                        <p>凸型エフェクト（浮き出し）：</p>
+                        <pre style="background: rgba(0,0,0,0.03); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">box-shadow: 8px 8px 16px rgba(136,152,170,0.15),
+           -8px -8px 16px rgba(255,255,255,0.8);</pre>
+                        
+                        <p>凹型エフェクト（くぼみ）：</p>
+                        <pre style="background: rgba(0,0,0,0.03); padding: 1rem; border-radius: 8px;">box-shadow: inset 5px 5px 10px rgba(136,152,170,0.15),
+           inset -5px -5px 10px rgba(255,255,255,0.8);</pre>
+                    </div>
+                    <p style="margin-top: 1rem;">背景色と要素の色を同一に保ち、影の角度と強度を調整することで立体感を表現します。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- 内容スライド3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header neumorphic">
+                <h2>カラーパレットとインタラクション</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="neu-card wide">
+                    <div class="neu-grid">
+                        <div>
+                            <h3>カラー選択の原則</h3>
+                            <p>ニューモーフィズムでは、背景と要素の色が同一であることが重要です。高コントラストの色相は避け、微妙な色の変化を活用します。</p>
+                            <div style="display: flex; flex-wrap: wrap; margin: 1rem 0;">
+                                <div class="color-chip" style="background-color: #e6e7ee;"></div>
+                                <div class="color-chip" style="background-color: #f5f5f5;"></div>
+                                <div class="color-chip" style="background-color: #e0e5ec;"></div>
+                                <div class="color-chip" style="background-color: #dde1e7;"></div>
+                            </div>
+                            <p>薄いグレー、オフホワイト、ソフトな淡色が最適です。濃い色では影効果が見えにくくなります。</p>
+                        </div>
+                        <div>
+                            <h3>インタラクションデザイン</h3>
+                            <p>状態変化を表現するためのテクニック：</p>
+                            <div style="margin: 1.5rem 0;">
+                                <div class="switch-container">
+                                    <div class="neu-switch"></div>
+                                    <p>非アクティブ状態（凸型）</p>
+                                </div>
+                                <div class="switch-container">
+                                    <div class="neu-switch active"></div>
+                                    <p>アクティブ状態（アクセントカラー）</p>
+                                </div>
+                            </div>
+                            <p>押下時には凹型効果を適用し、物理的なボタンのような触感を視覚的に表現します。</p>
+                            <div style="margin-top: 1rem;">
+                                <button class="neu-button primary">通常状態</button>
+                                <button class="neu-button primary" style="box-shadow: inset 3px 3px 6px var(--dark-shadow), inset -3px -3px 6px var(--light-shadow);">押下状態</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- まとめスライド -->
+        <div class="slide" id="slide5">
+            <div class="slide-header neumorphic">
+                <h2>まとめとベストプラクティス</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="neu-card wide">
+                    <h3>ニューモーフィズム実装のポイント</h3>
+                    <div class="neu-grid">
+                        <div class="neu-card">
+                            <h3>メリット</h3>
+                            <ul>
+                                <li>視覚的に魅力的で洗練された外観</li>
+                                <li>ソフトで優しい印象のユーザーインターフェース</li>
+                                <li>タッチ可能な要素が明確に区別される</li>
+                                <li>ミニマリズムとの親和性が高い</li>
+                            </ul>
+                        </div>
+                        <div class="neu-card">
+                            <h3>注意点と制限</h3>
+                            <ul>
+                                <li>アクセシビリティの課題（コントラスト不足）</li>
+                                <li>要素間の区別が難しくなる場合がある</li>
+                                <li>濃い背景色では効果が出にくい</li>
+                                <li>過剰に使用すると視覚的疲労を招く</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tool-box" style="margin-top: 1.5rem;">
+                        <h3>適切な用途</h3>
+                        <p>ダッシュボード、設定画面、音楽プレーヤー、カレンダーなどのシンプルで洗練されたインターフェースに最適です。アクセシビリティを考慮し、他のデザイン要素と組み合わせることで、より使いやすいUIを実現できます。</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="neu-button primary">詳細ガイドを見る</button>
+                        <button class="neu-button secondary">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- ナビゲーションコントロール -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- 進捗バー -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // シンプルなスライドナビゲーション
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // スライド更新
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // 進捗バー更新
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // スイッチのトグル機能
+        const switches = document.querySelectorAll('.neu-switch');
+        switches.forEach(switchEl => {
+            switchEl.addEventListener('click', () => {
+                if (!switchEl.classList.contains('active')) {
+                    switchEl.classList.add('active');
+                } else {
+                    switchEl.classList.remove('active');
+                }
+            });
+        });
+
+        // イベントリスナー
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // 初期化
+        updateSlides();
+    </script>
+</body>
+</html>

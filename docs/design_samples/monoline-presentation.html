@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モノライン デザイン プレゼンテーション</title>
+    <style>
+        /* Monoline Design System の基本スタイル */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary-color: #2A2A2A;
+            --secondary-color: #5D5D5D;
+            --accent-color: #3498DB;
+            --background-color: #FFFFFF;
+            --card-background: #FAFAFA;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #E0E0E0;
+            --border-width: 1.5px;
+            --border-radius: 8px;
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --transition-standard: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-bottom: var(--border-width) solid var(--border-color);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-top: var(--border-width) solid var(--border-color);
+        }
+
+        .slide-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: 50%;
+            font-size: 0.9rem;
+        }
+
+        /* Monoline Card Components */
+        .monoline-card {
+            background: var(--card-background);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: var(--transition-standard);
+            margin: 1rem;
+            position: relative;
+        }
+
+        .monoline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-light);
+            border-color: var(--accent-color);
+        }
+
+        .monoline-card.wide {
+            width: 100%;
+        }
+
+        .monoline-card.accent {
+            border-color: var(--accent-color);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Monoline Button */
+        .monoline-button {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: var(--border-width) solid var(--primary-color);
+            border-radius: 30px;
+            padding: 0.7rem 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+        }
+
+        .monoline-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .monoline-button.accent {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .monoline-button.accent:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: var(--border-width) solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.7rem;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        ul li::marker {
+            color: var(--accent-color);
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Grid layout */
+        .monoline-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .monoline-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Monoline icon examples */
+        .icon-example {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            stroke: var(--primary-color);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 3px;
+            background-color: var(--border-color);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+        }
+
+        /* Monoline decorative elements */
+        .monoline-decoration {
+            position: absolute;
+            stroke: var(--border-color);
+            stroke-width: 1.5;
+            fill: none;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .decoration-circles {
+            top: 10%;
+            right: 10%;
+            width: 150px;
+            height: 150px;
+        }
+
+        .decoration-waves {
+            bottom: 15%;
+            left: 10%;
+            width: 200px;
+            height: 100px;
+        }
+
+        /* Monoline illustrations for each topic */
+        .monoline-illustration {
+            stroke: var(--primary-color);
+            stroke-width: 1.5;
+            fill: none;
+            width: 100%;
+            height: 120px;
+            margin-bottom: 1rem;
+        }
+
+        /* Code block styling for showing SVG code examples */
+        .code-block {
+            background-color: #f7f7f7;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Tag examples for illustration */
+        .tag-example {
+            display: inline-block;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 30px;
+            padding: 0.3rem 0.8rem;
+            margin: 0.2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .tag-example:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <!-- Decorative SVG elements in the background -->
+            <svg class="monoline-decoration decoration-circles" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45"></circle>
+                <circle cx="50" cy="50" r="30"></circle>
+                <circle cx="50" cy="50" r="15"></circle>
+            </svg>
+            <svg class="monoline-decoration decoration-waves" viewBox="0 0 200 100">
+                <path d="M0,50 C30,30 70,70 100,50 C130,30 170,70 200,50"></path>
+                <path d="M0,70 C30,50 70,90 100,70 C130,50 170,90 200,70"></path>
+                <path d="M0,30 C30,10 70,50 100,30 C130,10 170,50 200,30"></path>
+            </svg>
+            
+            <div class="slide-content">
+                <div class="monoline-card wide">
+                    <svg class="monoline-illustration" viewBox="0 0 200 100">
+                        <rect x="20" y="20" width="160" height="60" rx="5" ry="5"></rect>
+                        <line x1="40" y1="40" x2="160" y2="40"></line>
+                        <line x1="40" y1="60" x2="120" y2="60"></line>
+                        <circle cx="25" cy="25" r="3"></circle>
+                        <circle cx="175" cy="25" r="3"></circle>
+                        <circle cx="25" cy="75" r="3"></circle>
+                        <circle cx="175" cy="75" r="3"></circle>
+                    </svg>
+                    <h1>モノライン デザイン</h1>
+                    <h3>シンプルな線で表現する洗練されたデザイン</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="monoline-button accent">開始する</button>
+                    <button class="monoline-button">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>モノラインデザインの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="monoline-card wide">
+                    <div class="monoline-grid">
+                        <div class="monoline-card accent">
+                            <svg class="monoline-illustration" viewBox="0 0 100 60">
+                                <line x1="10" y1="30" x2="90" y2="30" stroke-linecap="round"></line>
+                                <circle cx="50" cy="30" r="15" stroke-linecap="round"></circle>
+                            </svg>
+                            <h3>一定の線幅</h3>
+                            <p>モノラインデザインの最も基本的な特徴は、すべての線が均一の太さを持つことです。これにより、クリーンで整然とした印象を与えます。</p>
+                        </div>
+                        <div class="monoline-card accent">
+                            <svg class="monoline-illustration" viewBox="0 0 100 60">
+                                <rect x="20" y="10" width="60" height="40" rx="5" ry="5" stroke-linecap="round"></rect>
+                                <line x1="30" y1="25" x2="70" y2="25" stroke-linecap="round"></line>
+                                <line x1="30" y1="35" x2="60" y2="35" stroke-linecap="round"></line>
+                            </svg>
+                            <h3>ミニマリズム</h3>
+                            <p>必要最小限の線のみを使用し、余分な装飾を省いたシンプルなデザインを追求します。「less is more」の原則に忠実です。</p>
+                        </div>
+                        <div class="monoline-card accent">
+                            <svg class="monoline-illustration" viewBox="0 0 100 60">
+                                <circle cx="30" cy="30" r="10" stroke-linecap="round"></circle>
+                                <polyline points="45,20 60,30 45,40" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                                <rect x="65" y="20" width="20" height="20" rx="2" ry="2" stroke-linecap="round"></rect>
+                            </svg>
+                            <h3>視認性とスケーラビリティ</h3>
+                            <p>シンプルな線で構成されているため、様々なサイズでも視認性が高く、スケーリングに強いデザインが実現できます。</p>
+                        </div>
+                        <div class="monoline-card accent">
+                            <svg class="monoline-illustration" viewBox="0 0 100 60">
+                                <path d="M20,40 C30,20 50,20 60,40 S80,60 90,40" stroke-linecap="round"></path>
+                                <circle cx="20" cy="40" r="3" stroke-linecap="round"></circle>
+                                <circle cx="60" cy="40" r="3" stroke-linecap="round"></circle>
+                                <circle cx="90" cy="40" r="3" stroke-linecap="round"></circle>
+                            </svg>
+                            <h3>丸みのあるエンドポイント</h3>
+                            <p>線の端は多くの場合、丸みを帯びた処理（stroke-linecap="round"）が施され、よりソフトで親しみやすい印象を与えます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>応用分野</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="monoline-card accent">
+                    <h3>アイコンデザイン</h3>
+                    <p>モノラインスタイルは現代のUIアイコンに広く採用されています。</p>
+                    <div style="text-align: center;">
+                        <svg class="icon-example" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                        <svg class="icon-example" viewBox="0 0 24 24">
+                            <path d="M4,4 L20,4 L20,20 L4,20 Z"></path>
+                            <path d="M4,4 L12,12 L20,4"></path>
+                            <path d="M4,20 L12,12 L20,20"></path>
+                        </svg>
+                        <svg class="icon-example" viewBox="0 0 24 24">
+                            <path d="M12,2 L12,22"></path>
+                            <path d="M2,12 L22,12"></path>
+                            <path d="M4,4 Q12,8 20,4"></path>
+                            <path d="M4,20 Q12,16 20,20"></path>
+                        </svg>
+                    </div>
+                    <div class="code-block">
+                        &lt;svg width="24" height="24" viewBox="0 0 24 24"&gt;<br>
+                        &nbsp;&nbsp;&lt;circle cx="12" cy="12" r="10" stroke="#333" stroke-width="1.5" fill="none"/&gt;<br>
+                        &nbsp;&nbsp;&lt;line x1="12" y1="8" x2="12" y2="16" stroke="#333" stroke-width="1.5"/&gt;<br>
+                        &nbsp;&nbsp;&lt;line x1="8" y1="12" x2="16" y2="12" stroke="#333" stroke-width="1.5"/&gt;<br>
+                        &lt;/svg&gt;
+                    </div>
+                </div>
+                <div class="monoline-card accent">
+                    <h3>ウェブデザイン要素</h3>
+                    <p>モノラインスタイルは、インターフェース要素にクリーンで一貫性のある外観を提供します。</p>
+                    <div>
+                        <span class="tag-example">タグ</span>
+                        <span class="tag-example">カテゴリー</span>
+                        <span class="tag-example">ラベル</span>
+                        <button class="monoline-button" style="padding: 0.4rem 1rem;">ボタン</button>
+                    </div>
+                    <p>洗練された印象を与えるボタンやナビゲーション要素として適しています。</p>
+                    <div class="monoline-card" style="margin: 0.5rem 0; padding: 0.8rem;">
+                        カードやコンテナ要素もシンプルな枠線で表現
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>技術的実装</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="monoline-card wide">
+                    <h3>SVGを活用したモノラインデザイン</h3>
+                    <p>モノラインデザインはSVGを使った実装が最も効果的です。</p>
+                    <div class="monoline-grid cols-3">
+                        <div class="monoline-card">
+                            <h3>基本パラメータ</h3>
+                            <div class="code-block">
+                                stroke="#333333"<br>
+                                stroke-width="1.5"<br>
+                                fill="none"<br>
+                                stroke-linecap="round"<br>
+                                stroke-linejoin="round"
+                            </div>
+                            <p>一貫した線の太さと終端処理</p>
+                        </div>
+                        <div class="monoline-card">
+                            <h3>アニメーション</h3>
+                            <svg class="monoline-illustration" viewBox="0 0 100 60" style="height: 80px;">
+                                <path d="M20,30 L80,30" stroke-dasharray="60" stroke-dashoffset="60">
+                                    <animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.5s" begin="0s" fill="freeze" repeatCount="indefinite" />
+                                </path>
+                                <circle cx="50" cy="30" r="15" stroke-dasharray="95" stroke-dashoffset="95">
+                                    <animate attributeName="stroke-dashoffset" from="95" to="0" dur="1.5s" begin="0.5s" fill="freeze" repeatCount="indefinite" />
+                                </circle>
+                            </svg>
+                            <p>線の描画アニメーション</p>
+                        </div>
+                        <div class="monoline-card">
+                            <h3>レスポンシブ</h3>
+                            <div class="image-container" style="height: 80px;">
+                                <img src="/api/placeholder/300/80" alt="レスポンシブデザイン" />
+                            </div>
+                            <p>異なるデバイスサイズでの表示</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="monoline-card wide accent">
+                    <svg class="monoline-illustration" viewBox="0 0 200 100" style="height: 100px;">
+                        <rect x="20" y="20" width="160" height="60" rx="5" ry="5"></rect>
+                        <line x1="40" y1="40" x2="160" y2="40"></line>
+                        <line x1="40" y1="60" x2="120" y2="60"></line>
+                        <circle cx="25" cy="25" r="2"></circle>
+                        <circle cx="175" cy="25" r="2"></circle>
+                        <circle cx="25" cy="75" r="2"></circle>
+                        <circle cx="175" cy="75" r="2"></circle>
+                    </svg>
+                    <h3>モノラインデザインの実装ポイント</h3>
+                    <ul>
+                        <li>一定の線幅を保ち、視覚的な一貫性を確保する</li>
+                        <li>余分な装飾を省き、本質的な形のみを表現する</li>
+                        <li>SVGを活用し、様々な画面サイズでも鮮明に表示できるようにする</li>
+                        <li>線の終端は丸みをつけ、親しみやすい印象を与える</li>
+                        <li>アニメーションを活用して動きのある表現も可能</li>
+                    </ul>
+                    <p>モノラインデザインは、その洗練されたシンプルさから、現代のデジタルインターフェースやブランディングにおいて重要な役割を果たしています。最小限の表現で最大限の伝達力を持つこのスタイルは、ユーザビリティとビジュアルの美しさを両立させています。</p>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="monoline-button accent">ダウンロード</button>
+                        <button class="monoline-button">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>

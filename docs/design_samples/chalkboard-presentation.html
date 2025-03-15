@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黒板風デザインプレゼンテーション</title>
+    <style>
+        /* 黒板風デザインの基本スタイル */
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=M+PLUS+Rounded+1c:wght@300;400;700&display=swap');
+        
+        :root {
+            --chalkboard-green: #2A623D;
+            --chalkboard-dark: #1E3A29;
+            --chalk-white: rgba(255, 255, 255, 0.9);
+            --chalk-yellow: rgba(255, 248, 179, 0.9);
+            --chalk-pink: rgba(255, 192, 203, 0.8);
+            --chalk-blue: rgba(173, 216, 230, 0.8);
+            --wood-frame: #8B4513;
+            --wood-frame-light: #A0522D;
+            --eraser-dust: rgba(255, 255, 255, 0.04);
+            --font-handwritten: 'Caveat', cursive;
+            --font-japanese: 'M PLUS Rounded 1c', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #F5F5F5;
+            line-height: 1.5;
+            overflow: hidden;
+            font-family: var(--font-japanese);
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background-color: #F5F5F5;
+            padding: 20px;
+        }
+
+        /* 黒板本体 */
+        .chalkboard {
+            width: 100%;
+            height: 100%;
+            background-color: var(--chalkboard-green);
+            border: 15px solid var(--wood-frame);
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), inset 0 0 80px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* チョークの粉のエフェクト */
+        .chalkboard::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(var(--eraser-dust) 1px, transparent 1px),
+                radial-gradient(var(--eraser-dust) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            pointer-events: none;
+        }
+
+        /* 木枠の装飾 */
+        .wood-frame-detail {
+            position: absolute;
+            background-color: var(--wood-frame-light);
+            border-radius: 2px;
+        }
+
+        .wood-frame-detail.top {
+            top: -10px;
+            left: 20%;
+            right: 20%;
+            height: 5px;
+        }
+
+        .wood-frame-detail.bottom {
+            bottom: -10px;
+            left: 20%;
+            right: 20%;
+            height: 5px;
+        }
+
+        .wood-frame-detail.left {
+            left: -10px;
+            top: 20%;
+            bottom: 20%;
+            width: 5px;
+        }
+
+        .wood-frame-detail.right {
+            right: -10px;
+            top: 20%;
+            bottom: 20%;
+            width: 5px;
+        }
+
+        /* チョーク受け */
+        .chalk-tray {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 15px;
+            background-color: var(--wood-frame);
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* スライド */
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--chalk-white);
+            opacity: 0.7;
+        }
+
+        .slide-number {
+            background-color: var(--wood-frame);
+            color: var(--chalk-white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* タイポグラフィ */
+        h1, h2, h3, p, li {
+            color: var(--chalk-white);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            font-weight: normal;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-family: var(--font-handwritten);
+            margin-bottom: 1rem;
+            transform: rotate(-1deg);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-family: var(--font-handwritten);
+            margin-bottom: 0.8rem;
+            position: relative;
+            transform: rotate(-0.5deg);
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            left: -10px;
+            right: -10px;
+            bottom: -5px;
+            height: 2px;
+            background-color: var(--chalk-white);
+            opacity: 0.6;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-family: var(--font-handwritten);
+            margin-bottom: 0.8rem;
+            color: var(--chalk-yellow);
+            transform: rotate(-0.5deg);
+        }
+
+        p {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-family: var(--font-japanese);
+        }
+
+        /* チョークボックス */
+        .chalk-box {
+            border: 2px dashed var(--chalk-white);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+            opacity: 0.9;
+            transform: rotate(-0.3deg);
+        }
+
+        .chalk-box.yellow {
+            border-color: var(--chalk-yellow);
+        }
+
+        .chalk-box.pink {
+            border-color: var(--chalk-pink);
+        }
+
+        .chalk-box.blue {
+            border-color: var(--chalk-blue);
+        }
+
+        .chalk-box.wide {
+            width: 100%;
+        }
+
+        /* リスト */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            position: relative;
+            font-family: var(--font-japanese);
+        }
+
+        ul li::before {
+            content: "•";
+            color: var(--chalk-yellow);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        /* 図表 */
+        .chalk-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .chalk-drawing {
+            border: 2px solid var(--chalk-white);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        /* グリッド */
+        .chalk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 2rem;
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .chalk-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* ナビゲーションコントロール */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--wood-frame);
+            color: var(--chalk-white);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .nav-button:hover {
+            background-color: var(--wood-frame-light);
+            transform: translateY(-2px);
+        }
+
+        /* 進捗バー */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--chalk-yellow);
+            width: 20%; /* JS で更新 */
+            transition: width 0.3s ease;
+        }
+
+        /* 手書き線 */
+        .underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .underline::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--chalk-yellow);
+            opacity: 0.7;
+            transform: rotate(-0.5deg);
+        }
+
+        /* 手描き矢印 */
+        .arrow {
+            position: relative;
+            display: inline-block;
+            margin: 0 1rem;
+            width: 50px;
+            height: 20px;
+        }
+
+        .arrow::before {
+            content: "→";
+            font-family: var(--font-handwritten);
+            font-size: 2rem;
+            color: var(--chalk-white);
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        /* イメージプレースホルダー */
+        .chalk-image {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px dashed var(--chalk-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            width: 100%;
+            font-family: var(--font-handwritten);
+            font-size: 1.2rem;
+            color: var(--chalk-white);
+            margin: 1rem 0;
+        }
+
+        /* 色分けテキスト */
+        .chalk-yellow { color: var(--chalk-yellow); }
+        .chalk-pink { color: var(--chalk-pink); }
+        .chalk-blue { color: var(--chalk-blue); }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="chalkboard">
+            <!-- 木枠の装飾 -->
+            <div class="wood-frame-detail top"></div>
+            <div class="wood-frame-detail bottom"></div>
+            <div class="wood-frame-detail left"></div>
+            <div class="wood-frame-detail right"></div>
+            <div class="chalk-tray"></div>
+
+            <!-- タイトルスライド -->
+            <div class="slide active" id="slide1">
+                <div class="slide-content">
+                    <h1>黒板風デザインの使い方</h1>
+                    <p>教育効果を高める黒板デザインのポイント</p>
+                    <p class="chalk-yellow">作成日: 2025年3月15日</p>
+                    <div class="chalk-box" style="margin-top: 2rem; text-align: center;">
+                        <p>効果的な板書は<span class="underline chalk-yellow">学習体験</span>を豊かにします</p>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div>教育デザインワークショップ 2025</div>
+                    <div>スライド <span class="slide-number">1</span>/5</div>
+                </div>
+            </div>
+
+            <!-- 内容スライド1 -->
+            <div class="slide" id="slide2">
+                <div class="slide-header">
+                    <h2>黒板デザインの4つの特徴</h2>
+                    <div class="slide-number">2</div>
+                </div>
+                <div class="slide-content">
+                    <div class="chalk-grid">
+                        <div class="chalk-box yellow">
+                            <h3>1. 視覚的明瞭さ</h3>
+                            <p>色チョークを効果的に使い分け、情報の優先度を視覚的に伝えます。重要ポイントは黄色や明るい色で強調しましょう。</p>
+                        </div>
+                        <div class="chalk-box pink">
+                            <h3>2. 構造化</h3>
+                            <p>情報を枠線で囲む、矢印で関連づける、番号付けするなど、論理的な構造を視覚的に表現します。</p>
+                        </div>
+                        <div class="chalk-box blue">
+                            <h3>3. シンプルさ</h3>
+                            <p>余計な装飾を省き、本質的な情報に焦点を当てます。黒板の特性を活かしたミニマルデザインが効果的です。</p>
+                        </div>
+                        <div class="chalk-box">
+                            <h3>4. 手書き感</h3>
+                            <p>完璧さよりも人間味のある手書き表現が、親しみやすさと記憶への定着を促進します。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div>教育デザインワークショップ 2025</div>
+                    <div>スライド <span class="slide-number">2</span>/5</div>
+                </div>
+            </div>
+
+            <!-- 内容スライド2 -->
+            <div class="slide" id="slide3">
+                <div class="slide-header">
+                    <h2>効果的な板書レイアウト</h2>
+                    <div class="slide-number">3</div>
+                </div>
+                <div class="slide-content">
+                    <div style="display: flex; width: 100%; gap: 2rem;">
+                        <div style="flex: 1;">
+                            <h3>基本レイアウト</h3>
+                            <ul>
+                                <li>タイトルは<span class="chalk-yellow">上部中央</span>に大きく</li>
+                                <li>左上から<span class="chalk-yellow">右下へ</span>の流れを意識</li>
+                                <li>関連情報は<span class="chalk-yellow">グループ化</span></li>
+                                <li>余白を十分に確保</li>
+                                <li>図解は<span class="chalk-yellow">単純化</span>して描く</li>
+                            </ul>
+                        </div>
+                        <div style="flex: 1;">
+                            <div class="chalk-drawing">
+                                <div style="text-align: center;">
+                                    <p style="border-bottom: 1px solid var(--chalk-white); padding-bottom: 5px; margin-bottom: 15px; font-weight: bold;">タイトル</p>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                                        <div style="border: 1px dashed var(--chalk-white); padding: 10px; width: 45%;">
+                                            <p style="font-size: 0.9rem;">主要ポイント1</p>
+                                        </div>
+                                        <div style="border: 1px dashed var(--chalk-yellow); padding: 10px; width: 45%;">
+                                            <p style="font-size: 0.9rem;" class="chalk-yellow">主要ポイント2</p>
+                                        </div>
+                                    </div>
+                                    <div style="border: 1px solid var(--chalk-white); padding: 10px; margin-top: 10px;">
+                                        <p style="font-size: 0.9rem;">まとめ・結論</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="text-align: center; font-size: 0.9rem; margin-top: 5px;">基本的な板書レイアウト例</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div>教育デザインワークショップ 2025</div>
+                    <div>スライド <span class="slide-number">3</span>/5</div>
+                </div>
+            </div>
+
+            <!-- 内容スライド3 -->
+            <div class="slide" id="slide4">
+                <div class="slide-header">
+                    <h2>色チョークの効果的な使い方</h2>
+                    <div class="slide-number">4</div>
+                </div>
+                <div class="slide-content">
+                    <div class="chalk-box wide">
+                        <div class="chalk-grid cols-3">
+                            <div>
+                                <h3 class="chalk-white">白</h3>
+                                <div class="chalk-image">基本情報</div>
+                                <ul>
+                                    <li>メインテキスト</li>
+                                    <li>基本説明</li>
+                                    <li>最も使用頻度が高い</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="chalk-yellow">黄</h3>
+                                <div class="chalk-image" style="border-color: var(--chalk-yellow);">重要ポイント</div>
+                                <ul>
+                                    <li>重要な概念</li>
+                                    <li>キーワード</li>
+                                    <li>見出し・タイトル</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="chalk-pink">ピンク/赤</h3>
+                                <div class="chalk-image" style="border-color: var(--chalk-pink);">注意点・警告</div>
+                                <ul>
+                                    <li>特に注意すべき点</li>
+                                    <li>間違いやすい箇所</li>
+                                    <li>禁止事項</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <h3 class="chalk-blue">青</h3>
+                            <p>補足情報、例示、図解などに適しています。白や黄色との組み合わせで情報の階層を作ります。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div>教育デザインワークショップ 2025</div>
+                    <div>スライド <span class="slide-number">4</span>/5</div>
+                </div>
+            </div>
+
+            <!-- まとめスライド -->
+            <div class="slide" id="slide5">
+                <div class="slide-header">
+                    <h2>まとめ：効果的な黒板デザイン</h2>
+                    <div class="slide-number">5</div>
+                </div>
+                <div class="slide-content">
+                    <div class="chalk-box wide yellow">
+                        <h3>黒板デザインの5つのポイント</h3>
+                        <ul>
+                            <li><span class="chalk-yellow">色の使い分け</span>：情報の重要度を視覚的に表現</li>
+                            <li><span class="chalk-yellow">構造化</span>：関連情報のグループ化と階層表現</li>
+                            <li><span class="chalk-yellow">シンプルさ</span>：余計な装飾を省き、本質に集中</li>
+                            <li><span class="chalk-yellow">間隔と余白</span>：適切な空間で可読性を確保</li>
+                            <li><span class="chalk-yellow">学習者目線</span>：最後列からも見やすい文字サイズと配置</li>
+                        </ul>
+                        <p style="margin-top: 1.5rem;">黒板デザインは教育の基本ツールとして、長年にわたり学習効果を高めてきました。デジタルツールと併用しながら、その特性を活かした板書計画を立てましょう。</p>
+                    </div>
+                </div>
+                <div class="slide-footer">
+                    <div>教育デザインワークショップ 2025</div>
+                    <div>スライド <span class="slide-number">5</span>/5</div>
+                </div>
+            </div>
+
+            <!-- ナビゲーションコントロール -->
+            <div class="slide-controls">
+                <button class="nav-button" id="prev">◀</button>
+                <button class="nav-button" id="next">▶</button>
+            </div>
+
+            <!-- 進捗バー -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // シンプルなスライドナビゲーション
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // スライド更新
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // 進捗バー更新
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // イベントリスナー
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // 初期化
+        updateSlides();
+    </script>
+</body>
+</html>

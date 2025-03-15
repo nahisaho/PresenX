@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Interface Design プレゼンテーション</title>
+    <style>
+        /* Apple Human Interface Guidelines の基本スタイル */
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #5AC8FA;
+            --background-color: #F5F5F7;
+            --card-background: #ffffff;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --accent-color: #007AFF;
+            --border-radius: 10px;
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-deep: 0 8px 20px rgba(0, 0, 0, 0.12);
+            --transition-standard: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.5;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Apple Card Components */
+        .apple-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            overflow: hidden;
+        }
+
+        .apple-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .apple-card.wide {
+            width: 100%;
+        }
+
+        .apple-card.accent {
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Apple Button */
+        .apple-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+        }
+
+        .apple-button:hover {
+            background-color: var(--secondary-color);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .apple-button.secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .apple-button.secondary:hover {
+            background-color: rgba(0, 122, 255, 0.1);
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-medium);
+            cursor: pointer;
+            transition: var(--transition-standard);
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-deep);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Grid layout */
+        .apple-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .apple-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(0, 0, 0, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        /* Glass effect (Apple Design signature) */
+        .glass {
+            backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="apple-card wide">
+                    <h1>Human Interface Design プレゼンテーション</h1>
+                    <h3>Apple 風デザインの HTML/CSS プレゼンテーション</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="apple-button">開始する</button>
+                    <button class="apple-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>Human Interface Guidelinesの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="apple-card wide">
+                    <div class="apple-grid">
+                        <div class="apple-card accent">
+                            <h3>明確さ（Clarity）</h3>
+                            <p>テキスト、アイコン、グラフィックスが明確で、機能が自明であることを重視します。余分な装飾をそぎ落とし、本質的な内容に集中します。</p>
+                        </div>
+                        <div class="apple-card accent">
+                            <h3>尊重（Deference）</h3>
+                            <p>UIはコンテンツをサポートし、邪魔にならないよう控えめであるべきです。コンテンツが主役となるデザインを目指します。</p>
+                        </div>
+                        <div class="apple-card accent">
+                            <h3>深さ（Depth）</h3>
+                            <p>視覚的階層と現実的な動きで理解しやすいナビゲーションを実現します。情報の関係性を視覚的に示します。</p>
+                        </div>
+                        <div class="apple-card accent">
+                            <h3>直感性（Intuitiveness）</h3>
+                            <p>ユーザーが特別な学習なしで理解できるインターフェースを作ります。一貫性と予測可能性を重視します。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>主要コンポーネント</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="apple-card">
+                    <h3>カード</h3>
+                    <p>情報を整理し視覚的に区切るためのコンテナーです。</p>
+                    <ul>
+                        <li>適切な余白と角丸で柔らかさを表現</li>
+                        <li>微妙な影効果で階層を表現</li>
+                        <li>コンテンツに焦点を当て、装飾は最小限に</li>
+                    </ul>
+                </div>
+                <div class="apple-card">
+                    <h3>ボタン</h3>
+                    <p>アクションを促すシンプルで直感的な要素です。</p>
+                    <div>
+                        <button class="apple-button">プライマリー</button>
+                        <button class="apple-button secondary">セカンダリー</button>
+                    </div>
+                    <p>フォーカスと触れた時の視覚的フィードバックが特徴です。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>レスポンシブデザイン</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="apple-card wide">
+                    <h3>適応性のあるレイアウト</h3>
+                    <p>Apple製品の多様な画面サイズに対応するレスポンシブデザインを実現します。</p>
+                    <div class="apple-grid cols-3">
+                        <div class="apple-card">
+                            <h3>iPhone</h3>
+                            <p>シングルカラムレイアウト</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="iPhoneレイアウト" />
+                            </div>
+                        </div>
+                        <div class="apple-card">
+                            <h3>iPad</h3>
+                            <p>マルチカラムレイアウト</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="iPadレイアウト" />
+                            </div>
+                        </div>
+                        <div class="apple-card">
+                            <h3>Mac</h3>
+                            <p>拡張レイアウト</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="Macレイアウト" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="apple-card wide glass">
+                    <h3>Human Interface Designの実装ポイント</h3>
+                    <ul>
+                        <li>シンプルで明確なデザインを優先し、余分な装飾を省く</li>
+                        <li>コンテンツが主役になるようなインターフェース設計を心がける</li>
+                        <li>動きと遷移は自然で目的を持ったものにする</li>
+                        <li>適切な余白と階層構造でコンテンツの理解を助ける</li>
+                        <li>すべてのデバイスで一貫した体験を提供するよう設計する</li>
+                    </ul>
+                    <p>HTML/CSSでのHuman Interface Design実装は、Appleの公式ガイドラインを参考にしながら、Webの特性に合わせて最適化することが重要です。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="apple-button">ダウンロード</button>
+                        <button class="apple-button secondary">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>

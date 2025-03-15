@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>キネティックタイポグラフィ プレゼンテーション</title>
+    <style>
+        /* キネティックタイポグラフィの基本スタイル */
+        :root {
+            --primary-color: #111111;
+            --secondary-color: #f2f2f2;
+            --accent-color: #ff3366;
+            --accent-color-2: #3366ff;
+            --background-color: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --transition-standard: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            font-family: 'Space Mono', monospace;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Typography Container */
+        .typography-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1 .highlight {
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h3 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        /* Kinetic Button */
+        .kinetic-button {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-color);
+            padding: 0.8rem 2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kinetic-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        .kinetic-button:hover {
+            color: var(--background-color);
+        }
+
+        .kinetic-button:hover::before {
+            left: 0;
+        }
+
+        .kinetic-button.secondary {
+            border-color: var(--accent-color-2);
+        }
+
+        .kinetic-button.secondary::before {
+            background-color: var(--accent-color-2);
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        .nav-button:hover {
+            color: var(--background-color);
+        }
+
+        .nav-button:hover::before {
+            left: 0;
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Grid layout */
+        .kinetic-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 2rem;
+            width: 100%;
+        }
+
+        .kinetic-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.5s ease;
+        }
+
+        /* Kinetic Typography Elements */
+        .kinetic-text {
+            font-size: 7rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            opacity: 0.1;
+            position: absolute;
+            text-transform: uppercase;
+            white-space: nowrap;
+            z-index: -1;
+        }
+
+        .animated-text {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-text .word {
+            display: inline-block;
+            animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+            transform: translateY(100%);
+            animation-delay: calc(var(--index) * 0.1s);
+        }
+
+        .text-reveal {
+            position: relative;
+            display: inline-block;
+        }
+
+        .text-reveal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transform-origin: right;
+            animation: reveal 1s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+            animation-delay: calc(var(--index) * 0.2s);
+        }
+
+        /* Motion Typography Examples */
+        .motion-example {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pulse-text {
+            font-size: 3rem;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+        }
+
+        .rotate-text {
+            font-size: 3rem;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate 5s infinite linear;
+        }
+
+        .wave-text {
+            font-size: 3rem;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .wave-text span {
+            display: inline-block;
+            animation: wave 2s infinite;
+            animation-delay: calc(var(--index) * 0.1s);
+        }
+
+        /* Animation Keyframes */
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes reveal {
+            0% {
+                transform: scaleX(1);
+            }
+            100% {
+                transform: scaleX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Background elements */
+        .background-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -2;
+        }
+
+        /* Split Text Animation Container */
+        .split-text-container {
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-grid"></div>
+    <div class="presentation-container">
+        <!-- Kinetic typography background elements -->
+        <div class="kinetic-text" style="top: 5%; left: -10%; animation: moveLeft 30s linear infinite;">MOTION</div>
+        <div class="kinetic-text" style="bottom: 10%; right: -5%; animation: moveRight 25s linear infinite;">TYPE</div>
+
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="typography-container">
+                <div class="split-text-container">
+                    <h1>
+                        <span class="text-reveal" style="--index: 1;">キネティック</span>
+                        <span class="text-reveal highlight" style="--index: 2;">タイポグラフィ</span>
+                    </h1>
+                </div>
+                <p class="animated-text">
+                    <span class="word" style="--index: 1;">動きのある文字表現で</span>
+                    <span class="word" style="--index: 2;">メッセージを視覚的に強化する</span>
+                    <span class="word" style="--index: 3;">デザイン手法</span>
+                </p>
+                <div style="margin-top: 2rem;">
+                    <button class="kinetic-button">スタート</button>
+                    <button class="kinetic-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">01/05</span></div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>キネティックタイポグラフィの特徴</h2>
+                <div class="slide-number">02/05</div>
+            </div>
+            <div class="slide-content">
+                <div class="kinetic-grid">
+                    <div>
+                        <div class="split-text-container">
+                            <h3><span class="text-reveal" style="--index: 1;">文字と動きの融合</span></h3>
+                        </div>
+                        <p>静的なテキストに動きを加えることで、感情やリズム、トーンを表現します。文字自体がストーリーテリングの一部となり、視聴者の注目を集めます。</p>
+                    </div>
+                    <div>
+                        <div class="split-text-container">
+                            <h3><span class="text-reveal" style="--index: 2;">時間軸での表現</span></h3>
+                        </div>
+                        <p>タイミング、リズム、ペースを操作することで、静的なデザインでは伝えられない情報の層や感情を追加します。言葉と視覚表現が時間軸上で調和します。</p>
+                    </div>
+                    <div>
+                        <div class="split-text-container">
+                            <h3><span class="text-reveal" style="--index: 3;">注目の誘導</span></h3>
+                        </div>
+                        <p>動きは強力な視覚的指標となり、視聴者の注目を特定の要素に誘導します。アニメーションのタイミングやスタイルにより、メッセージの優先順位を表現できます。</p>
+                    </div>
+                    <div>
+                        <div class="split-text-container">
+                            <h3><span class="text-reveal" style="--index: 4;">感情の増幅</span></h3>
+                        </div>
+                        <p>文字の動きは感情を増幅させる効果があります。激しい動きは興奮や緊張を、滑らかな動きは穏やかさや安定感を表現できます。言葉の意味を視覚的に補強します。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">02/05</span></div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>アニメーション技法</h2>
+                <div class="slide-number">03/05</div>
+            </div>
+            <div class="slide-content">
+                <div style="width: 100%;">
+                    <div class="motion-example">
+                        <div class="pulse-text">PULSE</div>
+                    </div>
+                    <h3>パルス / 拡大縮小</h3>
+                    <p>文字のサイズや太さを周期的に変化させることで、心拍や呼吸のようなリズミカルな動きを表現します。注目を集め、生命感を与えるのに効果的です。</p>
+
+                    <div class="motion-example">
+                        <div class="rotate-text">ROTATE</div>
+                    </div>
+                    <h3>回転 / 変形</h3>
+                    <p>文字の回転や変形は、動的な緊張感や変化を表現するのに適しています。3D空間での回転は、特に印象的な視覚効果を生み出します。</p>
+
+                    <div class="motion-example">
+                        <div class="wave-text">
+                            <span style="--index: 0;">W</span>
+                            <span style="--index: 1;">A</span>
+                            <span style="--index: 2;">V</span>
+                            <span style="--index: 3;">E</span>
+                        </div>
+                    </div>
+                    <h3>波動 / シーケンス</h3>
+                    <p>文字を順番にアニメーションさせることで、波のような流れるような動きを作り出します。音声やリズムに合わせた動きで、音楽的な表現が可能です。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">03/05</span></div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>応用分野</h2>
+                <div class="slide-number">04/05</div>
+            </div>
+            <div class="slide-content">
+                <div style="width: 100%;">
+                    <div class="kinetic-grid cols-3">
+                        <div>
+                            <div class="split-text-container">
+                                <h3><span class="text-reveal" style="--index: 1;">映像制作</span></h3>
+                            </div>
+                            <p>映画やテレビのオープニングクレジット、音楽PV、プロモーション映像など。歌詞やナレーションの視覚化に特に効果的です。</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="映像制作の例" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="split-text-container">
+                                <h3><span class="text-reveal" style="--index: 2;">Webデザイン</span></h3>
+                            </div>
+                            <p>ランディングページ、インタラクティブなストーリーテリング、オンラインプレゼンテーションなど。ユーザーエンゲージメントを高めます。</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="Webデザインの例" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="split-text-container">
+                                <h3><span class="text-reveal" style="--index: 3;">ブランディング</span></h3>
+                            </div>
+                            <p>動的なロゴ、広告キャンペーン、ソーシャルメディア投稿など。ブランドの個性を動きで表現し、記憶に残るアイデンティティを構築します。</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ブランディングの例" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">04/05</span></div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">05/05</div>
+            </div>
+            <div class="slide-content">
+                <div style="width: 100%; max-width: 800px;">
+                    <div class="split-text-container">
+                        <h3><span class="text-reveal" style="--index: 1;">効果的な実装のポイント</span></h3>
+                    </div>
+                    <ul>
+                        <li>目的とメッセージを明確にし、それに合ったアニメーション手法を選択する</li>
+                        <li>読みやすさを常に優先し、装飾的な動きがコンテンツの理解を妨げないようにする</li>
+                        <li>タイミングとイージングを慎重に調整し、自然で洗練された動きを実現する</li>
+                        <li>音声や音楽がある場合は、動きとのシンクロナイゼーションを意識する</li>
+                        <li>パフォーマンスを考慮し、過度に複雑なアニメーションは避ける</li>
+                        <li>レスポンシブデザインを念頭に置き、様々な画面サイズでの表示を確認する</li>
+                    </ul>
+                    <p>キネティックタイポグラフィは、単なる装飾ではなく、コミュニケーションを強化するためのパワフルなツールです。静的なテキストでは伝えられない感情やニュアンスを動きによって表現することで、より豊かで記憶に残るメッセージを伝えることができます。</p>
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="kinetic-button">リソースダウンロード</button>
+                        <button class="kinetic-button secondary">ワークショップ申込</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">05/05</span></div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Prepare animation for text elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to wave text characters
+            const waveText = document.querySelector('.wave-text');
+            if (waveText) {
+                const text = waveText.textContent;
+                waveText.innerHTML = '';
+                for (let i = 0; i < text.length; i++) {
+                    const span = document.createElement('span');
+                    span.textContent = text[i];
+                    span.style.setProperty('--index', i);
+                    waveText.appendChild(span);
+                }
+            }
+        });
+
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Animation for background text elements
+        document.documentElement.style.setProperty('--moveSpeed', '20s');
+
+        // Initialize
+        updateSlides();
+
+        // Additional animations for kinetic text
+        // Created with JavaScript to better illustrate motion typography
+        const animateBackground = () => {
+            const kinetic1 = document.querySelectorAll('.kinetic-text')[0];
+            const kinetic2 = document.querySelectorAll('.kinetic-text')[1];
+            
+            // Create keyframes for moving elements
+            const moveLeft = `
+                @keyframes moveLeft {
+                    from { transform: translateX(0); }
+                    to { transform: translateX(-100%); }
+                }
+            `;
+            
+            const moveRight = `
+                @keyframes moveRight {
+                    from { transform: translateX(0); }
+                    to { transform: translateX(100%); }
+                }
+            `;
+            
+            // Add keyframes to document
+            const style = document.createElement('style');
+            style.innerHTML = moveLeft + moveRight;
+            document.head.appendChild(style);
+        };
+
+        // Run background animations
+        animateBackground();
+    </script>
+</body>
+</html>

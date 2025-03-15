@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ミニマリストデザイン プレゼンテーション</title>
+    <style>
+        /* ミニマリストデザインの基本スタイル */
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #333333;
+            --background-color: #ffffff;
+            --card-background: #fafafa;
+            --text-primary: #121212;
+            --text-secondary: #555555;
+            --accent-color: #e0e0e0;
+            --border-radius: 0px;
+            --shadow-light: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --transition-standard: all 0.2s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.5;
+            overflow: hidden;
+            font-weight: 300;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* ミニマリストカードコンポーネント */
+        .minimal-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-standard);
+            margin: 0.5rem;
+            overflow: hidden;
+        }
+
+        .minimal-card.wide {
+            width: 100%;
+        }
+
+        .minimal-card.border-top {
+            border-top: 1px solid var(--accent-color);
+        }
+
+        /* タイポグラフィー */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 200;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ミニマリストボタン */
+        .minimal-button {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--text-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.9rem;
+            font-weight: 300;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .minimal-button:hover {
+            background-color: var(--text-primary);
+            color: var(--background-color);
+        }
+
+        .minimal-button.text-only {
+            border: none;
+            padding: 0.6rem 0;
+            margin-left: 0;
+        }
+
+        .minimal-button.text-only:hover {
+            background-color: transparent;
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* ナビゲーションコントロール */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: 1px solid var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            color: var(--text-secondary);
+        }
+
+        .nav-button:hover {
+            background-color: var(--text-primary);
+            color: var(--background-color);
+            border-color: var(--text-primary);
+        }
+
+        /* リストスタイル */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* イメージコンテナ */
+        .image-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        /* グリッドレイアウト */
+        .minimal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 2rem;
+            width: 100%;
+        }
+
+        .minimal-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* プログレスバー */
+        .progress-container {
+            width: 100%;
+            height: 1px;
+            background-color: var(--accent-color);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--text-primary);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+        }
+
+        /* ミニマリストの装飾 */
+        .minimal-divider {
+            width: 30px;
+            height: 1px;
+            background-color: var(--text-primary);
+            margin: 1.5rem 0;
+        }
+
+        .minimal-tag {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--accent-color);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .principle-number {
+            font-size: 2rem;
+            font-weight: 200;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- タイトルスライド -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="minimal-card wide">
+                    <h1>ミニマリストデザイン</h1>
+                    <p>余分なものを削ぎ落とし、本質に集中する</p>
+                    <div class="minimal-divider"></div>
+                    <p>2025年3月15日</p>
+                    <div style="margin-top: 2rem;">
+                        <button class="minimal-button">開始する</button>
+                        <button class="minimal-button text-only">詳細情報</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Minimalist Design Workshop 2025</div>
+                <div class="slide-number">01 / 05</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>ミニマリストデザインの原則</h2>
+                <div class="slide-number">02 / 05</div>
+            </div>
+            <div class="slide-content">
+                <div class="minimal-card wide">
+                    <div class="minimal-grid">
+                        <div class="minimal-card">
+                            <div class="principle-number">01</div>
+                            <h3>余分なものを削除する</h3>
+                            <p>必要不可欠な要素のみを残し、それ以外のすべてを取り除きます。各要素の存在意義を問い続けることが重要です。</p>
+                        </div>
+                        <div class="minimal-card">
+                            <div class="principle-number">02</div>
+                            <h3>余白を活用する</h3>
+                            <p>余白は単なる「空き」ではなく、デザイン要素として意図的に使用します。視覚的な呼吸と焦点を生み出します。</p>
+                        </div>
+                        <div class="minimal-card">
+                            <div class="principle-number">03</div>
+                            <h3>限られた色彩</h3>
+                            <p>色彩パレットを厳選し、モノクロやニュートラルカラーを基調とします。色の使用は意図的かつ慎重に行います。</p>
+                        </div>
+                        <div class="minimal-card">
+                            <div class="principle-number">04</div>
+                            <h3>タイポグラフィの重視</h3>
+                            <p>装飾的な要素が少ないため、タイポグラフィが主要な表現手段になります。フォント選択と階層構造が重要です。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Minimalist Design Workshop 2025</div>
+                <div class="slide-number">02 / 05</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>機能性と視覚性のバランス</h2>
+                <div class="slide-number">03 / 05</div>
+            </div>
+            <div class="slide-content">
+                <div class="minimal-card border-top">
+                    <h3>フォーム・フォロー・ファンクション</h3>
+                    <p>ミニマリストデザインでは形態は機能に従うという原則を重視します。</p>
+                    <ul>
+                        <li>装飾的な要素は機能性を高める場合にのみ採用</li>
+                        <li>直感的な使用感と視覚的な単純さの両立</li>
+                        <li>ユーザー体験を優先した設計思想</li>
+                    </ul>
+                </div>
+                <div class="minimal-card border-top">
+                    <h3>視覚的階層の構築</h3>
+                    <p>情報の重要度に応じた視覚的階層を明確に構築します。</p>
+                    <div>
+                        <span class="minimal-tag">サイズ</span>
+                        <span class="minimal-tag">配置</span>
+                        <span class="minimal-tag">コントラスト</span>
+                        <span class="minimal-tag">重み</span>
+                    </div>
+                    <p>これらの要素を調整することで、最小限の視覚要素で最大限の効果を生み出します。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Minimalist Design Workshop 2025</div>
+                <div class="slide-number">03 / 05</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>分野別のミニマリストデザイン</h2>
+                <div class="slide-number">04 / 05</div>
+            </div>
+            <div class="slide-content">
+                <div class="minimal-card wide">
+                    <div class="minimal-grid cols-3">
+                        <div class="minimal-card">
+                            <h3>インターフェースデザイン</h3>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ミニマリストUI" />
+                            </div>
+                            <p>直感的なナビゲーションと明確な視覚的階層を特徴とし、情報の伝達と機能性を最優先します。</p>
+                        </div>
+                        <div class="minimal-card">
+                            <h3>印刷デザイン</h3>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ミニマリスト印刷物" />
+                            </div>
+                            <p>余白、タイポグラフィ、限られた視覚要素を巧みに組み合わせ、洗練された印象を与えます。</p>
+                        </div>
+                        <div class="minimal-card">
+                            <h3>空間デザイン</h3>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ミニマリスト空間" />
+                            </div>
+                            <p>必要最低限の家具と装飾、ニュートラルな色調、そして機能性を重視した配置が特徴です。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Minimalist Design Workshop 2025</div>
+                <div class="slide-number">04 / 05</div>
+            </div>
+        </div>
+
+        <!-- まとめスライド -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">05 / 05</div>
+            </div>
+            <div class="slide-content">
+                <div class="minimal-card wide">
+                    <h3>「少ないことは豊かなこと」</h3>
+                    <div class="minimal-divider"></div>
+                    <p>ミニマリストデザインは単に要素を減らすことではなく、本質的なものだけを残す慎重なプロセスです。</p>
+                    <ul>
+                        <li>デザインの各要素に明確な目的を持たせる</li>
+                        <li>視覚的な静けさを作り出し、重要な要素に焦点を当てる</li>
+                        <li>使いやすさと美しさのバランスを追求する</li>
+                        <li>永続的で時代を超越したデザインを目指す</li>
+                        <li>持続可能性と環境への配慮を反映する</li>
+                    </ul>
+                    <div class="minimal-divider"></div>
+                    <p>「完璧とは、もはや取り除くものが何もない状態に達したときである」 - アントワーヌ・ド・サン＝テグジュペリ</p>
+                    <div style="margin-top: 2rem;">
+                        <button class="minimal-button">リソース</button>
+                        <button class="minimal-button text-only">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>Minimalist Design Workshop 2025</div>
+                <div class="slide-number">05 / 05</div>
+            </div>
+        </div>
+
+        <!-- ナビゲーションコントロール -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- プログレスバー -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // シンプルなスライドナビゲーション
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // スライド更新
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // プログレスバー更新
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // イベントリスナー
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // 初期化
+        updateSlides();
+    </script>
+</body>
+</html>

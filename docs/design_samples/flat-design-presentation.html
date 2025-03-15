@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フラットデザイン プレゼンテーション</title>
+    <style>
+        /* フラットデザインの基本スタイル */
+        :root {
+            --primary-color: #2196F3;
+            --secondary-color: #FFC107;
+            --background-color: #FAFAFA;
+            --card-background: #FFFFFF;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --accent-color: #FF4081;
+            --border-radius: 2px;
+            --shadow-light: none;
+            --shadow-medium: none;
+            --shadow-deep: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --transition-standard: all 0.2s ease;
+            --error-color: #F44336;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --info-color: #00BCD4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            background-color: var(--card-background);
+        }
+
+        .slide-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* フラットカードコンポーネント */
+        .flat-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            margin: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .flat-card.wide {
+            width: 100%;
+        }
+
+        .flat-card.accent {
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .flat-card.primary {
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .flat-card.secondary {
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .flat-card.success {
+            border-top: 4px solid var(--success-color);
+        }
+
+        .flat-card.warning {
+            border-top: 4px solid var(--warning-color);
+        }
+
+        .flat-card.info {
+            border-top: 4px solid var(--info-color);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* フラットボタン */
+        .flat-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+        }
+
+        .flat-button:hover {
+            background-color: #1976D2;
+        }
+
+        .flat-button.secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+        }
+
+        .flat-button.secondary:hover {
+            background-color: #FFA000;
+        }
+
+        .flat-button.accent {
+            background-color: var(--accent-color);
+        }
+
+        .flat-button.accent:hover {
+            background-color: #F50057;
+        }
+
+        /* ナビゲーションコントロール */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-standard);
+        }
+
+        .nav-button:hover {
+            background-color: #1976D2;
+        }
+
+        /* リストスタイル */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* 画像コンテナ */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            background-color: #EEEEEE;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* グリッドレイアウト */
+        .flat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1rem;
+            width: 100%;
+        }
+
+        .flat-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .flat-grid.cols-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* プログレスバー */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+        }
+
+        /* カラーパレット表示 */
+        .color-swatch {
+            height: 50px;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+        }
+
+        .swatch-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* アイコン表示ボックス */
+        .icon-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-color: #F5F5F5;
+            border-radius: var(--border-radius);
+            margin: 0.5rem;
+        }
+
+        .icon-placeholder {
+            width: 48px;
+            height: 48px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ファクトボックス */
+        .fact-box {
+            padding: 1rem;
+            background-color: #E3F2FD;
+            border-left: 4px solid var(--primary-color);
+            margin: 1rem 0;
+        }
+
+        /* タイムライン */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 0.5rem;
+            left: -2rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        .timeline-date {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- タイトルスライド -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="flat-card wide">
+                    <h1>フラットデザイン</h1>
+                    <h3>シンプルさと機能性を追求するデザイン哲学</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="flat-button">開始する</button>
+                    <button class="flat-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>フラットデザインの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="flat-card wide">
+                    <div class="flat-grid">
+                        <div class="flat-card primary">
+                            <h3>ミニマリズム</h3>
+                            <p>装飾を排除し、必要な要素のみに焦点を当てた簡潔なデザインアプローチ。</p>
+                        </div>
+                        <div class="flat-card secondary">
+                            <h3>鮮やかな色彩</h3>
+                            <p>ビビッドで明るい色調を使用し、視覚的なインパクトと明快さを提供。</p>
+                        </div>
+                        <div class="flat-card accent">
+                            <h3>タイポグラフィの重視</h3>
+                            <p>読みやすく明確なフォントを使い、情報の階層を効果的に表現。</p>
+                        </div>
+                        <div class="flat-card info">
+                            <h3>シンプルな形状</h3>
+                            <p>幾何学的な形やグリッドベースのレイアウトによる整理された構成。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>デザイン原則</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="flat-card">
+                    <h3>シャドウとグラデーションの排除</h3>
+                    <p>立体感や奥行きを表現する要素を最小限に抑え、平面的な表現を重視します。</p>
+                    <ul>
+                        <li>ベベルやエンボス効果を使用しない</li>
+                        <li>わずかなシャドウのみ機能的目的で使用</li>
+                        <li>単色の面を活用した明確な視覚的階層</li>
+                    </ul>
+                </div>
+                <div class="flat-card">
+                    <h3>カラーパレット</h3>
+                    <p>鮮やかで調和のとれた色彩設計がフラットデザインの要です。</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 1rem 0;">
+                        <div style="width: calc(20% - 8px);">
+                            <div class="color-swatch" style="background-color: #2196F3;"></div>
+                            <div class="swatch-label">#2196F3</div>
+                        </div>
+                        <div style="width: calc(20% - 8px);">
+                            <div class="color-swatch" style="background-color: #FFC107;"></div>
+                            <div class="swatch-label">#FFC107</div>
+                        </div>
+                        <div style="width: calc(20% - 8px);">
+                            <div class="color-swatch" style="background-color: #4CAF50;"></div>
+                            <div class="swatch-label">#4CAF50</div>
+                        </div>
+                        <div style="width: calc(20% - 8px);">
+                            <div class="color-swatch" style="background-color: #FF4081;"></div>
+                            <div class="swatch-label">#FF4081</div>
+                        </div>
+                        <div style="width: calc(20% - 8px);">
+                            <div class="color-swatch" style="background-color: #9C27B0;"></div>
+                            <div class="swatch-label">#9C27B0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>フラットデザインの歴史</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="flat-card wide">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2010年前後</div>
+                            <h3>Microsoftのメトロデザイン</h3>
+                            <p>Windows Phone 7とWindows 8でフラットなタイルインターフェースを導入し、フラットデザイン革命の先駆けとなる。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2013年</div>
+                            <h3>iOS 7の大改革</h3>
+                            <p>Appleがスキューモーフィズムからフラットデザインへと大きく転換、業界全体のトレンドに影響を与える。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2014年</div>
+                            <h3>Googleのマテリアルデザイン</h3>
+                            <p>フラットデザインの原則を取り入れつつ、微妙な奥行きと動きを加えた独自のデザイン言語を確立。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2015年以降</div>
+                            <h3>フラットデザイン2.0</h3>
+                            <p>完全なフラットさから、わずかな奥行きやグラデーションを再導入した「半フラット」への進化。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- まとめスライド -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめと応用</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="flat-card wide">
+                    <h3>フラットデザインの実践ポイント</h3>
+                    <div class="fact-box">
+                        <p>フラットデザインは単なる見た目のトレンドではなく、情報の明確さとユーザビリティを高めるための機能的アプローチです。</p>
+                    </div>
+                    <ul>
+                        <li>装飾より内容に集中し、不必要な視覚的要素を排除</li>
+                        <li>色彩コントラストとタイポグラフィで情報の階層を表現</li>
+                        <li>反応性の高いインタラクションでユーザーフィードバックを提供</li>
+                        <li>グリッドシステムを活用した整然としたレイアウト設計</li>
+                        <li>アクセシビリティとレスポンシブ性を常に考慮</li>
+                    </ul>
+                    <p>現代のデジタルインターフェースにおいて、フラットデザインは読みやすさ、使いやすさ、そして視覚的な一貫性を提供する重要な手法です。適切に実装することで、ユーザー体験の質を大幅に向上させることができます。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="flat-button">ガイドをダウンロード</button>
+                        <button class="flat-button accent">フィードバックを送信</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイントレンドワークショップ 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- ナビゲーションコントロール -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- プログレスバー -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // シンプルなスライドナビゲーション
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // スライドの更新
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // プログレスバーの更新
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // イベントリスナー
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // 初期化
+        updateSlides();
+    </script>
+</body>
+</html>

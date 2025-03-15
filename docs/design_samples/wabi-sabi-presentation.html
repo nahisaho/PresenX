@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ワビサビ (Wabi-Sabi) デザインプレゼンテーション</title>
+    <style>
+        /* ワビサビデザインの基本スタイル */
+        :root {
+            --primary-color: #38312a;
+            --secondary-color: #776b5d;
+            --background-color: #f3f0e9;
+            --card-background: #eae6dd;
+            --text-primary: #38312a;
+            --text-secondary: #645a4f;
+            --accent-color: #826d4a;
+            --border-radius: 0px;
+            --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 2px 4px rgba(0, 0, 0, 0.08);
+            --shadow-deep: 0 3px 6px rgba(0, 0, 0, 0.1);
+            --transition-standard: all 0.4s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.7;
+            overflow: hidden;
+            background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" fill="%23f3f0e9"/><path d="M0 0L20 20M20 0L0 20" stroke="%23d1cec7" stroke-width="0.5" stroke-opacity="0.3"/></svg>');
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #d1cec7;
+            color: var(--text-primary);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-top: 1px solid #d1cec7;
+        }
+
+        .slide-number {
+            color: var(--accent-color);
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+
+        /* ワビサビカードコンポーネント */
+        .wabi-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            overflow: hidden;
+            border: 1px solid #d1cec7;
+        }
+
+        .wabi-card.wide {
+            width: 100%;
+        }
+
+        .wabi-card.accent {
+            border-left: 2px solid var(--accent-color);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            letter-spacing: 0.05em;
+            line-height: 1.4;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: 0.03em;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ワビサビボタン */
+        .wabi-button {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--secondary-color);
+            padding: 0.7rem 1.5rem;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .wabi-button:hover {
+            background-color: rgba(56, 49, 42, 0.05);
+        }
+
+        .wabi-button.secondary {
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .wabi-button.secondary:hover {
+            background-color: rgba(130, 109, 74, 0.05);
+        }
+
+        /* ナビゲーションコントロール */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: 1px solid var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            color: var(--text-primary);
+        }
+
+        .nav-button:hover {
+            background-color: rgba(56, 49, 42, 0.05);
+        }
+
+        /* リストスタイル */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* 画像コンテナ */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: sepia(10%) contrast(90%) brightness(95%);
+        }
+
+        /* グリッドレイアウト */
+        .wabi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .wabi-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* プログレスバー */
+        .progress-container {
+            width: 100%;
+            height: 2px;
+            background-color: #d1cec7;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.5s ease;
+        }
+
+        /* 枯山水パターン */
+        .zen-garden {
+            background-image: repeating-linear-gradient(
+                90deg,
+                rgba(209, 206, 199, 0.3),
+                rgba(209, 206, 199, 0.3) 1px,
+                transparent 1px,
+                transparent 10px
+            );
+            padding: 2rem;
+            margin: 1rem 0;
+        }
+
+        /* 竹のスタイル */
+        .bamboo-divider {
+            width: 1px;
+            height: 100px;
+            background-color: var(--accent-color);
+            margin: 0 auto 1.5rem auto;
+            position: relative;
+        }
+
+        .bamboo-divider::before, .bamboo-divider::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 1px;
+            background-color: var(--accent-color);
+            left: -3.5px;
+        }
+
+        .bamboo-divider::before {
+            top: 33%;
+        }
+
+        .bamboo-divider::after {
+            top: 66%;
+        }
+
+        .quote {
+            font-style: italic;
+            padding: 1rem 2rem;
+            position: relative;
+            margin: 1.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .quote::before {
+            content: """;
+            font-size: 3rem;
+            position: absolute;
+            left: 0;
+            top: -1rem;
+            color: rgba(130, 109, 74, 0.2);
+        }
+
+        /* 日本語フォントの読み込み */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400&family=Noto+Serif+JP:wght@400;500&display=swap');
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- タイトルスライド -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="wabi-card wide">
+                    <div class="bamboo-divider"></div>
+                    <h1>ワビサビ (侘寂)</h1>
+                    <h3>日本の美学と現代デザインへの応用</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="wabi-button">開始する</button>
+                    <button class="wabi-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>日本美学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>ワビサビの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="wabi-card wide">
+                    <div class="wabi-grid">
+                        <div class="wabi-card accent">
+                            <h3>侘び (Wabi)</h3>
+                            <p>質素、簡素であることの美。自然な素材感と控えめな風合いを尊重します。</p>
+                        </div>
+                        <div class="wabi-card accent">
+                            <h3>寂び (Sabi)</h3>
+                            <p>時間の経過による風合い。経年変化や古さから生まれる深みを表現します。</p>
+                        </div>
+                        <div class="wabi-card accent">
+                            <h3>不完全性</h3>
+                            <p>完璧さより、不完全さや非対称に美を見出します。「金継ぎ」はその象徴です。</p>
+                        </div>
+                        <div class="wabi-card accent">
+                            <h3>一期一会</h3>
+                            <p>儚さと移ろいやすさを受け入れ、一瞬の美しさを大切にします。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>日本美学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>デザイン要素</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="wabi-card">
+                    <h3>余白 (Ma)</h3>
+                    <p>空間と間の重要性を表現する要素です。</p>
+                    <ul>
+                        <li>余白が生み出す静寂と調和</li>
+                        <li>必要最小限の要素だけを残す</li>
+                        <li>視覚的な「呼吸」を可能にする空間</li>
+                    </ul>
+                </div>
+                <div class="wabi-card">
+                    <h3>自然素材</h3>
+                    <p>自然な風合いと質感を大切にします。</p>
+                    <div class="zen-garden">
+                        <p class="quote">完璧さを求めるのではなく、その不完全さに美を見出す</p>
+                    </div>
+                    <p>素材そのものの特性を活かし、自然な経年変化を受け入れます。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>日本美学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- コンテンツスライド 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>応用例</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="wabi-card wide">
+                    <h3>現代デザインへの取り入れ方</h3>
+                    <p>ワビサビの美学は、現代のデジタルデザインにも応用可能です。</p>
+                    <div class="wabi-grid cols-3">
+                        <div class="wabi-card">
+                            <h3>インテリア</h3>
+                            <p>素材の質感を活かす</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ワビサビインテリア" />
+                            </div>
+                        </div>
+                        <div class="wabi-card">
+                            <h3>グラフィック</h3>
+                            <p>余白と非対称の活用</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ワビサビグラフィック" />
+                            </div>
+                        </div>
+                        <div class="wabi-card">
+                            <h3>Webデザイン</h3>
+                            <p>ミニマリズムと質感表現</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ワビサビWebデザイン" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>日本美学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- まとめスライド -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="wabi-card wide">
+                    <div class="bamboo-divider"></div>
+                    <h3>ワビサビの実践ポイント</h3>
+                    <ul>
+                        <li>完璧さを追求せず、不完全さの中に美を見出す</li>
+                        <li>自然素材や質感を大切にし、経年変化を受け入れる</li>
+                        <li>余白（間）を意識的に取り入れ、視覚的余裕を作る</li>
+                        <li>非対称性や偶然性を取り入れたデザインを心がける</li>
+                        <li>ミニマリズムを超えた、深みのある簡素さを目指す</li>
+                    </ul>
+                    <p>ワビサビの美学は、消費社会の中でより持続可能で意味のあるデザインへの道を示してくれます。テクノロジーと伝統が融合する現代において、この古くからある美意識は新たな価値をもたらします。</p>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="wabi-button">資料を入手</button>
+                        <button class="wabi-button secondary">感想を共有</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>日本美学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- ナビゲーションコントロール -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- プログレスバー -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // シンプルなスライドナビゲーション
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // スライドの更新
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // プログレスバーの更新
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // イベントリスナー
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // 初期化
+        updateSlides();
+    </script>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism プレゼンテーション</title>
+    <style>
+        /* Glassmorphism デザインシステムの基本スタイル */
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #818cf8;
+            --background-color: #111827;
+            --card-background: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent-color: #8b5cf6;
+            --border-radius: 16px;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            --transition-standard: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            background-image: linear-gradient(125deg, #1f2937, #111827, #0f172a);
+            line-height: 1.5;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900"><circle cx="70" cy="140" r="100" fill="%236366f1" opacity="0.2"/><circle cx="1370" cy="130" r="150" fill="%238b5cf6" opacity="0.2"/><circle cx="220" cy="820" r="120" fill="%23818cf8" opacity="0.2"/><circle cx="1220" cy="780" r="100" fill="%236366f1" opacity="0.2"/></svg>');
+            background-size: cover;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            border: var(--glass-border);
+        }
+
+        /* Glass Card Components */
+        .glass-card {
+            background: var(--card-background);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--glass-shadow);
+            border: var(--glass-border);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            overflow: hidden;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .glass-card.wide {
+            width: 100%;
+        }
+
+        .glass-card.accent {
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            text-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Glass Button */
+        .glass-button {
+            background-color: rgba(99, 102, 241, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            border: var(--glass-border);
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--glass-shadow);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+        }
+
+        .glass-button:hover {
+            background-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-button.secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-button.secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glass-shadow);
+            cursor: pointer;
+            transition: var(--transition-standard);
+            color: var(--text-primary);
+        }
+
+        .nav-button:hover {
+            background-color: rgba(99, 102, 241, 0.3);
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border: var(--glass-border);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Grid layout */
+        .glass-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .glass-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Icon placeholders */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            background-color: var(--accent-color);
+            mask-size: cover;
+            -webkit-mask-size: cover;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* Glow effects */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        .glow-box {
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="glass-card wide glow-box">
+                    <h1 class="glow-text">Glassmorphism プレゼンテーション</h1>
+                    <h3>モダンなガラス調デザインのHTML/CSSプレゼンテーション</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="glass-button">開始する</button>
+                    <button class="glass-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>Glassmorphismの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="glass-card wide">
+                    <div class="glass-grid">
+                        <div class="glass-card accent">
+                            <h3>透明感</h3>
+                            <p>半透明な背景とblur効果により、まるでガラス越しに見ているような美しい透明感を表現します。</p>
+                        </div>
+                        <div class="glass-card accent">
+                            <h3>多層構造</h3>
+                            <p>複数の層が重なり合う構造で、奥行きと立体感を生み出します。</p>
+                        </div>
+                        <div class="glass-card accent">
+                            <h3>フロスト効果</h3>
+                            <p>背景をぼかす「backdrop-filter: blur()」がデザインの核心となります。</p>
+                        </div>
+                        <div class="glass-card accent">
+                            <h3>微妙な境界線</h3>
+                            <p>薄い白い境界線（border）で要素の輪郭を優しく定義し、ガラスの質感を高めます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>主要コンポーネント</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="glass-card">
+                    <h3>Glass Cards</h3>
+                    <p>情報を美しく表示するための半透明なコンテナです。</p>
+                    <ul>
+                        <li>backdrop-filter: blur()でフロスト効果を実現</li>
+                        <li>薄い白い境界線で輪郭を定義</li>
+                        <li>微妙な影効果で浮遊感を表現</li>
+                    </ul>
+                </div>
+                <div class="glass-card">
+                    <h3>Glass Buttons</h3>
+                    <p>クリックを促すインタラクティブな要素です。</p>
+                    <div>
+                        <button class="glass-button">プライマリー</button>
+                        <button class="glass-button secondary">セカンダリー</button>
+                    </div>
+                    <p>ホバー時に半透明度が変化し、視覚的なフィードバックを提供します。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>カラーと効果</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="glass-card wide">
+                    <h3>効果的な色彩選択</h3>
+                    <p>Glassmorphismを成功させるには、背景と要素のコントラストバランスが重要です。</p>
+                    <div class="glass-grid cols-3">
+                        <div class="glass-card">
+                            <h3>グラデーション背景</h3>
+                            <p>複数の色を組み合わせたグラデーションが効果的です</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="グラデーション背景" />
+                            </div>
+                        </div>
+                        <div class="glass-card">
+                            <h3>適切な透明度</h3>
+                            <p>0.1〜0.3の低い不透明度がベスト</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="透明度の例" />
+                            </div>
+                        </div>
+                        <div class="glass-card">
+                            <h3>ぼかし効果</h3>
+                            <p>10px〜30pxのblur値が理想的</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ぼかし効果" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="glass-card wide glow-box">
+                    <h3 class="glow-text">Glassmorphismの実装ポイント</h3>
+                    <ul>
+                        <li>backdrop-filter: blur()を活用する（ブラウザの互換性に注意）</li>
+                        <li>微妙な白い境界線（border: 1px solid rgba(255, 255, 255, 0.2)）を使用する</li>
+                        <li>背景には複数の色を含むグラデーションを設定する</li>
+                        <li>光沢感を出すために適切な影効果を追加する</li>
+                        <li>要素の重なりを活用して多層構造を作る</li>
+                    </ul>
+                    <p>Glassmorphismは2020年代に人気を博したデザイントレンドで、特にダークモードとの組み合わせで効果的です。iOS、macOS、Windows 11など多くのOSのUIデザインに影響を与えています。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="glass-button">ダウンロード</button>
+                        <button class="glass-button secondary">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>

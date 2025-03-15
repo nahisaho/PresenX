@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スケウモーフィズム デザイン プレゼンテーション</title>
+    <style>
+        /* スケウモーフィズムの基本スタイル */
+        :root {
+            --wood-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4wNSIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAuMiAwIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2EpIi8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuNCIvPjwvc3ZnPg==');
+            --leather-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yIiBudW1PY3RhdmVzPSI0IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIiB0eXBlPSJmcmFjdGFsTm9pc2UiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIC40IDAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjYSkiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9Ii40Ii8+PC9zdmc+');
+            --paper-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yIiBudW1PY3RhdmVzPSIyIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIiB0eXBlPSJmcmFjdGFsTm9pc2UiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIC4xIDAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjYSkiLz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9Ii4xIi8+PC9zdmc+');
+            --metal-texture: linear-gradient(45deg, #ccc 0%, #ddd 20%, #eee 40%, #ddd 60%, #ccc 80%, #bbb 100%);
+            --primary-color: #8B4513;
+            --secondary-color: #654321;
+            --background-color: #F5F5DC;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            background-image: var(--paper-texture);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            padding: 2rem;
+            background-image: var(--paper-texture);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            background-image: var(--paper-texture);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            border: 20px solid;
+            border-image: var(--wood-texture) 30 stretch;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            background-image: var(--leather-texture);
+            background-color: #954535;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            border: 5px solid #6D3B24;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: #555;
+            font-style: italic;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid #ccc;
+        }
+
+        .slide-number {
+            background-color: #8B4513;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.4);
+            border: 2px solid #6D3B24;
+        }
+
+        /* Skeuomorphic Card Components */
+        .skeuomorphic-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(255, 255, 255, 0.5);
+            margin: 1rem;
+            position: relative;
+            background-image: var(--paper-texture);
+            border: 1px solid #ddd;
+            transform: rotate(-0.5deg);
+        }
+
+        .skeuomorphic-card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+        }
+
+        .skeuomorphic-card:nth-child(even) {
+            transform: rotate(0.8deg);
+        }
+
+        .skeuomorphic-card.wide {
+            width: 100%;
+        }
+
+        .skeuomorphic-card.leather {
+            background-color: #954535;
+            background-image: var(--leather-texture);
+            color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), inset 0 1px 5px rgba(255, 255, 255, 0.2);
+            border: 5px solid #6D3B24;
+            transform: rotate(0);
+        }
+
+        .skeuomorphic-card.notebook {
+            background-color: #fff;
+            background-image: 
+                linear-gradient(90deg, transparent 39px, #d88 40px, #d88 41px, transparent 42px),
+                linear-gradient(#eee 0.1em, transparent 0.1em);
+            background-size: 100% 25px;
+            padding: 0.5rem 0.5rem 0.5rem 50px;
+            line-height: 25px;
+            border-left: 1px solid #d99;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #5C3317;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            font-family: 'Bookman Old Style', serif;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: #5C3317;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: #5C3317;
+            font-family: 'Bookman Old Style', serif;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .leather p, .leather h3 {
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Skeuomorphic Button */
+        .skeuomorphic-button {
+            background: var(--metal-texture);
+            color: #333;
+            border: 1px solid #999;
+            padding: 0.8rem 1.6rem;
+            border-radius: 5px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1rem;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.1),
+                inset 0 1px 3px rgba(255, 255, 255, 0.8),
+                inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+            transition: all 0.1s ease;
+        }
+
+        .skeuomorphic-button:hover {
+            box-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.1),
+                inset 0 1px 3px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .skeuomorphic-button:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 1px 2px rgba(0, 0, 0, 0.1),
+                inset 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .skeuomorphic-button.wooden {
+            background-color: #8B4513;
+            background-image: var(--wood-texture);
+            color: white;
+            border: 2px solid #6D3B24;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .skeuomorphic-button.wooden:hover {
+            background-color: #9B5523;
+            box-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.3),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--metal-texture);
+            border: 2px solid #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.8),
+                inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+            transition: all 0.1s ease;
+        }
+
+        .nav-button:hover {
+            box-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-button:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 1px 2px rgba(0, 0, 0, 0.1),
+                inset 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        .leather li {
+            color: #fff;
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 5px;
+            border: 10px solid #ddd;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            padding: 5px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Grid layout */
+        .skeuomorphic-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .skeuomorphic-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: calc(100% - 4rem);
+            height: 20px;
+            background-color: #ddd;
+            position: absolute;
+            bottom: 1rem;
+            left: 2rem;
+            border-radius: 10px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--metal-texture);
+            background-color: #8B4513;
+            background-image: var(--wood-texture);
+            width: 20%;
+            border-radius: 10px;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            transition: width 0.3s ease;
+        }
+
+        /* Polaroid style images */
+        .polaroid {
+            background: white;
+            padding: 1rem;
+            padding-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .polaroid img {
+            max-width: 100%;
+            border: 1px solid #eee;
+        }
+
+        .polaroid:after {
+            content: attr(data-caption);
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Permanent Marker', cursive, sans-serif;
+            font-size: 1rem;
+            color: #333;
+        }
+        
+        /* Sticky note */
+        .sticky-note {
+            background-color: #FFFF99;
+            padding: 1.5rem;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transform: rotate(1deg);
+            position: relative;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        .sticky-note:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-width: 0 20px 20px 0;
+            border-style: solid;
+            border-color: #E8E8AA #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="skeuomorphic-card leather wide">
+                    <h1>スケウモーフィズム デザイン</h1>
+                    <h3>現実世界の物体を模倣するデジタルデザイン</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="skeuomorphic-button wooden">開始する</button>
+                    <button class="skeuomorphic-button">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイン哲学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>スケウモーフィズムの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="skeuomorphic-card wide">
+                    <div class="skeuomorphic-grid">
+                        <div class="skeuomorphic-card">
+                            <h3>質感の再現</h3>
+                            <p>革、木材、金属、紙などの現実世界の素材感を細部まで再現します。触感を視覚的に伝えることが目的です。</p>
+                        </div>
+                        <div class="skeuomorphic-card">
+                            <h3>光と影の効果</h3>
+                            <p>自然光の当たり方や影の落ち方を忠実に再現し、立体感を強調します。物理的な存在感を与えます。</p>
+                        </div>
+                        <div class="skeuomorphic-card">
+                            <h3>物理的な挙動</h3>
+                            <p>ボタンを押す、ページをめくるなど、現実世界での操作感を模倣したインタラクションを提供します。</p>
+                        </div>
+                        <div class="skeuomorphic-card">
+                            <h3>メタファー</h3>
+                            <p>現実世界の物体や概念をデジタル世界の機能に結びつけることで、ユーザーの理解を助けます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイン哲学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>歴史的背景と影響</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="skeuomorphic-card notebook">
+                    <h3>スケウモーフィズムの歴史</h3>
+                    <p>初期のデジタルインターフェース（1980-2000年代）で広く採用され、特にAppleのiOS（〜iOS 6）で顕著でした。</p>
+                    <ul>
+                        <li>初めてデジタル機器を使用するユーザーの移行をスムーズにするための橋渡し役</li>
+                        <li>「ゴミ箱」アイコン、「フォルダ」メタファーなどの導入</li>
+                        <li>触覚的な質感の再現によるエモーショナルな接続の構築</li>
+                    </ul>
+                </div>
+                <div class="skeuomorphic-card">
+                    <h3>現代での応用</h3>
+                    <p>フラットデザインへの移行後も、以下の領域で活用されています：</p>
+                    <div>
+                        <button class="skeuomorphic-button wooden">音楽アプリ</button>
+                        <button class="skeuomorphic-button">ゲーム</button>
+                    </div>
+                    <p>VRやARの世界では、物理的な質感の再現が新たに注目されています。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイン哲学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>代表的な事例</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="skeuomorphic-card wide">
+                    <h3>スケウモーフィックデザインの代表例</h3>
+                    <p>様々なアプリケーションでの実装例を紹介します。</p>
+                    <div class="skeuomorphic-grid cols-3">
+                        <div class="polaroid" data-caption="カレンダーアプリ">
+                            <img src="/api/placeholder/300/200" alt="カレンダーアプリのスケウモーフィックデザイン" />
+                        </div>
+                        <div class="polaroid" data-caption="電卓アプリ">
+                            <img src="/api/placeholder/300/200" alt="電卓アプリのスケウモーフィックデザイン" />
+                        </div>
+                        <div class="polaroid" data-caption="メモ帳アプリ">
+                            <img src="/api/placeholder/300/200" alt="メモ帳アプリのスケウモーフィックデザイン" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイン哲学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="skeuomorphic-card wide">
+                    <div class="sticky-note">
+                        <h3>スケウモーフィズムのメリット</h3>
+                        <ul>
+                            <li>直感的な操作性 - 現実世界の経験を活かせる</li>
+                            <li>学習コストの低減 - 見た目から機能が推測できる</li>
+                            <li>視覚的魅力 - リッチで魅力的な質感表現</li>
+                            <li>感情的な接続 - 親しみやすさと温かみの提供</li>
+                        </ul>
+                    </div>
+                    <div class="sticky-note" style="transform: rotate(-1deg); margin-top: 1rem;">
+                        <h3>スケウモーフィズムの課題</h3>
+                        <ul>
+                            <li>画面サイズの制約 - 装飾的要素が多くスペースを取る</li>
+                            <li>拡張性の限界 - 現実世界に存在しない機能の表現が難しい</li>
+                            <li>実装の複雑さ - 細部までのこだわりが開発コストを増加</li>
+                            <li>時代遅れの印象 - モダンなミニマリズムとの対比</li>
+                        </ul>
+                    </div>
+                    <p style="text-align: center; margin-top: 1.5rem;">スケウモーフィズムとフラットデザインの適切なバランスが、最高のユーザー体験を生み出す鍵となります。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="skeuomorphic-button wooden">ダウンロード</button>
+                        <button class="skeuomorphic-button">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザイン哲学ワークショップ 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>

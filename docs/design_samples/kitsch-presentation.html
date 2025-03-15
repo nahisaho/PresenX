@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>キッチュデザイン プレゼンテーション</title>
+    <style>
+        /* キッチュデザインシステムの基本スタイル */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Comic+Neue:wght@400;700&display=swap');
+        
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #ffd166;
+            --tertiary-color: #4ecdc4;
+            --background-color: #ffcce6;
+            --card-background: #fff8dc;
+            --text-primary: #ff1493;
+            --text-secondary: #9932cc;
+            --accent-color: #00bfff;
+            --border-radius: 15px;
+            --shadow-light: 4px 4px 0px rgba(0, 0, 0, 0.2);
+            --shadow-medium: 8px 8px 0px rgba(0, 0, 0, 0.2);
+            --border-style: 5px dashed #ff6b6b;
+            --pattern-bg: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff69b4' fill-opacity='0.25'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Comic Neue', 'Segoe UI', cursive, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            background-image: var(--pattern-bg);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px) rotate(-1deg);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            background-color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            border: 3px solid #ff69b4;
+            box-shadow: var(--shadow-light);
+            transform: rotate(-1deg);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 1rem;
+            background-color: rgba(255, 215, 0, 0.5);
+            color: var(--text-secondary);
+            font-weight: bold;
+        }
+
+        .slide-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-family: 'Pacifico', cursive;
+            border: 2px solid white;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+            transform: rotate(5deg);
+        }
+
+        /* キッチュ Card Components */
+        .kitsch-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            margin: 1rem;
+            overflow: hidden;
+            border: var(--border-style);
+            position: relative;
+            transform: rotate(1deg);
+            transition: all 0.3s ease;
+        }
+
+        .kitsch-card::before {
+            content: "★";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 24px;
+            color: gold;
+        }
+
+        .kitsch-card:hover {
+            transform: translateY(-5px) rotate(-1deg);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .kitsch-card.wide {
+            width: 100%;
+        }
+
+        .kitsch-card.accent {
+            border: 5px dotted var(--accent-color);
+        }
+
+        .kitsch-card.accent-secondary {
+            border: 5px solid var(--secondary-color);
+            background: linear-gradient(45deg, #fff8dc, #ffecb3);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-family: 'Pacifico', cursive;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
+            transform: rotate(-2deg);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            font-family: 'Pacifico', cursive;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--tertiary-color);
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+            text-decoration: underline wavy var(--primary-color);
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* キッチュ Button */
+        .kitsch-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: 3px solid #ff1493;
+            padding: 0.8rem 1.8rem;
+            border-radius: var(--border-radius);
+            font-family: 'Comic Neue', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            transform: rotate(-1deg);
+            text-transform: uppercase;
+        }
+
+        .kitsch-button:hover {
+            transform: translateY(-3px) rotate(1deg);
+            box-shadow: var(--shadow-medium);
+            background-color: #ff69b4;
+        }
+
+        .kitsch-button.secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+            border: 3px solid var(--primary-color);
+        }
+
+        .kitsch-button.secondary:hover {
+            background-color: #ffe066;
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            border: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        li::marker {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            border: 5px solid var(--primary-color);
+            position: relative;
+            box-shadow: var(--shadow-light);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transform: rotate(-1deg);
+        }
+
+        /* Grid layout */
+        .kitsch-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .kitsch-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.5);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--tertiary-color));
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* キッチュ specific elements */
+        .flamingo {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 40px;
+            transform: rotate(15deg);
+            z-index: 5;
+            filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
+        }
+
+        .unicorn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 40px;
+            transform: rotate(-15deg);
+            z-index: 5;
+            filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
+        }
+
+        .rainbow-text {
+            background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        .sticker {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--tertiary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Pacifico', cursive;
+            font-size: 1rem;
+            transform: rotate(15deg);
+            box-shadow: var(--shadow-light);
+            border: 2px solid white;
+            z-index: 10;
+        }
+
+        .sticker.wow {
+            top: -15px;
+            right: 20px;
+            background-color: #ff69b4;
+        }
+
+        .sticker.cool {
+            bottom: -15px;
+            left: 20px;
+            background-color: #66d9ff;
+            transform: rotate(-15deg);
+        }
+
+        /* アニメーション */
+        @keyframes wiggle {
+            0% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+            100% { transform: rotate(-3deg); }
+        }
+
+        .wiggle {
+            animation: wiggle 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* 装飾効果 */
+        .glitter {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glitter::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18l-5-3 5-3m0 10v-4M11 3l-5 3 5 3m-10 0l5 3v-6l-5 3M0 18l5-3-5-3m10 0l-5-3v6l5-3M0 3l5 3-5 3m10 0l-5 3v-6l5 3' stroke='%23fff' stroke-opacity='.2' fill='%23fff' fill-opacity='.2'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="unicorn">🦄</div>
+            <div class="flamingo">🦩</div>
+            <div class="slide-content">
+                <div class="kitsch-card wide glitter">
+                    <div class="sticker wow">Wow!</div>
+                    <div class="sticker cool">Cool!</div>
+                    <h1>キッチュデザイン</h1>
+                    <h3 class="rainbow-text">華やかで大衆的な美学の世界</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="kitsch-button wiggle">スタート！</button>
+                    <button class="kitsch-button secondary wiggle">もっと見る！</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>ポップカルチャーデザインセミナー 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>キッチュとは？</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="kitsch-card wide">
+                    <div class="kitsch-grid">
+                        <div class="kitsch-card accent float">
+                            <h3>定義</h3>
+                            <p>キッチュとは、大衆的な趣味を反映した、しばしば派手で安価、感傷的、または過剰に装飾的な芸術やデザインのスタイルです。</p>
+                        </div>
+                        <div class="kitsch-card accent float" style="animation-delay: 0.5s;">
+                            <h3>起源</h3>
+                            <p>19世紀後半のドイツで生まれた概念で、「安っぽい」や「芸術的価値のない」という意味を持っていました。現在では、特定の美的スタイルとして再評価されています。</p>
+                        </div>
+                        <div class="kitsch-card accent-secondary float" style="animation-delay: 1s;">
+                            <h3>特徴</h3>
+                            <p>過剰な装飾、明るい色彩、大衆文化のモチーフ、感傷的なテーマなどが特徴です。「悪趣味」と「良趣味」の境界を曖昧にします。</p>
+                        </div>
+                        <div class="kitsch-card accent-secondary float" style="animation-delay: 1.5s;">
+                            <h3>目的</h3>
+                            <p>喜びや楽しさを直接的に表現し、エリート主義的な芸術観に挑戦します。親しみやすく、感情に訴えかけるデザインを目指します。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>ポップカルチャーデザインセミナー 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>キッチュの表現形式</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="kitsch-card wiggle">
+                    <h3>デザインと装飾品</h3>
+                    <p>フラミンゴの芝生オーナメント、ガーデンノーム、過剰に装飾されたインテリアなど、日常的な空間を彩る要素。</p>
+                    <ul>
+                        <li>大量生産された「芸術的」オブジェ</li>
+                        <li>レトロでノスタルジックなアイテム</li>
+                        <li>過剰な色彩と装飾が特徴</li>
+                    </ul>
+                </div>
+                <div class="kitsch-card wiggle" style="animation-delay: 0.3s;">
+                    <h3>ポップカルチャーとメディア</h3>
+                    <p>ディズニー、ハリウッド映画、ポップミュージック、観光地の土産物など、大衆文化における表現。</p>
+                    <ul>
+                        <li>感情に直接訴えかける要素</li>
+                        <li>親しみやすく、即座に理解できるシンボル</li>
+                        <li>「エリート文化」への対抗としての位置づけ</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>ポップカルチャーデザインセミナー 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>視覚的特徴</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="kitsch-card wide glitter">
+                    <h3 class="rainbow-text">キッチュデザインの要素</h3>
+                    <p>キッチュの視覚言語は、感情に直接訴えかける派手さと親しみやすさが特徴です。</p>
+                    <div class="kitsch-grid cols-3">
+                        <div class="kitsch-card">
+                            <h3>色彩</h3>
+                            <p>鮮やかなパステルカラー、ネオン、金色など、控えめさのない色彩パレット</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="キッチュの色彩" />
+                            </div>
+                        </div>
+                        <div class="kitsch-card">
+                            <h3>モチーフ</h3>
+                            <p>フラミンゴ、ユニコーン、レトロな家電、漫画的なキャラクターなど</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="キッチュのモチーフ" />
+                            </div>
+                        </div>
+                        <div class="kitsch-card">
+                            <h3>テクスチャ</h3>
+                            <p>プラスチック、キラキラした素材、人工的な質感、模造品</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="キッチュのテクスチャ" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>ポップカルチャーデザインセミナー 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="unicorn" style="top: 120px; right: 100px;">🦄</div>
+            <div class="flamingo" style="bottom: 120px; left: 100px;">🦩</div>
+            <div class="slide-header">
+                <h2>現代デザインにおけるキッチュ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="kitsch-card wide glitter">
+                    <h3 class="rainbow-text">キッチュの意義と影響</h3>
+                    <ul>
+                        <li>アイロニーとノスタルジア — 過去への感傷と現代的な皮肉の混合</li>
+                        <li>民主的なデザイン — エリート主義への挑戦と大衆文化の称賛</li>
+                        <li>感情の直接的表現 — 複雑な理論よりも即時的な感情的反応を重視</li>
+                        <li>ポストモダニズムとの関係 — 高級/低級文化の区別への疑問</li>
+                        <li>消費文化の反映 — 物質主義と大量生産時代のアイデンティティ</li>
+                    </ul>
+                    <p>キッチュは単なる「悪趣味」ではなく、文化的階層、消費、感情的つながりについての重要な対話を生み出す、豊かで複雑な美的表現です。現代デザインにおいて、意図的なキッチュの使用は、自己表現と文化的アイデンティティの強力な形態となっています。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="kitsch-button">もっと例を見る！</button>
+                        <button class="kitsch-button secondary">キッチュを作ろう！</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>ポップカルチャーデザインセミナー 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第3章 AIを活用したストーリーテリングとアウトライン設計 | PresenX</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0078d7;
+            --secondary-color: #106ebe;
+            --accent-color: #ffb900;
+            --text-color: #323130;
+            --background-color: #faf9f8;
+            --card-background: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --code-background: #f3f2f1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Meiryo UI', 'Yu Gothic UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .breadcrumb {
+            background-color: var(--card-background);
+            padding: 15px 0;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb-list li {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb-list li:not(:last-child)::after {
+            content: '>';
+            margin: 0 10px;
+            color: #666;
+        }
+
+        .breadcrumb-list a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .breadcrumb-list a:hover {
+            text-decoration: underline;
+        }
+
+        .chapter-content {
+            padding: 60px 0;
+            background-color: var(--card-background);
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chapter-number {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .chapter-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .chapter-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chapter-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .content-block {
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background-color: rgba(0, 120, 215, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .highlight-box-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .image-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .image-caption {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .code-block {
+            background-color: var(--code-background);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .table-container {
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            transition: transform 0.3s ease;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .example-prompt {
+            background-color: #f0f7ff;
+            border: 1px solid #cce5ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .example-prompt-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .prompt-input {
+            color: #333;
+            font-family: 'Consolas', 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+
+        .prompt-output {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ccc;
+            white-space: pre-wrap;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #444;
+        }
+
+        .diagram {
+            margin: 30px 0;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .diagram img {
+            max-width: 100%;
+        }
+
+        .steps-container {
+            margin: 30px 0;
+        }
+
+        .step {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .step-number {
+            flex: 0 0 50px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 25px;
+            width: 2px;
+            height: calc(100% - 30px);
+            background-color: #ccc;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .nav-button.prev i {
+            margin-right: 8px;
+        }
+
+        .nav-button.next i {
+            margin-left: 8px;
+        }
+
+        .nav-button.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-links {
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .chapter-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo">Presen<span>X</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="index.html#features">機能</a></li>
+                    <li><a href="index.html#toc">目次</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb-list">
+                <li><a href="index.html">ホーム</a></li>
+                <li><a href="index.html#toc">目次</a></li>
+                <li>第3章 AIを活用したストーリーテリングとアウトライン設計</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <main class="chapter-content">
+            <div class="chapter-header">
+                <span class="chapter-number">第3章</span>
+                <h1 class="chapter-title">AIを活用したストーリーテリングとアウトライン設計</h1>
+                <p class="chapter-subtitle">AIの力を借りて、説得力のあるストーリーを構築し、効果的なプレゼンテーションの骨組みを作成する方法を学びましょう</p>
+            </div>
+
+            <div class="chapter-section">
+                <h2 class="section-title">3.1 効果的なストーリーテリングの原則</h2>
+                
+                <div class="content-block">
+                    <h3>なぜストーリーテリングが重要なのか</h3>
+                    <p>
+                        人間の脳は、無機質な事実やデータよりも、ストーリーを通じて情報を処理し記憶することに適しています。効果的なストーリーテリングは、単なる情報伝達を超えて、感情的な共感を生み出し、記憶に残るメッセージを伝える力を持っています。
+                    </p>
+                    <p>
+                        プレゼンテーションにおいてストーリーテリングを活用することで、以下のような効果が期待できます：
+                    </p>
+                    <ul>
+                        <li>複雑な情報をわかりやすく伝えることができる</li>
+                        <li>感情的な共感を通じて聴衆の注意を引き付ける</li>
+                        <li>メッセージの記憶定着率が大幅に向上する</li>
+                        <li>抽象的な概念を具体的な文脈で理解しやすくする</li>
+                        <li>聴衆が自分自身を物語に投影し、個人的な関連性を見出す</li>
+                    </ul>
+                </div>
+
+                <div class="content-block">
+                    <h3>古典的なストーリー構造とその応用</h3>
+                    <p>
+                        効果的なストーリーには、時代や文化を超えて共通する構造的要素があります。これらの古典的な構造を理解し、プレゼンテーションに応用することで、より説得力のあるコミュニケーションが可能になります。
+                    </p>
+                    
+                    <div class="two-column">
+                        <div class="card">
+                            <h4 class="card-title">3幕構成</h4>
+                            <p><strong>第1幕（導入）：</strong>状況設定、登場人物の紹介、問題の提示</p>
+                            <p><strong>第2幕（展開）：</strong>葛藤の深化、解決への試み、障害との遭遇</p>
+                            <p><strong>第3幕（解決）：</strong>クライマックス、問題解決、結論</p>
+                            <p><strong>プレゼンへの応用：</strong>現状と課題の提示→解決策の検討と障壁の分析→最適解の提案と期待される成果</p>
+                        </div>
+                        <div class="card">
+                            <h4 class="card-title">ヒーローズジャーニー</h4>
+                            <p><strong>通常世界：</strong>主人公の日常</p>
+                            <p><strong>冒険への誘い：</strong>変化や挑戦の始まり</p>
+                            <p><strong>試練と成長：</strong>困難を乗り越え、学びを得る過程</p>
+                            <p><strong>帰還と変容：</strong>新たな知恵を持って元の世界に戻る</p>
+                            <p><strong>プレゼンへの応用：</strong>現状の課題→変革の必要性→実施プロセスと克服すべき障壁→実現後の理想状態</p>
+                        </div>
+                    </div>
+                    
+                    <div class="two-column">
+                        <div class="card">
+                            <h4 class="card-title">問題解決型構造</h4>
+                            <p><strong>問題提起：</strong>現状の課題や痛点を明確に描写</p>
+                            <p><strong>原因分析：</strong>問題が生じる根本的な原因を掘り下げる</p>
+                            <p><strong>解決策提示：</strong>問題を解決するための具体的なアプローチ</p>
+                            <p><strong>効果実証：</strong>解決策の効果を示す証拠や予測</p>
+                            <p><strong>プレゼンへの応用：</strong>ビジネス提案、技術ソリューション、改善プランなど</p>
+                        </div>
+                        <div class="card">
+                            <h4 class="card-title">対比型構造</h4>
+                            <p><strong>過去と現在：</strong>時間的変化を対比</p>
+                            <p><strong>問題と解決：</strong>課題とその解決策を対比</p>
+                            <p><strong>従来手法と新手法：</strong>方法論の対比</p>
+                            <p><strong>競合と自社：</strong>市場での位置づけを対比</p>
+                            <p><strong>プレゼンへの応用：</strong>製品比較、市場分析、技術革新の説明など</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter-section">
+                <h2 class="section-title">3.2 AIを活用したストーリー構築</h2>
+                
+                <div class="content-block">
+                    <h3>AIによるストーリーフレームワークの生成</h3>
+                    <p>
+                        AIは様々なストーリーフレームワークを理解し、プレゼンテーションの目的やオーディエンスに最適化されたストーリー構造を提案することができます。具体的なトピックや目標を入力することで、AIはそれに合わせた効果的なストーリーの骨組みを生成します。
+                    </p>
+                    
+                    <div class="example-prompt">
+                        <div class="example-prompt-title">AIプロンプト例：ストーリーフレームワーク生成</div>
+                        <div class="prompt-input">「新しいクラウドセキュリティソリューションを企業のIT責任者に提案するプレゼンテーションのストーリーフレームワークを作成してください。ヒーローズジャーニーの構造を応用し、現在のセキュリティ課題、既存ソリューションの限界、当社の革新的なアプローチ、導入後のメリットを含めてください。説得力を高めるため、具体的な事例やデータを組み込むべきポイントも示してください。」</div>
+                        <div class="prompt-output">
+# クラウドセキュリティソリューション提案プレゼンテーション：ストーリーフレームワーク
+
+## 1. 通常世界（現在のセキュリティ環境）
+- 企業のデジタルトランスフォーメーションとクラウド移行の現状
+- 増加するサイバー脅威のランドスケープ（最新の統計データを挿入）
+- IT責任者が日々直面しているセキュリティ課題
+
+## 2. 冒険への誘い（問題の深刻化と変革の必要性）
+- 従来のセキュリティアプローチの限界
+- 実際のセキュリティ侵害事例とその影響（具体的な事例を挿入）
+- 変化しないことのリスクと代償
+
+## 3. 試練と成長（ソリューションの探求と評価）
+- 既存ソリューションの検討と限界
+- 新たなアプローチの必要性
+- 当社ソリューションの革新的な特徴と差別化ポイント
+- 技術的背景と実装の課題（成功事例を挿入）
+
+## 4. 帰還と変容（ソリューション導入後の世界）
+- ソリューション導入後のセキュリティ体制の変化
+- 定量的・定性的なメリット（ROIデータを挿入）
+- 実際の導入企業の成功事例
+- 将来のセキュリティ課題に対する準備態勢の強化
+
+## 5. 次のステップと行動喚起
+- 実装プロセスの簡潔な概要
+- リソース要件と投資対効果
+- 明確な行動喚起と次のステップ
+</div>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <div class="highlight-box-title">AIを活用したストーリーフレームワーク生成のコツ</div>
+                        <ul>
+                            <li><strong>具体的な目的を明示する：</strong>情報提供、説得、意思決定支援など、プレゼンテーションの主目的を明確にAIに伝える</li>
+                            <li><strong>オーディエンス情報を提供する：</strong>聴衆の属性、知識レベル、関心事などの情報を含める</li>
+                            <li><strong>希望するストーリー構造があれば指定する：</strong>3幕構成、ヒーローズジャーニー、問題解決型など</li>
+                            <li><strong>キーメッセージや含めたい要素を列挙する：</strong>重要なポイントやデータを事前に整理しておく</li>
+                            <li><strong>反復的に改善する：</strong>AIの出力をベースに、さらに具体的な調整や詳細化を依頼する</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h3>感情的共感を生み出すAIの活用</h3>
+                    <p>
+                        効果的なストーリーテリングの鍵は、論理的な説得だけでなく、感情的な共感を生み出すことにあります。AIは、プレゼンテーションに感情的要素を組み込むための様々な技法を提案することができます。
+                    </p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>感情的要素</th>
+                                    <th>AIによる支援方法</th>
+                                    <th>効果的な使用シーン</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>個人的なエピソード</td>
+                                    <td>ストーリーに組み込むべき個人的なエピソードの構造やポイントを提案</td>
+                                    <td>導入部、挑戦や課題を説明する場面</td>
+                                </tr>
+                                <tr>
+                                    <td>メタファーやアナロジー</td>
+                                    <td>複雑な概念を身近な例えで説明するメタファーやアナロジーを生成</td>
+                                    <td>技術的・抽象的な概念の説明時</td>
+                                </tr>
+                                <tr>
+                                    <td>感情的なフレーミング</td>
+                                    <td>同じ情報を異なる感情的フレームで提示する方法を提案</td>
+                                    <td>提案や選択肢を提示する場面</td>
+                                </tr>
+                                <tr>
+                                    <td>共感的なストーリー</td>
+                                    <td>オーディエンスが共感できる登場人物や状況を含むストーリーを構築</td>
+                                    <td>課題や問題点を具体化する場面</td>
+                                </tr>
+                                <tr>
+                                    <td>感動的な結末</td>
+                                    <td>プレゼンテーションを印象的に締めくくるための結論部を作成</td>
+                                    <td>行動喚起、結論部</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chapter-section">
+                <h2 class="section-title">3.3 効果的なアウトライン設計のプロセス</h2>
+                
+                <div class="content-block">
+                    <h3>論理的なアウトライン構築の基本ステップ</h3>
+                    <p>
+                        効果的なプレゼンテーションは、明確で論理的なアウトラインに基づいています。AIを活用したアウトライン構築のプロセスを段階的に見ていきましょう。
+                    </p>
+                    
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>目的とメインメッセージの明確化</h4>
+                                <p>プレゼンテーションの主目的と伝えたい核心的なメッセージを明確にします。これはすべてのコンテンツの方向性を決定する基盤となります。</p>
+                                <p><strong>AIの活用：</strong>トピックと対象オーディエンスに基づいて、効果的なメインメッセージの候補をAIに提案してもらいます。</p>
+                                <div class="example-prompt">
+                                    <div class="example-prompt-title">プロンプト例</div>
+                                    <div class="prompt-input">「リモートワークのセキュリティリスクと対策について、IT担当者ではない一般の従業員向けプレゼンテーションのメインメッセージとなるべき3〜5の核心的なポイントを提案してください。技術的な専門用語は避け、日常的な行動に結びつけられる実用的なメッセージにしてください。」</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>主要セクションの特定</h4>
+                                <p>メインメッセージをサポートする主要なセクションを特定します。各セクションは明確なテーマを持ち、全体のストーリーの一部を形成します。</p>
+                                <p><strong>AIの活用：</strong>メインメッセージに基づいて、論理的なセクション構成をAIに提案してもらいます。</p>
+                                <div class="example-prompt">
+                                    <div class="example-prompt-title">プロンプト例</div>
+                                    <div class="prompt-input">「前述のリモートワークセキュリティのメインメッセージを効果的に伝えるための主要セクション構成を提案してください。20分のプレゼンテーション時間を想定し、導入、本論（3-4つの主要ポイント）、結論の流れで、各セクションの目的と含めるべき主な内容を概説してください。」</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>サブポイントと支持データの展開</h4>
+                                <p>各主要セクションを、より具体的なサブポイントに分解します。これらのサブポイントは、事実、データ、例示、引用などで裏付けられる必要があります。</p>
+                                <p><strong>AIの活用：</strong>各セクションを展開し、サポートするエビデンスの種類をAIに提案してもらいます。</p>
+                                <div class="example-prompt">
+                                    <div class="example-prompt-title">プロンプト例</div>
+                                    <div class="prompt-input">「リモートワークセキュリティプレゼンテーションの『パスワード管理とアカウント保護』セクションについて、3-4つの具体的なサブポイントとそれぞれをサポートするための効果的なデータや例示の種類を提案してください。一般従業員が実践できる具体的なアクションにつながるようにしてください。」</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>論理的な流れと接続の最適化</h4>
+                                <p>各セクション間、およびサブポイント間の論理的な接続を強化します。情報が自然に流れ、一貫したストーリーを形成するようにします。</p>
+                                <p><strong>AIの活用：</strong>セクション間の効果的な繋ぎや移行表現をAIに提案してもらいます。</p>
+                                <div class="example-prompt">
+                                    <div class="example-prompt-title">プロンプト例</div>
+                                    <div class="prompt-input">「リモートワークセキュリティプレゼンテーションの各セクション間の移行をスムーズにするための表現やフレーズを提案してください。特に『セキュリティ脅威の理解』から『パスワード管理とアカウント保護』、そして『安全なオンライン行動』への移行が自然に感じられるようにしたいです。」</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>導入部と結論部の強化</h4>
+                                <p>オーディエンスの注意を引く効果的な導入部と、メインメッセージを強化する印象的な結論部を設計します。</p>
+                                <p><strong>AIの活用：</strong>導入部と結論部の具体的な内容や表現をAIに提案してもらいます。</p>
+                                <div class="example-prompt">
+                                    <div class="example-prompt-title">プロンプト例</div>
+                                    <div class="prompt-input">「リモートワークセキュリティプレゼンテーションの導入部と結論部について、それぞれ3つの効果的なアプローチを提案してください。導入部ではオーディエンスの関心を引き、トピックの重要性を理解させる方法、結論部では主要メッセージを強化し、具体的な行動を促す方法を示してください。」</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h3>AIを活用したアウトライン最適化テクニック</h3>
+                    <p>
+                        AIの強みを活かして、アウトラインをさらに改善するための高度なテクニックを見ていきましょう。
+                    </p>
+                    
+                    <div class="two-column">
+                        <div class="card">
+                            <h4 class="card-title">複数構造の比較検討</h4>
+                            <p>
+                                同じ内容でも異なる構造で提示することで、最も効果的なアプローチを見つけることができます。
+                            </p>
+                            <p>
+                                <strong>AIの活用：</strong>同じトピックに対して、異なる構造（時系列、問題解決型、対比型など）のアウトラインをAIに生成してもらい比較します。
+                            </p>
+                            <div class="example-prompt">
+                                <div class="example-prompt-title">プロンプト例</div>
+                                <div class="prompt-input">「リモートワークセキュリティについて、以下の3つの異なる構造でアウトラインを作成してください：1) 問題解決型（課題→原因→解決策→効果）、2) シナリオベース（典型的な1日の流れに沿った構成）、3) カテゴリ別（デバイス、ネットワーク、アカウント、データ別の構成）。それぞれの長所と短所も簡潔に分析してください。」</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h4 class="card-title">オーディエンス視点の分析</h4>
+                            <p>
+                                異なるオーディエンスの視点からアウトラインを評価し、潜在的な疑問や反論に対応します。
+                            </p>
+                            <p>
+                                <strong>AIの活用：</strong>特定のオーディエンスの視点からアウトラインを分析し、強化ポイントをAIに提案してもらいます。
+                            </p>
+                            <div class="example-prompt">
+                                <div class="example-prompt-title">プロンプト例</div>
+                                <div class="prompt-input">「リモートワークセキュリティのアウトラインを、以下の3つの異なるオーディエンス視点から分析してください：1) 技術に不慣れな年配の従業員、2) 常に忙しく時間のない管理職、3) プライバシーに敏感な若手従業員。各オーディエンスが持ちそうな懸念や疑問、アウトラインで強化すべきポイントを指摘してください。」</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="two-column">
+                        <div class="card">
+                            <h4 class="card-title">情報密度の最適化</h4>
+                            <p>
+                                プレゼンテーションの時間制約に合わせて、情報の密度と優先順位を最適化します。
+                            </p>
+                            <p>
+                                <strong>AIの活用：</strong>時間制約に基づいて、アウトラインの詳細度を調整する提案をAIに依頼します。
+                            </p>
+                            <div class="example-prompt">
+                                <div class="example-prompt-title">プロンプト例</div>
+                                <div class="prompt-input">「リモートワークセキュリティのアウトラインについて、15分、30分、45分の3つの時間枠に最適化したバージョンを提案してください。各時間枠で優先すべき内容、省略可能な内容、詳細化すべき内容を明確にしてください。」</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h4 class="card-title">メモリアビリティの向上</h4>
+                            <p>
+                                オーディエンスが記憶しやすい構造やパターンを意識的に取り入れます。
+                            </p>
+                            <p>
+                                <strong>AIの活用：</strong>アウトラインの記憶定着率を高めるための修正をAIに提案してもらいます。
+                            </p>
+                            <div class="example-prompt">
+                                <div class="example-prompt-title">プロンプト例</div>
+                                <div class="prompt-input">「リモートワークセキュリティのアウトラインの記憶定着率を高めるための改善点を提案してください。メッセージの記憶されやすさを向上させるための構造的な変更、助けとなる頭字語やフレーズ、繰り返しパターンなどを含めてください。」</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <a href="chapter2.html" class="nav-button prev">
+                    <i class="fas fa-arrow-left"></i> 前の章へ
+                </a>
+                <a href="chapter4.html" class="nav-button next">
+                    次の章へ <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">ホーム</a>
+                <a href="index.html#features">機能</a>
+                <a href="index.html#toc">目次</a>
+                <a href="#">お問い合わせ</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 PresenX. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

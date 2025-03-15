@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memphis Style プレゼンテーション</title>
+    <style>
+        /* Memphis Design System の基本スタイル */
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --tertiary-color: #ffe66d;
+            --accent-color-1: #7b68ee;
+            --accent-color-2: #43d97b;
+            --background-color: #fffffe;
+            --card-background: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555555;
+            --border-radius: 0;
+            --pattern-dots: radial-gradient(var(--accent-color-1) 2px, transparent 2px);
+            --pattern-zigzag: linear-gradient(135deg, var(--tertiary-color) 25%, transparent 25%) 0 0,
+                              linear-gradient(225deg, var(--tertiary-color) 25%, transparent 25%) 0 0;
+            --transition-standard: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .slide-header:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: var(--pattern-zigzag);
+            background-size: 20px 20px;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            background-color: var(--accent-color-1);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transform: rotate(-5deg);
+            box-shadow: 3px 3px 0 var(--text-primary);
+        }
+
+        /* Memphis Card Components */
+        .memphis-card {
+            background: var(--card-background);
+            border: 3px solid var(--text-primary);
+            padding: 1.5rem;
+            margin: 1rem;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 8px 8px 0 var(--text-primary);
+            transform: rotate(-1deg);
+            transition: var(--transition-standard);
+        }
+
+        .memphis-card:hover {
+            transform: rotate(1deg) translateY(-5px);
+        }
+
+        .memphis-card.wide {
+            width: 100%;
+        }
+
+        .memphis-card.accent-1 {
+            border-color: var(--accent-color-1);
+            box-shadow: 8px 8px 0 var(--accent-color-1);
+        }
+
+        .memphis-card.accent-2 {
+            border-color: var(--accent-color-2);
+            box-shadow: 8px 8px 0 var(--accent-color-2);
+        }
+
+        .memphis-card::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--tertiary-color);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-shadow: 3px 3px 0 var(--text-primary);
+            transform: rotate(-2deg);
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            text-shadow: 2px 2px 0 var(--accent-color-1);
+            transform: rotate(-1deg);
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--accent-color-1);
+            position: relative;
+            display: inline-block;
+        }
+
+        h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--tertiary-color);
+            z-index: -1;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Memphis Button */
+        .memphis-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: 3px solid var(--text-primary);
+            padding: 0.7rem 1.5rem;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            position: relative;
+            box-shadow: 4px 4px 0 var(--text-primary);
+            overflow: hidden;
+        }
+
+        .memphis-button:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--text-primary);
+        }
+
+        .memphis-button.secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+        }
+
+        .memphis-button::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--tertiary-color);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color-2);
+            border: 3px solid var(--text-primary);
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 4px 0 var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition-standard);
+        }
+
+        .nav-button:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--text-primary);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        li::marker {
+            color: var(--accent-color-1);
+            font-size: 1.2em;
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid var(--text-primary);
+            position: relative;
+            transform: rotate(2deg);
+            box-shadow: 5px 5px 0 var(--text-primary);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .image-container::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: var(--tertiary-color);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        /* Grid layout */
+        .memphis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 2rem;
+            width: 100%;
+        }
+
+        .memphis-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Icons */
+        .memphis-icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            background-color: var(--primary-color);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: var(--background-color);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--primary-color),
+                var(--primary-color) 10px,
+                var(--accent-color-1) 10px,
+                var(--accent-color-1) 20px
+            );
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+        }
+
+        /* Memphis patterns */
+        .pattern-dots {
+            background-image: var(--pattern-dots);
+            background-size: 20px 20px;
+        }
+
+        .pattern-zigzag {
+            background-image: var(--pattern-zigzag);
+            background-size: 20px 20px;
+        }
+
+        .memphis-shape {
+            position: absolute;
+            z-index: -1;
+        }
+
+        .shape-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--tertiary-color);
+            border: 3px solid var(--text-primary);
+        }
+
+        .shape-triangle {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid var(--accent-color-2);
+        }
+
+        .shape-squiggle {
+            width: 100px;
+            height: 20px;
+            background-color: var(--accent-color-1);
+            border: 3px solid var(--text-primary);
+            border-radius: 20px 0 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Memphis shapes for background -->
+        <div class="memphis-shape shape-circle" style="top: 10%; left: 5%;"></div>
+        <div class="memphis-shape shape-triangle" style="bottom: 15%; right: 10%; transform: rotate(20deg);"></div>
+        <div class="memphis-shape shape-squiggle" style="top: 20%; right: 15%; transform: rotate(-15deg);"></div>
+        <div class="memphis-shape shape-circle" style="bottom: 10%; left: 15%; background-color: var(--accent-color-2);"></div>
+
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="memphis-card wide accent-1">
+                    <h1>Memphis Style デザイン</h1>
+                    <h3>80年代ポストモダンデザインのプレゼンテーション</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="memphis-button">スタート！</button>
+                    <button class="memphis-button secondary">もっと詳しく</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>Memphis Styleの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="memphis-card wide">
+                    <div class="memphis-grid">
+                        <div class="memphis-card accent-1">
+                            <h3>大胆な色使い</h3>
+                            <p>鮮やかで対照的な色彩を組み合わせ、視覚的インパクトを最大化します。パステルカラーと原色の共存が特徴です。</p>
+                        </div>
+                        <div class="memphis-card accent-2">
+                            <h3>幾何学模様</h3>
+                            <p>円、三角形、ジグザグなど、様々な幾何学的形状を自由に配置。規則性より遊び心を優先します。</p>
+                        </div>
+                        <div class="memphis-card accent-1">
+                            <h3>パターンの衝突</h3>
+                            <p>ドット、ストライプ、抽象的なパターンを意図的に衝突させることで、表現の自由を体現します。</p>
+                        </div>
+                        <div class="memphis-card accent-2">
+                            <h3>遊び心とユーモア</h3>
+                            <p>機能性よりも感情的な表現を重視。デザインに楽しさと驚きをもたらします。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>Memphis Styleの要素</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="memphis-card accent-1">
+                    <h3>Memphis カード</h3>
+                    <p>情報を楽しく表現するためのコンテナ要素です。</p>
+                    <ul>
+                        <li>太い境界線と大胆な影で存在感を主張</li>
+                        <li>わずかな傾きで活気と動きを表現</li>
+                        <li>幾何学的な装飾で視覚的興味を引き付ける</li>
+                    </ul>
+                </div>
+                <div class="memphis-card accent-2">
+                    <h3>Memphis ボタン</h3>
+                    <p>インタラクティブ要素も楽しさを演出します。</p>
+                    <div>
+                        <button class="memphis-button">プライマリー</button>
+                        <button class="memphis-button secondary">セカンダリー</button>
+                    </div>
+                    <p>ホバー時の動きが特徴的で、押したくなる視覚的魅力があります。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>Memphis Styleの歴史</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="memphis-card wide">
+                    <h3>反モダニズムの革命</h3>
+                    <p>Memphis Styleは1980年代初頭、イタリアのデザイナーEttore Sottsassによって設立されたMemphisグループから始まりました。</p>
+                    <div class="memphis-grid cols-3">
+                        <div class="memphis-card accent-1">
+                            <h3>誕生</h3>
+                            <p>1981年ミラノ</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="Memphis誕生" />
+                            </div>
+                        </div>
+                        <div class="memphis-card accent-2">
+                            <h3>全盛期</h3>
+                            <p>1980年代中期</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="Memphis全盛期" />
+                            </div>
+                        </div>
+                        <div class="memphis-card accent-1">
+                            <h3>現代の影響</h3>
+                            <p>2010年代〜現在</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="現代への影響" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="memphis-card wide pattern-dots">
+                    <h3>Memphis Styleの実装ポイント</h3>
+                    <ul>
+                        <li>大胆で対照的な色彩パレットを使用する</li>
+                        <li>幾何学的形状を自由に配置し、遊び心を表現する</li>
+                        <li>意図的に異なるパターンを組み合わせる</li>
+                        <li>完璧さよりも感情と楽しさを優先する</li>
+                        <li>フォントは太字でカジュアルなものを選択する</li>
+                        <li>影、境界線、傾きで立体感と動きを演出する</li>
+                    </ul>
+                    <p>現代のWebデザインにMemphis Styleを取り入れることで、ユニークで記憶に残るユーザー体験を創出できます。懐かしさと新鮮さを両立させた表現が可能です。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="memphis-button">資料をゲット!</button>
+                        <button class="memphis-button secondary">感想を送る</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>デザインワークショップ 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>

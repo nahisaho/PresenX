@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アール・デコ デザイン プレゼンテーション</title>
+    <style>
+        /* Art Deco Design System の基本スタイル */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary-color: #d4af37; /* ゴールド */
+            --secondary-color: #000000; /* ブラック */
+            --tertiary-color: #2e4053; /* ダークブルー */
+            --background-color: #f5f4f0;
+            --card-background: #ffffff;
+            --text-primary: #121212;
+            --text-secondary: #333333;
+            --accent-color: #b87333; /* コッパー */
+            --border-radius: 0px;
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 3px 3px 0px rgba(0, 0, 0, 0.2);
+            --shadow-deep: 5px 5px 0px rgba(0, 0, 0, 0.3);
+            --transition-standard: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            background-image: 
+                linear-gradient(30deg, var(--tertiary-color) 12%, transparent 12.5%, transparent 87%, var(--tertiary-color) 87.5%, var(--tertiary-color)),
+                linear-gradient(150deg, var(--tertiary-color) 12%, transparent 12.5%, transparent 87%, var(--tertiary-color) 87.5%, var(--tertiary-color)),
+                linear-gradient(30deg, var(--tertiary-color) 12%, transparent 12.5%, transparent 87%, var(--tertiary-color) 87.5%, var(--tertiary-color)),
+                linear-gradient(150deg, var(--tertiary-color) 12%, transparent 12.5%, transparent 87%, var(--tertiary-color) 87.5%, var(--tertiary-color)),
+                linear-gradient(60deg, rgba(46, 64, 83, 0.1) 25%, transparent 25.5%, transparent 75%, rgba(46, 64, 83, 0.1) 75%, rgba(46, 64, 83, 0.1)),
+                linear-gradient(60deg, rgba(46, 64, 83, 0.1) 25%, transparent 25.5%, transparent 75%, rgba(46, 64, 83, 0.1) 75%, rgba(46, 64, 83, 0.1));
+            background-position: 0 0, 0 0, 25px 25px, 25px 25px, 0 0, 25px 25px;
+            background-size: 50px 50px;
+            line-height: 1.6;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(245, 244, 240, 0.85);
+            z-index: -1;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .slide-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 2rem;
+            right: 2rem;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--primary-color),
+                var(--primary-color) 10px,
+                var(--secondary-color) 10px,
+                var(--secondary-color) 20px
+            );
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .slide-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .slide-number::before, 
+        .slide-number::after {
+            content: '●';
+            color: var(--primary-color);
+            margin: 0 8px;
+            font-size: 0.6rem;
+        }
+
+        /* Art Deco Card Components */
+        .artdeco-card {
+            background: var(--card-background);
+            border: 2px solid var(--secondary-color);
+            padding: 2rem;
+            box-shadow: var(--shadow-medium);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .artdeco-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--primary-color),
+                var(--primary-color) 10px,
+                var(--secondary-color) 10px,
+                var(--secondary-color) 20px
+            );
+        }
+
+        .artdeco-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .artdeco-card.wide {
+            width: 100%;
+        }
+
+        .artdeco-card.accent {
+            border-color: var(--primary-color);
+        }
+
+        .artdeco-card.accent::before {
+            background: var(--primary-color);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.2rem;
+            color: var(--secondary-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--tertiary-color);
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Art Deco Button */
+        .artdeco-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: 2px solid var(--secondary-color);
+            padding: 0.8rem 2rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            position: relative;
+        }
+
+        .artdeco-button:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--secondary-color);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .artdeco-button.secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .artdeco-button.secondary:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 45px;
+            height: 45px;
+            background-color: var(--secondary-color);
+            border: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-medium);
+            cursor: pointer;
+            transition: var(--transition-standard);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            box-shadow: var(--shadow-deep);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.7rem;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        ul li::before {
+            content: '■';
+            color: var(--primary-color);
+            margin-right: 0.8rem;
+            margin-left: -1.2rem;
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .image-container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid var(--primary-color);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        /* Grid layout */
+        .artdeco-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 2rem;
+            width: 100%;
+        }
+
+        .artdeco-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Art Deco pattern decorations */
+        .deco-corner {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: linear-gradient(45deg, var(--primary-color) 50%, transparent 50%);
+        }
+
+        .deco-corner-tl {
+            top: 0;
+            left: 0;
+            transform: rotate(0deg);
+        }
+
+        .deco-corner-tr {
+            top: 0;
+            right: 0;
+            transform: rotate(90deg);
+        }
+
+        .deco-corner-bl {
+            bottom: 0;
+            left: 0;
+            transform: rotate(270deg);
+        }
+
+        .deco-corner-br {
+            bottom: 0;
+            right: 0;
+            transform: rotate(180deg);
+        }
+
+        .deco-line {
+            position: absolute;
+            background-color: var(--primary-color);
+        }
+
+        .deco-line-h {
+            height: 2px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .deco-line-v {
+            width: 2px;
+            top: 20px;
+            bottom: 20px;
+        }
+
+        .deco-line-top {
+            top: 20px;
+        }
+
+        .deco-line-bottom {
+            bottom: 20px;
+        }
+
+        .deco-line-left {
+            left: 20px;
+        }
+
+        .deco-line-right {
+            right: 20px;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(0, 0, 0, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--primary-color),
+                var(--primary-color) 10px,
+                var(--secondary-color) 10px,
+                var(--secondary-color) 20px
+            );
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+        }
+
+        /* Geometric pattern accent for title slide */
+        .geometric-pattern {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-image: 
+                linear-gradient(0deg, transparent 0%, transparent 45%, var(--primary-color) 45%, var(--primary-color) 55%, transparent 55%, transparent 100%),
+                linear-gradient(90deg, transparent 0%, transparent 45%, var(--primary-color) 45%, var(--primary-color) 55%, transparent 55%, transparent 100%);
+            background-size: 40px 40px;
+            opacity: 0.4;
+        }
+
+        .pattern-top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        .pattern-bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        /* Gold accent zigzag (common in Art Deco) */
+        .zigzag-border {
+            position: absolute;
+            height: 10px;
+            left: 0;
+            right: 0;
+            background-image: linear-gradient(135deg, var(--primary-color) 25%, transparent 25%), 
+                             linear-gradient(225deg, var(--primary-color) 25%, transparent 25%);
+            background-size: 20px 20px;
+        }
+
+        .zigzag-top {
+            top: 0;
+        }
+
+        .zigzag-bottom {
+            bottom: 0;
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="geometric-pattern pattern-top-right"></div>
+            <div class="geometric-pattern pattern-bottom-left"></div>
+            <div class="slide-content">
+                <div class="artdeco-card wide">
+                    <h1>アール・デコ デザイン</h1>
+                    <h3>豪華さと幾何学的な美の融合</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="artdeco-button">開始する</button>
+                    <button class="artdeco-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>アール・デコの特徴</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="artdeco-card wide">
+                    <div class="artdeco-grid">
+                        <div class="artdeco-card accent">
+                            <h3>豪華さと装飾性</h3>
+                            <p>贅沢な素材、金箔やクロムなどの光沢のある金属、鮮やかな色彩を活用した豪華で装飾的なデザインが特徴です。</p>
+                        </div>
+                        <div class="artdeco-card accent">
+                            <h3>大胆な幾何学模様</h3>
+                            <p>ジグザグ、チェブロン、サンバースト、階段状のモチーフなど、対称的で幾何学的なパターンが頻繁に使われます。</p>
+                        </div>
+                        <div class="artdeco-card accent">
+                            <h3>近代性と機能性</h3>
+                            <p>装飾的でありながらも、工業化時代の影響を受けた直線的で洗練されたデザインが採用されています。</p>
+                        </div>
+                        <div class="artdeco-card accent">
+                            <h3>エキゾチックな影響</h3>
+                            <p>エジプト、アフリカ、中東など様々な文化からインスピレーションを得た独特のモチーフが見られます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>デザイン要素</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="artdeco-card">
+                    <h3>視覚的特徴</h3>
+                    <p>アール・デコスタイルを構成する主要な視覚要素をご紹介します。</p>
+                    <ul>
+                        <li>ステップ状のシルエットと鋭角的な形状</li>
+                        <li>対称的で大胆なパターンのコントラスト</li>
+                        <li>金、銀、黒の組み合わせによる光沢のある表現</li>
+                        <li>幾何学的なストライプと放射状のパターン</li>
+                    </ul>
+                </div>
+                <div class="artdeco-card">
+                    <h3>タイポグラフィ</h3>
+                    <p>アール・デコのタイポグラフィは、幾何学的で装飾性のあるフォントが特徴です。</p>
+                    <div>
+                        <button class="artdeco-button">プライマリー</button>
+                        <button class="artdeco-button secondary">セカンダリー</button>
+                    </div>
+                    <p>これらのボタンにも使われている大胆で直線的な書体が特徴的です。</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>歴史的背景</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="artdeco-card wide">
+                    <h3>1920年代〜1930年代の芸術運動</h3>
+                    <p>アール・デコは、第一次世界大戦後のヨーロッパと米国で発展した装飾芸術のスタイルです。</p>
+                    <div class="artdeco-grid cols-3">
+                        <div class="artdeco-card">
+                            <h3>パリ万博</h3>
+                            <p>1925年の国際装飾芸術博覧会</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="パリ万博の展示" />
+                            </div>
+                        </div>
+                        <div class="artdeco-card">
+                            <h3>建築物</h3>
+                            <p>クライスラービルなどの摩天楼</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="アールデコ建築" />
+                            </div>
+                        </div>
+                        <div class="artdeco-card">
+                            <h3>ハリウッド</h3>
+                            <p>映画産業への影響</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="ハリウッドデコ" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="zigzag-border zigzag-top"></div>
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="artdeco-card wide">
+                    <h3>アール・デコの現代的応用</h3>
+                    <ul>
+                        <li>豪華で装飾的な幾何学パターンを効果的に活用する</li>
+                        <li>高いコントラストと鮮やかな色彩でインパクトを強調する</li>
+                        <li>対称性とバランスを重視したレイアウトを構築する</li>
+                        <li>金、銀などの金属色を差し色として取り入れる</li>
+                        <li>大胆で直線的なタイポグラフィで視覚的インパクトを高める</li>
+                    </ul>
+                    <p>アール・デコのエッセンスをデジタルデザインに取り入れることで、クラシックでありながらも現代的で洗練された印象を与えることができます。</p>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="artdeco-button">ダウンロード</button>
+                        <button class="artdeco-button secondary">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="zigzag-border zigzag-bottom"></div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>

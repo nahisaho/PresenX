@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アフロフューチャリズム プレゼンテーション</title>
+    <style>
+        /* Afrofuturism Design System スタイル */
+        :root {
+            --primary-color: #9d4edd;
+            --secondary-color: #7b2cbf;
+            --tertiary-color: #ff7f50;
+            --background-color: #10002b;
+            --card-background: #240046;
+            --text-primary: #ffffff;
+            --text-secondary: #c8b6ff;
+            --accent-color: #ffd700;
+            --accent-secondary: #00b4d8;
+            --border-radius: 8px;
+            --shadow-light: 0 2px 10px rgba(157, 78, 221, 0.3);
+            --shadow-medium: 0 4px 20px rgba(157, 78, 221, 0.4);
+            --shadow-deep: 0 8px 30px rgba(157, 78, 221, 0.5);
+            --transition-standard: all 0.3s ease;
+            --pattern-overlay: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            background-image: var(--pattern-overlay);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .slide-header::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color), var(--accent-secondary));
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            box-shadow: 0 0 10px rgba(157, 78, 221, 0.7);
+        }
+
+        /* Afrofuturism Card Components */
+        .afro-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            overflow: hidden;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            position: relative;
+        }
+
+        .afro-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(0, 0, 0, 0));
+            pointer-events: none;
+        }
+
+        .afro-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .afro-card.wide {
+            width: 100%;
+        }
+
+        .afro-card.accent {
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .afro-card.accent-secondary {
+            border-left: 4px solid var(--accent-secondary);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(157, 78, 221, 0.5);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--accent-color);
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Afrofuturism Button */
+        .afro-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: var(--border-radius);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .afro-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(30deg);
+            transition: transform 0.5s ease;
+        }
+
+        .afro-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .afro-button:hover::after {
+            transform: rotate(30deg) translate(50%, 50%);
+        }
+
+        .afro-button.secondary {
+            background: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .afro-button.secondary:hover {
+            background-color: rgba(157, 78, 221, 0.1);
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-medium);
+            cursor: pointer;
+            transition: var(--transition-standard);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.8);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        li::marker {
+            color: var(--accent-color);
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            position: relative;
+        }
+
+        .image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), transparent);
+            pointer-events: none;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Grid layout */
+        .afro-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .afro-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Icon placeholders */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            background-color: var(--accent-color);
+            mask-size: cover;
+            -webkit-mask-size: cover;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(157, 78, 221, 0.2);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color), var(--accent-secondary));
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
+        }
+
+        /* Cosmic effect (Afrofuturism signature) */
+        .cosmic {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            background-color: rgba(36, 0, 70, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .cosmic::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(circle, rgba(255, 215, 0, 0.1) 1px, transparent 1px),
+                radial-gradient(circle, rgba(157, 78, 221, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px, 20px 20px;
+            background-position: 0 0, 15px 15px;
+            animation: starsAnimation 100s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes starsAnimation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Glow effect */
+        .glow-text {
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .glow-border {
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        /* Theme colors */
+        .theme-purple {
+            color: var(--primary-color);
+        }
+
+        .theme-gold {
+            color: var(--accent-color);
+        }
+
+        .theme-cyan {
+            color: var(--accent-secondary);
+        }
+
+        /* Animation for star field */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="afro-card wide cosmic">
+                    <h1>アフロフューチャリズム</h1>
+                    <h3>未来を想像し直す黒人の文化的美学</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="afro-button">探索を始める</button>
+                    <button class="afro-button secondary">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>宇宙文化シンポジウム 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>アフロフューチャリズムとは</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="afro-card wide">
+                    <div class="afro-grid">
+                        <div class="afro-card accent">
+                            <h3>定義</h3>
+                            <p>アフロフューチャリズムは、アフリカ系の歴史と文化を未来のテクノロジーや宇宙的視点と融合させた美学・哲学・文化運動です。</p>
+                        </div>
+                        <div class="afro-card accent">
+                            <h3>起源</h3>
+                            <p>1990年代にマーク・デリー批評家によって命名されましたが、その要素は1950年代のジャズミュージシャン・サン・ラーにまで遡ります。</p>
+                        </div>
+                        <div class="afro-card accent-secondary">
+                            <h3>哲学</h3>
+                            <p>テクノロジー、SFの要素、神話、ファンタジーを通じて黒人のアイデンティティと可能性を再考します。</p>
+                        </div>
+                        <div class="afro-card accent-secondary">
+                            <h3>目的</h3>
+                            <p>人種的ステレオタイプを超え、黒人の経験を再定義し、より公平で包括的な未来を想像します。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>宇宙文化シンポジウム 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>主要な表現分野</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="afro-card float-animation">
+                    <h3 class="theme-gold">文学と映画</h3>
+                    <p>オクタヴィア・バトラー、N.K.ジェミシン、ライアン・クーグラー監督の『ブラックパンサー』などが代表作です。</p>
+                    <ul>
+                        <li>歴史改変と未来構想の融合</li>
+                        <li>テクノロジーと伝統文化の共存</li>
+                        <li>ディストピアとユートピアの交差点</li>
+                    </ul>
+                </div>
+                <div class="afro-card float-animation" style="animation-delay: 0.3s;">
+                    <h3 class="theme-cyan">音楽とアート</h3>
+                    <p>サン・ラー、ジャネール・モネイ、ジャン-ミシェル・バスキアなどの作品に見られます。</p>
+                    <ul>
+                        <li>宇宙的なイメージと音響</li>
+                        <li>アフリカの神話とSF要素の融合</li>
+                        <li>未来的な美学と精神性の探求</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>宇宙文化シンポジウム 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>視覚的特徴</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="afro-card wide cosmic">
+                    <h3 class="glow-text">アフロフューチャリズムのデザイン要素</h3>
+                    <p>アフロフューチャリズムの視覚言語は、独特のアイデンティティと未来志向を表現します。</p>
+                    <div class="afro-grid cols-3">
+                        <div class="afro-card glow-border">
+                            <h3 class="theme-gold">色彩</h3>
+                            <p>鮮やかな紫、金、シアン、深い青などの宇宙的色彩パレット</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="アフロフューチャリズムの色彩" />
+                            </div>
+                        </div>
+                        <div class="afro-card glow-border">
+                            <h3 class="theme-purple">パターン</h3>
+                            <p>アフリカの伝統的模様と幾何学的未来主義の融合</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="アフロフューチャリズムのパターン" />
+                            </div>
+                        </div>
+                        <div class="afro-card glow-border">
+                            <h3 class="theme-cyan">アイコノグラフィー</h3>
+                            <p>宇宙、天体、古代エジプト、未来的テクノロジーの象徴</p>
+                            <div class="image-container">
+                                <img src="/api/placeholder/300/200" alt="アフロフューチャリズムのアイコン" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>宇宙文化シンポジウム 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>現代社会への影響</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="afro-card wide cosmic">
+                    <h3 class="glow-text">アフロフューチャリズムの重要性</h3>
+                    <ul>
+                        <li>多様性と包括性の拡大 — 黒人のナラティブを科学技術と未来の言説に組み込む</li>
+                        <li>集合的トラウマの癒し — 歴史的な不正義を認識しながらも、希望と可能性に焦点を当てる</li>
+                        <li>創造的革新 — アフリカの知恵とテクノロジーの新たな組み合わせを探求</li>
+                        <li>文化的コメンタリー — 現代社会の課題に対する批評的視点を提供</li>
+                        <li>幅広い芸術表現の影響 — 音楽からファッション、映画、ゲームデザインまで</li>
+                    </ul>
+                    <p>アフロフューチャリズムは単なる美学ではなく、過去、現在、未来を結ぶ哲学的レンズであり、より公平で多様な未来を想像するための強力なツールです。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="afro-button">リソース探索</button>
+                        <button class="afro-button secondary">ディスカッション参加</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>宇宙文化シンポジウム 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Design プレゼンテーション</title>
+    <style>
+        /* Material Design System の基本スタイル */
+        :root {
+            --primary-color: #6200ee;
+            --primary-dark: #3700b3;
+            --primary-light: #bb86fc;
+            --secondary-color: #03dac6;
+            --secondary-dark: #018786;
+            --background-color: #f5f5f5;
+            --surface-color: #ffffff;
+            --error-color: #b00020;
+            --text-primary: rgba(0, 0, 0, 0.87);
+            --text-secondary: rgba(0, 0, 0, 0.6);
+            --text-disabled: rgba(0, 0, 0, 0.38);
+            --border-radius: 4px;
+            --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            --shadow-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            --shadow-4: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            --shadow-5: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+            --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-family: 'Roboto', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--text-primary);
+            background-color: var(--background-color);
+            line-height: 1.5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 1;
+        }
+
+        .slide-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 2rem;
+        }
+
+        .slide-footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .slide-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Material Card Components */
+        .material-card {
+            background: var(--surface-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-1);
+            transition: var(--transition-standard);
+            margin: 1rem;
+            overflow: hidden;
+        }
+
+        .material-card:hover {
+            box-shadow: var(--shadow-2);
+        }
+
+        .material-card.wide {
+            width: 100%;
+        }
+
+        .material-card.elevated {
+            box-shadow: var(--shadow-2);
+        }
+
+        .material-card.elevated:hover {
+            box-shadow: var(--shadow-3);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Material Button */
+        .material-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.25px;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .material-button:hover {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-2);
+        }
+
+        .material-button:after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .3s, opacity .5s;
+        }
+
+        .material-button:active:after {
+            transform: scale(0, 0);
+            opacity: .3;
+            transition: 0s;
+        }
+
+        .material-button.outlined {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            box-shadow: none;
+        }
+
+        .material-button.outlined:hover {
+            background-color: rgba(98, 0, 238, 0.08);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-standard);
+        }
+
+        .fab:hover {
+            box-shadow: var(--shadow-3);
+            background-color: var(--secondary-dark);
+        }
+
+        /* Navigation controls */
+        .slide-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--surface-color);
+            color: var(--primary-color);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-2);
+            cursor: pointer;
+            transition: var(--transition-standard);
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-3);
+        }
+
+        /* List styles */
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Image container */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Grid layout */
+        .material-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .material-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(0, 0, 0, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 20%; /* Will be updated by JS */
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Elevation classes */
+        .elevation-1 { box-shadow: var(--shadow-1); }
+        .elevation-2 { box-shadow: var(--shadow-2); }
+        .elevation-3 { box-shadow: var(--shadow-3); }
+        .elevation-4 { box-shadow: var(--shadow-4); }
+        .elevation-5 { box-shadow: var(--shadow-5); }
+
+        /* Color System Elements */
+        .color-chip {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            margin: 0.5rem;
+            box-shadow: var(--shadow-1);
+        }
+
+        .color-primary { background-color: var(--primary-color); }
+        .color-primary-light { background-color: var(--primary-light); }
+        .color-secondary { background-color: var(--secondary-color); }
+        .color-surface { background-color: var(--surface-color); border: 1px solid rgba(0,0,0,0.12); }
+        .color-error { background-color: var(--error-color); }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Title Slide -->
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <div class="material-card wide elevated">
+                    <h1>Material Design プレゼンテーション</h1>
+                    <h3>Google風デザインのHTML/CSSプレゼンテーション</h3>
+                    <p>作成日: 2025年3月15日</p>
+                    <button class="material-button">開始する</button>
+                    <button class="material-button outlined">詳細情報</button>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">1</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 1 -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h2>Material Designの基本原則</h2>
+                <div class="slide-number">2</div>
+            </div>
+            <div class="slide-content">
+                <div class="material-card wide">
+                    <div class="material-grid">
+                        <div class="material-card elevation-2">
+                            <h3>マテリアルは比喩</h3>
+                            <p>紙と同様の質感と物理的特性を持つ表面と、その表面に表示されるコンテンツが基本です。</p>
+                        </div>
+                        <div class="material-card elevation-2">
+                            <h3>大胆、意図的、美的</h3>
+                            <p>印刷デザインの基本（タイポグラフィ、グリッド、スペース、色、画像）がユーザー体験を導きます。</p>
+                        </div>
+                        <div class="material-card elevation-2">
+                            <h3>動きが意味を与える</h3>
+                            <p>ユーザーの行動に対するフィードバックとして、自然で意味のあるアニメーションを提供します。</p>
+                        </div>
+                        <div class="material-card elevation-2">
+                            <h3>柔軟性</h3>
+                            <p>基本デザイン言語を維持しながら、ブランドの個性を表現できる柔軟なシステムです。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">2</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 2 -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h2>エレベーションと影</h2>
+                <div class="slide-number">3</div>
+            </div>
+            <div class="slide-content">
+                <div class="material-card">
+                    <h3>マテリアルの深度</h3>
+                    <p>Material Designでは、影の大きさと強さで要素のエレベーション（高さ）を表現します。</p>
+                    <div style="display: flex; justify-content: space-around; margin: 2rem 0;">
+                        <div>
+                            <div class="color-chip elevation-1"></div>
+                            <p style="text-align: center">dp 1</p>
+                        </div>
+                        <div>
+                            <div class="color-chip elevation-2"></div>
+                            <p style="text-align: center">dp 3</p>
+                        </div>
+                        <div>
+                            <div class="color-chip elevation-3"></div>
+                            <p style="text-align: center">dp 6</p>
+                        </div>
+                        <div>
+                            <div class="color-chip elevation-4"></div>
+                            <p style="text-align: center">dp 12</p>
+                        </div>
+                        <div>
+                            <div class="color-chip elevation-5"></div>
+                            <p style="text-align: center">dp 24</p>
+                        </div>
+                    </div>
+                    <p>光源は常に画面の上から照射され、一貫した影を作り出します。</p>
+                </div>
+                <div class="material-card">
+                    <h3>コンポーネントの階層</h3>
+                    <p>各UIコンポーネントは特定のエレベーションを持ちます：</p>
+                    <ul>
+                        <li>カード: 1dp（静止時）、8dp（選択時）</li>
+                        <li>アプリバー: 4dp</li>
+                        <li>フローティングアクションボタン: 6dp</li>
+                        <li>ナビゲーションドロワー: 16dp</li>
+                        <li>ダイアログ: 24dp</li>
+                    </ul>
+                    <button class="material-button">通常ボタン</button>
+                    <div class="fab" style="margin: 1rem auto;">+</div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">3</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Content Slide 3 -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h2>カラーシステム</h2>
+                <div class="slide-number">4</div>
+            </div>
+            <div class="slide-content">
+                <div class="material-card wide">
+                    <h3>表現力豊かな色彩体系</h3>
+                    <p>Material Designでは体系的な色彩設計で視覚的一貫性を確保します。</p>
+                    <div class="material-grid cols-3">
+                        <div class="material-card">
+                            <h3>プライマリーカラー</h3>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                                <div class="color-chip color-primary"></div>
+                                <div class="color-chip color-primary-light"></div>
+                            </div>
+                            <p>ブランドを表すメインカラーとその派生色</p>
+                        </div>
+                        <div class="material-card">
+                            <h3>セカンダリーカラー</h3>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                                <div class="color-chip color-secondary"></div>
+                            </div>
+                            <p>アクセントとして使用し、主要なアクションを強調</p>
+                        </div>
+                        <div class="material-card">
+                            <h3>サーフェスとエラー</h3>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                                <div class="color-chip color-surface"></div>
+                                <div class="color-chip color-error"></div>
+                            </div>
+                            <p>背景色とエラー表示用の特殊カラー</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">4</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Summary Slide -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h2>まとめ</h2>
+                <div class="slide-number">5</div>
+            </div>
+            <div class="slide-content">
+                <div class="material-card wide elevated">
+                    <h3>Material Designの実装ポイント</h3>
+                    <ul>
+                        <li>物理的な紙の性質を模倣した表面とレイヤー</li>
+                        <li>一貫したシャドウシステムで深度と階層を表現</li>
+                        <li>意味のある自然なアニメーションで体験を向上</li>
+                        <li>体系的なカラーシステムでブランドアイデンティティを確立</li>
+                        <li>レスポンシブデザインを考慮した8dpベースのグリッドシステム</li>
+                    </ul>
+                    <p>HTML/CSSでのMaterial Design実装には、Googleの公式ドキュメントと提供されているコンポーネントライブラリを活用することをお勧めします。</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="material-button">ドキュメント</button>
+                        <button class="material-button outlined">フィードバック</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div>AI Training Workshop 2025</div>
+                <div>スライド <span class="slide-number">5</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="slide-controls">
+            <button class="nav-button" id="prev">◀</button>
+            <button class="nav-button" id="next">▶</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple slide navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const progressBar = document.getElementById('progress');
+        let currentSlide = 0;
+
+        // Update slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Add ripple effect to buttons
+        const buttons = document.querySelectorAll('.material-button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.style.position = 'absolute';
+                ripple.style.width = '1px';
+                ripple.style.height = '1px';
+                ripple.style.borderRadius = '50%';
+                ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.animation = 'ripple 0.6s linear';
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+
+        // Add ripple effect style
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(100);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
+        updateSlides();
+    </script>
+</body>
+</html>
