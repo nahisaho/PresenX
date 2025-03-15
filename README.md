@@ -3,7 +3,7 @@
 
 Seamlessly generate outlines, scenarios, and slide decks with AI-driven precision. Elevate your presentations with structured storytelling and dynamic visuals.
 
-🔹 Features
+## Features
 
 ✅ AI-assisted presentation framework
 
