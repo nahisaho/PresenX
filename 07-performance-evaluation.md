@@ -1,3 +1,8 @@
+---
+layout: default
+title: "パフォーマンス評価"
+---
+
 # パフォーマンス評価
 
 ## 📊 PrezenXの期待される成果

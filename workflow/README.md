@@ -1,3 +1,8 @@
+---
+layout: default
+title: PrezenX Workflow ガイド
+---
+
 # PrezenX Workflow ガイド
 
 ## 🎯 概要

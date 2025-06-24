@@ -1,0 +1,68 @@
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    themeVariables: {
+      primaryColor: '#0066cc',
+      primaryTextColor: '#333333',
+      primaryBorderColor: '#0052a3',
+      lineColor: '#666666',
+      sectionBkColor: '#f8f9fa',
+      altSectionBkColor: '#ffffff',
+      gridColor: '#e9ecef',
+      textColor: '#333333',
+      fillType0: '#e3f2fd',
+      fillType1: '#f3e5f5',
+      fillType2: '#e8f5e8',
+      fillType3: '#fff3e0',
+      fillType4: '#ffecb3'
+    },
+    flowchart: {
+      htmlLabels: true,
+      curve: 'basis'
+    }
+  });
+
+  // Convert mermaid code blocks to diagrams
+  document.addEventListener('DOMContentLoaded', function() {
+    const mermaidBlocks = document.querySelectorAll('pre code.language-mermaid, code.language-mermaid');
+    mermaidBlocks.forEach((block, index) => {
+      const code = block.textContent;
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code;
+      div.id = 'mermaid-' + index;
+      
+      if (block.parentNode.tagName === 'PRE') {
+        block.parentNode.parentNode.replaceChild(div, block.parentNode);
+      } else {
+        block.parentNode.replaceChild(div, block);
+      }
+    });
+  });
+</script>
+
+<style>
+  .mermaid {
+    text-align: center;
+    margin: 2rem 0;
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow-x: auto;
+  }
+  
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .mermaid {
+      margin: 1rem 0;
+      padding: 0.5rem;
+    }
+  }
+</style>

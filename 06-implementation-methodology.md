@@ -1,3 +1,8 @@
+---
+layout: default
+title: 実装方法論
+---
+
 # 実装方法論
 
 ## 🚀 PrezenX協働開発メソドロジー

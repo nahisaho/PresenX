@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Phase 1: 要件定義"
+---
+
 # CLAUDE.md - Phase 1: 要件定義
 
 ## 🎯 フェーズ概要

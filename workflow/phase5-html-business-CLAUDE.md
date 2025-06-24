@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Phase 5: HTML生成（Business版）"
+---
+
 # CLAUDE.md - Phase 5: HTML生成（Business版）
 
 ## 🎯 フェーズ概要

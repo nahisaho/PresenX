@@ -18,6 +18,12 @@ kramdown:
   syntax_highlighter: rouge
   syntax_highlighter_opts:
     css_class: 'highlight'
+  parse_block_html: true
+  parse_span_html: true
+
+# Mermaid.js support
+mermaid:
+  enabled: true
 
 # 相対リンク設定
 relative_links:

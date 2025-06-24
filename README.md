@@ -1,3 +1,8 @@
+---
+layout: default
+title: "PrezenX"
+---
+
 # PrezenX
 
 **VS Code + Claude Code で実現する次世代プレゼンテーション開発フレームワーク**
@@ -6,6 +11,49 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 [![VS Code](https://img.shields.io/badge/VS%20Code-Integrated-blue)](https://code.visualstudio.com/)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Powered-purple)](https://claude.ai/code)
+
+---
+
+## 📁 プロジェクト構成
+
+```
+PrezenX/
+├── CLAUDE.md                         # メインプロジェクト管理
+├── README.md                         # プロジェクト概要
+├── 01-executive-summary.md           # エグゼクティブサマリー
+├── 02-background-challenges.md       # 背景と課題
+├── 03-technical-architecture.md      # 技術アーキテクチャ
+├── 04-features-specifications.md     # 主要機能と技術仕様
+├── 05-environment-setup.md           # 環境構築（WSL、Claude Code、VS Code等）
+├── 06-implementation-methodology.md  # 実装方法論
+├── 07-performance-evaluation.md      # パフォーマンスと評価
+├── 08-epilogue.md                    # エピローグ・将来展望
+├── workflow/                         # 各フェーズの実装
+│   ├── README.md                     # ワークフローガイド
+│   ├── phase1-requirements-CLAUDE.md # Phase 1: 要件定義
+│   ├── phase2-concept-CLAUDE.md      # Phase 2: コンセプト設計
+│   ├── phase3-context-CLAUDE.md      # Phase 3: コンテキスト作成
+│   ├── phase4-visual-CLAUDE.md       # Phase 4: ビジュアル開発
+│   ├── phase5-html-general-CLAUDE.md # Phase 5: 汎用HTML生成
+│   ├── phase5-html-technical-CLAUDE.md # Phase 5: 技術HTML生成
+│   ├── phase5-html-business-CLAUDE.md # Phase 5: ビジネスHTML生成
+│   ├── phase5-html-academic-CLAUDE.md # Phase 5: 学術HTML生成
+│   ├── phase5-html-educational-CLAUDE.md # Phase 5: 教育HTML生成
+│   ├── phase6-quality-CLAUDE.md      # Phase 6: 品質確認
+│   └── phase7-deploy-CLAUDE.md       # Phase 7: デプロイ・公開
+├── design_samples/                   # デザインサンプル集
+│   ├── README.md                     # デザインガイド
+│   ├── fluent-design-presentation.html # Fluent Design
+│   ├── material-design-presentation.html # Material Design
+│   ├── dark-mode-presentation.html   # Dark Mode
+│   ├── glassmorphism-presentation.html # Glassmorphism
+│   ├── minimalist-design-presentation.html # Minimalist
+│   ├── chalkboard-presentation.html  # Chalkboard
+│   └── ... (他16種類のデザインサンプル)
+├── index.html                        # GitHub Pages メインページ
+├── LICENSE.txt                       # MITライセンス
+└── _config.yml                       # Jekyll設定
+```
 
 ---
 

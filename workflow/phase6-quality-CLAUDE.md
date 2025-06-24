@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Phase 6: 品質確認"
+---
+
 # CLAUDE.md - Phase 6: 品質確認
 
 ## 🎯 フェーズ概要

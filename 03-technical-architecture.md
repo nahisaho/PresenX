@@ -1,3 +1,8 @@
+---
+layout: default
+title: 技術アーキテクチャ
+---
+
 # 技術アーキテクチャ
 
 ## 🏗️ PrezenXの技術設計思想

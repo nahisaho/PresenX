@@ -1,3 +1,8 @@
+---
+layout: default
+title: デザインサンプル集
+---
+
 # PrezenX デザインサンプル集
 
 ## 🎨 概要
@@ -12,53 +17,53 @@
 
 | デザイン | ファイル | 適用場面 | 特徴 |
 |:---:|:---:|:---:|:---:|
-| **Fluent Design** | `fluent-design-presentation.html` | 汎用・ビジネス | Microsoft標準、洗練された質感 |
-| **Material Design** | `material-design-presentation.html` | モダンビジネス | Google標準、カード型レイアウト |
-| **Flat Design** | `flat-design-presentation.html` | シンプルプレゼン | フラット、清潔感、読みやすさ |
-| **Minimalist Design** | `minimalist-design-presentation.html` | 高級ブランド | 余白重視、上品、集中力向上 |
+| **Fluent Design** | [`fluent-design-presentation.html`](./fluent-design-presentation.html) | 汎用・ビジネス | Microsoft標準、洗練された質感 |
+| **Material Design** | [`material-design-presentation.html`](./material-design-presentation.html) | モダンビジネス | Google標準、カード型レイアウト |
+| **Flat Design** | [`flat-design-presentation.html`](./flat-design-presentation.html) | シンプルプレゼン | フラット、清潔感、読みやすさ |
+| **Minimalist Design** | [`minimalist-design-presentation.html`](./minimalist-design-presentation.html) | 高級ブランド | 余白重視、上品、集中力向上 |
 
 ### 💻 テック・モダン系
 
 | デザイン | ファイル | 適用場面 | 特徴 |
 |:---:|:---:|:---:|:---:|
-| **Dark Mode** | `dark-mode-presentation.html` | 技術発表・開発者 | 目に優しい、集中しやすい |
-| **Glassmorphism** | `glassmorphism-presentation.html` | 最新技術紹介 | 透明感、モダン、未来的 |
-| **Neumorphism** | `neumorphism-presentation.html` | UI/UXデザイン | ソフトシャドウ、立体感 |
-| **Brutalism** | `brutalism-presentation.html` | 創造性重視 | 大胆、インパクト、記憶に残る |
+| **Dark Mode** | [`dark-mode-presentation.html`](./dark-mode-presentation.html) | 技術発表・開発者 | 目に優しい、集中しやすい |
+| **Glassmorphism** | [`glassmorphism-presentation.html`](./glassmorphism-presentation.html) | 最新技術紹介 | 透明感、モダン、未来的 |
+| **Neumorphism** | [`neumorphism-presentation.html`](./neumorphism-presentation.html) | UI/UXデザイン | ソフトシャドウ、立体感 |
+| **Brutalism** | [`brutalism-presentation.html`](./brutalism-presentation.html) | 創造性重視 | 大胆、インパクト、記憶に残る |
 
 ### 🎓 学術・専門系
 
 | デザイン | ファイル | 適用場面 | 特徴 |
 |:---:|:---:|:---:|:---:|
-| **Chalkboard** | `chalkboard-presentation.html` | 教育・学術発表 | 黒板風、親しみやすい、教育的 |
-| **Human Interface** | `human-interface-design-presentation.html` | HCI・認知科学 | Apple標準、直感的操作 |
-| **Isometric** | `isometric-presentation.html` | エンジニアリング | 立体図解、技術説明 |
+| **Chalkboard** | [`chalkboard-presentation.html`](./chalkboard-presentation.html) | 教育・学術発表 | 黒板風、親しみやすい、教育的 |
+| **Human Interface** | [`human-interface-design-presentation.html`](./human-interface-design-presentation.html) | HCI・認知科学 | Apple標準、直感的操作 |
+| **Isometric** | [`isometric-presentation.html`](./isometric-presentation.html) | エンジニアリング | 立体図解、技術説明 |
 
 ### 🌿 クリエイティブ・アート系
 
 | デザイン | ファイル | 適用場面 | 特徴 |
 |:---:|:---:|:---:|:---:|
-| **Organic Design** | `organic-design-presentation.html` | 環境・自然関連 | 曲線美、自然色、調和感 |
-| **Wabi-Sabi** | `wabi-sabi-presentation.html` | 和風・伝統文化 | 日本美学、静寂、深み |
-| **Kinetic Typography** | `kinetic-typography-presentation.html` | 動的表現 | アニメーション、躍動感 |
-| **Monoline** | `monoline-presentation.html` | シンプルイラスト | 一本線、親しみやすい |
+| **Organic Design** | [`organic-design-presentation.html`](./organic-design-presentation.html) | 環境・自然関連 | 曲線美、自然色、調和感 |
+| **Wabi-Sabi** | [`wabi-sabi-presentation.html`](./wabi-sabi-presentation.html) | 和風・伝統文化 | 日本美学、静寂、深み |
+| **Kinetic Typography** | [`kinetic-typography-presentation.html`](./kinetic-typography-presentation.html) | 動的表現 | アニメーション、躍動感 |
+| **Monoline** | [`monoline-presentation.html`](./monoline-presentation.html) | シンプルイラスト | 一本線、親しみやすい |
 
 ### 🕰️ レトロ・ヴィンテージ系
 
 | デザイン | ファイル | 適用場面 | 特徴 |
 |:---:|:---:|:---:|:---:|
-| **Art Deco** | `art-deco-presentation.html` | 高級ブランド | 幾何学模様、ゴールド、豪華 |
-| **Bauhaus** | `bauhaus-presentation.html` | デザイン史・建築 | 機能美、幾何学、モダニズム |
-| **Memphis** | `memphis-presentation.html` | 80年代風 | ポップ、カラフル、楽しい |
-| **Retro Design** | `retro-design-presentation.html` | ノスタルジック | ヴィンテージ、温かみ |
+| **Art Deco** | [`art-deco-presentation.html`](./art-deco-presentation.html) | 高級ブランド | 幾何学模様、ゴールド、豪華 |
+| **Bauhaus** | [`bauhaus-presentation.html`](./bauhaus-presentation.html) | デザイン史・建築 | 機能美、幾何学、モダニズム |
+| **Memphis** | [`memphis-presentation.html`](./memphis-presentation.html) | 80年代風 | ポップ、カラフル、楽しい |
+| **Retro Design** | [`retro-design-presentation.html`](./retro-design-presentation.html) | ノスタルジック | ヴィンテージ、温かみ |
 
 ### 🌍 文化・特色系
 
 | デザイン | ファイル | 適用場面 | 特徴 |
 |:---:|:---:|:---:|:---:|
-| **Afrofuturism** | `afrofuturism-presentation.html` | 多様性・未来 | アフリカ文化×未来、カラフル |
-| **Skeuomorphism** | `skeuomorphism-presentation.html` | リアル質感重視 | 物理的質感、立体感、直感性 |
-| **Kitsch** | `kitsch-presentation.html` | エンタメ・カジュアル | ポップ、親しみやすい、楽しい |
+| **Afrofuturism** | [`afrofuturism-presentation.html`](./afrofuturism-presentation.html) | 多様性・未来 | アフリカ文化×未来、カラフル |
+| **Skeuomorphism** | [`skeuomorphism-presentation.html`](./skeuomorphism-presentation.html) | リアル質感重視 | 物理的質感、立体感、直感性 |
+| **Kitsch** | [`kitsch-presentation.html`](./kitsch-presentation.html) | エンタメ・カジュアル | ポップ、親しみやすい、楽しい |
 
 ## 🛠️ 使用方法
 
