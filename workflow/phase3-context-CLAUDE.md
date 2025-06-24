@@ -5,7 +5,7 @@
 **フェーズ名**: コンテキスト作成
 **目的**: 設計されたコンセプトを基に、実際のプレゼンテーションコンテンツをMarkdownで作成する
 **想定時間**: 1-2時間
-**成果物**: presentation.md, speaker-notes.md
+**成果物**: presentation-context.md, speaker-notes.md
 
 ## 📝 コンテンツ作成要件
 
@@ -21,7 +21,7 @@
 
 **ファイル構成**:
 ```
-presentation.md     # メインプレゼンテーション内容
+presentation-context.md     # メインプレゼンテーション内容
 speaker-notes.md    # 発表者用ノート・補足情報
 assets/            # 画像・データファイル
 references/        # 参考資料・データソース
@@ -31,7 +31,7 @@ references/        # 参考資料・データソース
 
 ### Step 1: メインコンテンツ作成
 
-**presentation.mdの構造**:
+**presentation-context.mdの構造**:
 
 ```markdown
 # [プレゼンテーションタイトル]
@@ -292,7 +292,7 @@ flowchart TD
 - [ ] 発表時間の実測・調整
 
 ### アウトプット確認
-- [ ] presentation.md作成完了
+- [ ] presentation-context.md作成完了
 - [ ] speaker-notes.md作成完了
 - [ ] 必要な図表・データ準備完了
 - [ ] CLAUDE.md（本ファイル）更新完了

@@ -1467,10 +1467,9 @@ requirements.mdの聴衆分析を基に、以下の構造で詳細なオーデ�
 
 #### 📁 Phase 2完了時の成果物
 
-1. **storyline.md**: 最終ストーリーライン（ストリーテリング技法適用済み）
-2. **audience-personas.md**: 詳細ペルソナ分析
-3. **storyline-analysis.md**: ペルソナ分析レポート
-4. **storytelling-improvements.md**: ストリーテリング改善履歴
+1. **storyboard.md**: 最終ストーリーライン（ストリーテリング技法適用済み）
+2. **persona-analysis.md**: 詳細ペルソナ分析
+3. **optimized-storyboard.md**: ペルソナ分析レポート
 
 #### 🏠 ローカルGit開発の場合
 
@@ -1479,7 +1478,7 @@ requirements.mdの聴衆分析を基に、以下の構造で詳細なオーデ�
 cp workflow/phase2-concept-CLAUDE.md ./CLAUDE.md
 
 # 成果物をコミット
-git add storyline.md audience-personas.md storyline-analysis.md storytelling-improvements.md CLAUDE.md
+git add storyboard.md persona-analysis.md optimized-storyboard.md CLAUDE.md
 git commit -m "Phase 2完了: ストーリーライン作成・ペルソナ最適化
 
 ✅ プレゼンテーションストーリーライン作成（論理構造・感情設計）
@@ -1518,7 +1517,7 @@ claude
 # "上記のペルソナ分析を基に、persona-analysis.mdファイルを作成してください"
 
 # ペルソナ分析をGitHubに記録
-git add persona-analysis.md concept.md
+git add persona-analysis.md optimized-storyboard.md
 git commit -m "ペルソナ分析完了: 聴衆最適化構成設計
 
 - CEO・営業部長・専門部長のペルソナ詳細分析
@@ -1609,10 +1608,10 @@ Claude Code: 重要な補正をありがとうございます。ペルソナ分�
 ```bash
 # 修正されたペルソナ分析と構成を最終化
 claude
-# "修正されたペルソナ分析を反映して、最終的なconcept.mdを作成してください"
+# "修正されたペルソナ分析を反映して、最終的なoptimized-storyboard.mdを作成してください"
 
 # 最終構成をGitHubにコミット
-git add concept.md persona-analysis.md
+git add optimized-storyboard.md persona-analysis.md
 git commit -m "ペルソナ最適化構成確定: 現実的な聴衆分析反映
 
 - CEOのビジョン重視特性を反映した構成調整
@@ -1643,7 +1642,7 @@ gh issue comment 2 --body "Phase 2完了しました（ペルソナ分析統合�
 gh issue close 2
 ```
 
-**concept.md の最終版作成例:**
+**optimized-storyboard.md の最終版作成例:**
 
 ```markdown
 # プレゼンテーション構成書
@@ -1735,7 +1734,7 @@ gh issue close 2
 
 ```bash
 # ペルソナ分析の継続改善を記録
-git add persona-analysis.md concept.md
+git add persona-analysis.md optimized-storyboard.md
 git commit -m "ペルソナ分析手法確立: 再利用可能テンプレート化
 
 - 聴衆ペルソナ分析の標準手順策定
@@ -1786,7 +1785,7 @@ git push origin main
 **構成の最適化例:**
 
 ```
-人間: concept.mdを確認しましたが、CEOは通常、実行計画よりもリスク対策を重視します。セクション5と6の順序を入れ替え、リスク対策の時間を3分に延長してください。
+人間: optimized-storyboard.mdを確認しましたが、CEOは通常、実行計画よりもリスク対策を重視します。セクション5と6の順序を入れ替え、リスク対策の時間を3分に延長してください。
 
 Claude Code: 了解しました。CEOの関心事を考慮して構成を調整します。
 
@@ -1801,7 +1800,7 @@ Claude Code: 了解しました。CEOの関心事を考慮して構成を調整�
 
 ```bash
 # 人間レビューに基づく修正後
-git add concept.md
+git add optimized-storyboard.md
 git commit -m "コンセプト設計確定: 人間レビューに基づく最適化
 
 - CEOの関心事を考慮した構成順序変更
@@ -1858,7 +1857,7 @@ graph LR
 
 ### 📝 実行手順
 
-**⚠️ 事前準備**: Phase 2でstoryline.mdが完成していることを確認してください。
+**⚠️ 事前準備**: Phase 2でstoryboard.mdが完成していることを確認してください。
 
 #### Step 1: 詳細コンテキスト作成の開始
 
@@ -1867,7 +1866,7 @@ graph LR
 #### 📝 詳細コンテキスト作成プロンプト（基本）
 
 ```
-Phase 2で作成したstoryline.mdを基に、プレゼンテーション作成に必要な詳細コンテキストを以下の4つの要素で作成してください：
+Phase 2で作成したstoryboard.mdを基に、プレゼンテーション作成に必要な詳細コンテキストを以下の4つの要素で作成してください：
 
 【作成する4つの要素】
 1. 💥 **スライドタイトル（パワーフレーズ）**: 聴衆の関心を引く魅力的で記憶に残るタイトル
@@ -1915,7 +1914,7 @@ Phase 2で作成したstoryline.mdを基に、プレゼンテーション作成�
 
 ## スライド2: [同様の構造で継続...]
 
-この形式で、storyline.mdの各セクションを詳細なコンテキストに展開してください。
+この形式で、storyboard.mdの各セクションを詳細なコンテキストに展開してください。
 ```
 
 #### 💼 用途別詳細化プロンプト例
@@ -1952,13 +1951,13 @@ Phase 2で作成したstoryline.mdを基に、プレゼンテーション作成�
 
 #### Step 2: セクション別詳細コンテキスト作成
 
-**🎯 目標**: storyline.mdの各セクションを、4つの要素（パワーフレーズ・サブタイトル・箇条書き内容・トークスクリプト）で詳細化します。
+**🎯 目標**: storyboard.mdの各セクションを、4つの要素（パワーフレーズ・サブタイトル・箇条書き内容・トークスクリプト）で詳細化します。
 
 #### 実際の協働セッション例
 
 **人間からClaude Codeへの依頼:**
 ```
-storyline.mdの「エグゼクティブサマリー」セクションを基に、新商品XYZ市場投入プレゼンテーション（営業会議、15分＋質疑5分）の詳細コンテキストを4つの要素で作成してください。
+storyboard.mdの「エグゼクティブサマリー」セクションを基に、新商品XYZ市場投入プレゼンテーション（営業会議、15分＋質疑5分）の詳細コンテキストを4つの要素で作成してください。
 
 【ストーリーライン情報（Phase 2から）】
 - 聴衆: 営業部長、マーケティング部長、財務部長、CEO（4名）
@@ -2299,7 +2298,7 @@ Claude Code: 重要な確認事項ですね。以下の修正をご提案しま�
 cp workflow/phase3-context-CLAUDE.md ./CLAUDE.md
 
 # 詳細コンテキスト作成完了後
-git add presentation-context.md storyline.md CLAUDE.md
+git add presentation-context.md storyboard.md CLAUDE.md
 git commit -m "Phase 3完了: 詳細コンテキスト作成
 
 ✅ 4要素詳細コンテキスト作成完了
@@ -2464,7 +2463,7 @@ gh issue create --title "Phase 4進行中: ビジュアル開発" --body "ビジ
 **Claude Codeとの協働:**
 
 ```
-人間: presentation.mdのMermaid図表をより分かりやすく、インパクトのあるものに改善してください。特に市場規模分析の図表を重点的にお願いします。
+人間: presentation-context.mdのMermaid図表をより分かりやすく、インパクトのあるものに改善してください。特に市場規模分析の図表を重点的にお願いします。
 
 Claude Code: 市場規模分析をより視覚的で理解しやすくしましょう。現在の図表を以下のように改善提案します：
 
@@ -2669,7 +2668,7 @@ Claude Code: ご指摘の通りです。以下のように改善します：
 # 人間レビューに基づく修正後
 
 ```bash
-git add context/presentation.md assets/
+git add presentation-context.md assets/
 git commit -m "ビジュアル確定: 人間レビューに基づく最適化
 ```
 
@@ -2696,6 +2695,65 @@ gh issue close 4
 ### 🎯 目的
 
 Phase 3で作成した**プレゼンコンテキスト**とPhase 4で作成した**ビジュアル要素**を参照して、Claude Codeと協働で完全なHTMLプレゼンテーションファイルを作成します。このフェーズでは技術的な実装よりも、Claude Codeとの効率的な協働により高品質なHTMLファイルを生成することに重点を置きます。
+
+### 🎯 Phase 5の特徴：5つの用途別特化版
+
+**PrezenXの大きな特徴の一つが、プレゼンテーションの用途に応じて最適化された5つの専用CLAUDE.mdファイルです。**
+
+| 版 | 対象ユーザー | 特化機能 | CLAUDE.mdファイル |
+|:---:|:---:|:---:|:---:|
+| **General** | 汎用利用者 | シンプルなreveal.js | `phase5-html-general-CLAUDE.md` |
+| **Technical** | 技術者・開発者 | PWA、Web Components | `phase5-html-technical-CLAUDE.md` |
+| **Business** | ビジネスパーソン | KPIダッシュボード、ROI分析 | `phase5-html-business-CLAUDE.md` |
+| **Academic** | 研究者・学者 | Citation.js、LaTeX数式 | `phase5-html-academic-CLAUDE.md` |
+| **Educational** | 教育者・研修担当 | インタラクティブ機能 | `phase5-html-educational-CLAUDE.md` |
+
+#### 🔄 用途別CLAUDE.mdの切り替え手順
+
+**プレゼンテーションの用途に応じて、適切なCLAUDE.mdファイルを選択してください：**
+
+```bash
+# 例1: ビジネスプレゼンテーションの場合
+cp workflow/phase5-html-business-CLAUDE.md ./CLAUDE.md
+
+# 例2: 技術カンファレンス発表の場合
+cp workflow/phase5-html-technical-CLAUDE.md ./CLAUDE.md
+
+# 例3: 学会発表の場合
+cp workflow/phase5-html-academic-CLAUDE.md ./CLAUDE.md
+
+# 例4: 研修資料の場合
+cp workflow/phase5-html-educational-CLAUDE.md ./CLAUDE.md
+
+# 例5: 一般的なプレゼンの場合
+cp workflow/phase5-html-general-CLAUDE.md ./CLAUDE.md
+```
+
+#### 📊 用途別特化の具体例
+
+**Business版の特化機能:**
+- KPIダッシュボードの統合
+- ROI計算ツール
+- PDFエクスポート機能
+- 企業ブランディング統合
+
+**Technical版の特化機能:**
+- PWA（Progressive Web App）対応
+- Service Workerによるオフライン機能
+- Web Componentsアーキテクチャ
+- TypeScript + モダンビルドツール連携
+
+**Academic版の特化機能:**
+- Citation.jsによる文献管理（APA、MLA、IEEE）
+- LaTeX数式・定理環境
+- 統計グラフ特化
+- 研究データ管理機能
+
+**Educational版の特化機能:**
+- 学習進捗トラッキングシステム
+- インタラクティブクイズエンジン
+- アクセシビリティ機能（ハイコントラスト、大文字、読字障害対応）
+- マルチメディアコンテンツ統合
 
 ### 💡 Phase 5の位置づけ
 
@@ -3351,7 +3409,7 @@ gh issue create --title "Phase 6進行中: 品質確認" --body "品質確認フ
 **レビューセッション:**
 
 ```
-人間: 完成したプレゼンテーション（presentation.md、HTML）を総合的にレビューしてください。改善点があれば具体的に指摘してください。
+人間: 完成したプレゼンテーション（presentation-context.md、HTML）を総合的にレビューしてください。改善点があれば具体的に指摘してください。
 
 Claude Code: プレゼンテーション全体をレビューしました。総合的に高品質ですが、以下の改善点を提案します：
 
@@ -3587,9 +3645,9 @@ Claude Code: プレゼンテーション全体をレビューしました。総�
 
 ```bash
 # Claude Codeの提案に基づく修正
-# presentation.mdの該当箇所を更新
+# presentation-context.mdの該当箇所を更新
 
-git add context/presentation.md review.md
+git add presentation-context.md review.md
 git commit -m "品質レビュー対応: コンテンツ改善実装
 
 - 相対的規模感の追加
@@ -4045,7 +4103,7 @@ gh repo create prezenx-template-business-proposal --template --public
 
 # 再利用可能な要素の抽出
 mkdir templates/
-cp concept.md templates/business-proposal-concept.md
+cp optimized-storyboard.md templates/business-proposal-storyboard.md
 cp requirements.md templates/business-proposal-requirements.md
 ```
 

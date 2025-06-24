@@ -33,13 +33,13 @@ workflow/
 ### Phase 2: コンセプト設計 💡  
 **目的**: 魅力的で効果的なプレゼンテーションコンセプトを設計
 - **想定時間**: 20-40分
-- **成果物**: concept.md（コンセプト設計書）
+- **成果物**: storyboard.md, persona-analysis.md, optimized-storyboard.md
 - **重要ポイント**: ストーリーライン・メッセージ・構成の設計
 
 ### Phase 3: コンテキスト作成 📝
 **目的**: 論理的で説得力のあるMarkdownコンテンツを作成
 - **想定時間**: 45-90分
-- **成果物**: presentation.md（Markdownコンテンツ）
+- **成果物**: presentation-context.md（Markdownコンテンツ）
 - **重要ポイント**: 内容の充実・論理構造・読みやすさ
 
 ### Phase 4: ビジュアル開発 🎨
