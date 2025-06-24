@@ -5,7 +5,7 @@ title: "PrezenX"
 
 # PrezenX
 
-**VS Code + Claude Code で実現する次世代プレゼンテーション開発フレームワーク**
+**Presentation Zenの概念に基づいた VS Code + Claude Code で実現する次世代プレゼンテーション開発フレームワーク**
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://nahisaho.github.io/PresenX/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
