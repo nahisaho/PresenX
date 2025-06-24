@@ -215,9 +215,22 @@
         color: #333333 !important;
       }
       
-      /* Force all text elements to be dark */
+      /* Force gray text elements to be dark, preserve blue colors */
       p, div, span, li, td, th, blockquote {
         color: #333333 !important;
+      }
+      
+      /* Preserve blue colors for links and headings */
+      a, h2 {
+        color: #0066cc !important;
+      }
+      
+      a:hover {
+        color: #0052a3 !important;
+      }
+      
+      strong {
+        color: #0066cc !important;
       }
       
       /* Override any inherited gray colors */
