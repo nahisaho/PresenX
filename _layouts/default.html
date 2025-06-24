@@ -241,40 +241,52 @@
         margin-bottom: 2rem;
         position: sticky;
         top: 2rem;
+        text-align: left !important;
       }
       
-      header * {
-        text-align: left;
-        margin-left: 0;
-        margin-right: auto;
+      header *,
+      header h1,
+      header h1 a,
+      header p,
+      header .view,
+      header .view a {
+        text-align: left !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        float: none !important;
+        display: block !important;
       }
       
       header h1 {
-        margin: 0 0 1rem 0;
+        margin: 0 0 1rem 0 !important;
         color: #0066cc;
         font-size: 1.8rem;
         font-weight: 700;
+        width: 100%;
       }
       
       header h1 a {
         text-decoration: none;
         color: inherit;
-        display: block;
+        width: 100%;
+        display: block !important;
       }
       
       header p {
-        margin: 0 0 1.5rem 0;
+        margin: 0 0 1.5rem 0 !important;
         font-size: 0.9rem;
         color: #666;
         line-height: 1.5;
+        width: 100%;
       }
       
       header .view {
-        margin: 1rem 0 0 0;
+        margin: 1rem 0 0 0 !important;
+        text-align: left !important;
       }
       
       header .view a {
-        display: inline-block;
+        display: inline-block !important;
         background: #0066cc;
         color: white;
         padding: 0.75rem 1.5rem;
@@ -283,6 +295,9 @@
         font-weight: 500;
         text-decoration: none;
         transition: all 0.3s;
+        text-align: center !important;
+        margin-left: 0 !important;
+        float: none !important;
       }
       
       header .view a:hover {
@@ -303,28 +318,36 @@
         left: 40px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         z-index: 100;
+        text-align: left !important;
       }
       
-      footer * {
-        text-align: left;
-        margin-left: 0;
-        margin-right: auto;
+      footer *,
+      footer p,
+      footer a,
+      footer small {
+        text-align: left !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        float: none !important;
+        display: block !important;
       }
       
       footer p {
-        margin: 0 0 0.5rem 0;
+        margin: 0 0 0.5rem 0 !important;
         color: #666;
         font-size: 0.75rem;
         line-height: 1.4;
+        width: 100%;
       }
       
       footer p:last-child {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
       }
       
       footer a {
         color: #0066cc;
         text-decoration: none;
+        display: inline !important;
       }
       
       footer a:hover {
