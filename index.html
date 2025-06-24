@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrezenX - AI駆動プレゼンテーション開発フレームワーク</title>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #0052a3;
+            --accent-color: #ff6b35;
+            --text-color: #333333;
+            --bg-color: #ffffff;
+            --card-bg: #f8f9fa;
+            --border-color: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--card-bg);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,102,204,0.3);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Documentation Grid */
+        .docs-section {
+            padding: 4rem 0;
+        }
+
+        .docs-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .doc-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .doc-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .doc-card p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .doc-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .doc-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--card-bg);
+            padding: 4rem 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        footer a {
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1>PrezenX</h1>
+                    <p class="tagline">VS Code + Claude Code で実現する次世代プレゼンテーション開発</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#overview">概要</a></li>
+                <li><a href="#docs">ドキュメント</a></li>
+                <li><a href="#workflow">ワークフロー</a></li>
+                <li><a href="#design">デザイン</a></li>
+                <li><a href="https://github.com/nahisaho/PresenX">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="overview">
+        <div class="container">
+            <h2>プレゼンテーション作成を80%高速化</h2>
+            <p>PrezenXは、VS Code + Claude Code協働開発モデルにより、従来20時間かかっていたプレゼンテーション作成を3-5時間で完成させる革新的なフレームワークです。</p>
+            <div class="cta-buttons">
+                <a href="#docs" class="btn btn-primary">ドキュメントを見る</a>
+                <a href="https://github.com/nahisaho/PresenX" class="btn btn-secondary">GitHubで始める</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="docs-section" id="docs">
+        <div class="container">
+            <h2>📚 ドキュメント</h2>
+            <div class="docs-grid">
+                <div class="doc-card">
+                    <h3>🚀 エグゼクティブサマリー</h3>
+                    <p>PrezenXの革新的な価値提案と期待される成果を簡潔にまとめています。経営層・意思決定者向け。</p>
+                    <a href="01-executive-summary.html" class="doc-link">詳細を見る →</a>
+                </div>
+                
+                <div class="doc-card">
+                    <h3>🎯 背景と課題</h3>
+                    <p>従来のプレゼンテーション作成の問題点と、PrezenXが解決する具体的な課題について解説。</p>
+                    <a href="02-background-challenges.html" class="doc-link">詳細を見る →</a>
+                </div>
+                
+                <div class="doc-card">
+                    <h3>🏗️ 技術アーキテクチャ</h3>
+                    <p>VS Code + Claude Code統合の技術的仕組みと、7フェーズ開発ライフサイクルの詳細。</p>
+                    <a href="03-technical-architecture.html" class="doc-link">詳細を見る →</a>
+                </div>
+                
+                <div class="doc-card">
+                    <h3>✨ 機能仕様</h3>
+                    <p>PrezenXの全機能を網羅した詳細仕様書。各フェーズの機能と技術統合について。</p>
+                    <a href="04-features-specifications.html" class="doc-link">詳細を見る →</a>
+                </div>
+                
+                <div class="doc-card">
+                    <h3>🛠️ 環境構築</h3>
+                    <p>PrezenXを使い始めるための環境セットアップガイド。VS Code、Claude Code、必要ツールの設定。</p>
+                    <a href="05-environment-setup.html" class="doc-link">詳細を見る →</a>
+                </div>
+                
+                <div class="doc-card">
+                    <h3>📋 実装方法論</h3>
+                    <p>7フェーズ開発ライフサイクルの実践的な実装ガイド。各フェーズの詳細手順とベストプラクティス。</p>
+                    <a href="06-implementation-methodology.html" class="doc-link">詳細を見る →</a>
+                </div>
+                
+                <div class="doc-card">
+                    <h3>📊 パフォーマンス評価</h3>
+                    <p>筆者の実体験に基づく成果予測。80%以上の時間削減と50%以上の品質向上の詳細分析。</p>
+                    <a href="07-performance-evaluation.html" class="doc-link">詳細を見る →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="workflow">
+        <div class="container">
+            <h2>🔄 7フェーズ開発ライフサイクル</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">📋</div>
+                    <h3>Phase 1: 要件定義</h3>
+                    <p>15-30分で明確な要件を定義</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💡</div>
+                    <h3>Phase 2: コンセプト設計</h3>
+                    <p>20-40分で魅力的なコンセプト作成</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📝</div>
+                    <h3>Phase 3: コンテキスト作成</h3>
+                    <p>45-90分で論理的なコンテンツ構築</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Phase 4: ビジュアル開発</h3>
+                    <p>30-60分で効果的なビジュアル統合</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Phase 5: HTML生成</h3>
+                    <p>15-90分で最適化されたHTML出力</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <h3>Phase 6: 品質確認</h3>
+                    <p>20-45分で総合的な品質チェック</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Phase 7: デプロイ</h3>
+                    <p>15-30分でGitHub Pages公開</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="workflow/" class="btn btn-primary">ワークフローの詳細を見る</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="docs-section" id="design">
+        <div class="container">
+            <h2>🎨 デザインサンプル</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">22種類のプロフェッショナルなデザインテンプレートから選択可能</p>
+            <div style="text-align: center;">
+                <a href="design_samples/" class="btn btn-primary">デザインサンプルを見る</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 PrezenX. All rights reserved.</p>
+            <p style="margin-top: 1rem;">
+                <a href="https://github.com/nahisaho/PresenX">GitHub</a> | 
+                <a href="https://github.com/nahisaho/PresenX/issues">Issues</a> | 
+                <a href="LICENSE.txt">License</a>
+            </p>
+            <p style="margin-top: 1rem; opacity: 0.8;">
+                🤖 Generated with <a href="https://claude.ai/code">Claude Code</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

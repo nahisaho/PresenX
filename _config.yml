@@ -1,0 +1,40 @@
+theme: jekyll-theme-minimal
+title: PrezenX
+description: VS Code + Claude Code で実現する次世代プレゼンテーション開発フレームワーク
+
+# GitHub Pages設定
+markdown: kramdown
+highlighter: rouge
+
+# プラグイン
+plugins:
+  - jekyll-relative-links
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Markdown処理設定
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+
+# 相対リンク設定
+relative_links:
+  enabled: true
+  collections: true
+
+# インクルード設定
+include:
+  - README.md
+  - LICENSE.txt
+  - "*.md"
+  - workflow/
+  - design_samples/
+
+# 除外設定
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
