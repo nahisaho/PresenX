@@ -121,6 +121,42 @@
         word-wrap: break-word;
         word-break: break-all;
         white-space: pre-wrap;
+        position: relative;
+        display: inline-block;
+      }
+      
+      /* Inline code copy button */
+      .code-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .code-copy-btn {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        padding: 2px 6px;
+        font-size: 10px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 10;
+      }
+      
+      .code-wrapper:hover .code-copy-btn {
+        opacity: 1;
+      }
+      
+      .code-copy-btn:hover {
+        background: #0052a3;
+      }
+      
+      .code-copy-btn:active {
+        background: #004080;
       }
       
       /* Enhanced horizontal rules */
@@ -376,6 +412,51 @@
         
         // Re-initialize mermaid for dynamically created elements
         mermaid.init();
+        
+        // Add copy buttons to inline code elements
+        const inlineCodes = document.querySelectorAll('code:not(pre code)');
+        inlineCodes.forEach(function(codeElement) {
+          // Skip if already wrapped
+          if (codeElement.parentNode.classList.contains('code-wrapper')) return;
+          
+          // Create wrapper
+          const wrapper = document.createElement('span');
+          wrapper.className = 'code-wrapper';
+          
+          // Create copy button
+          const copyBtn = document.createElement('button');
+          copyBtn.className = 'code-copy-btn';
+          copyBtn.textContent = 'Copy';
+          copyBtn.setAttribute('aria-label', 'Copy code');
+          
+          // Add click handler
+          copyBtn.addEventListener('click', function() {
+            navigator.clipboard.writeText(codeElement.textContent).then(function() {
+              copyBtn.textContent = 'Copied!';
+              setTimeout(function() {
+                copyBtn.textContent = 'Copy';
+              }, 2000);
+            }).catch(function() {
+              // Fallback for older browsers
+              const textArea = document.createElement('textarea');
+              textArea.value = codeElement.textContent;
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              
+              copyBtn.textContent = 'Copied!';
+              setTimeout(function() {
+                copyBtn.textContent = 'Copy';
+              }, 2000);
+            });
+          });
+          
+          // Wrap the code element
+          codeElement.parentNode.insertBefore(wrapper, codeElement);
+          wrapper.appendChild(codeElement);
+          wrapper.appendChild(copyBtn);
+        });
       });
     </script>
   </body>
