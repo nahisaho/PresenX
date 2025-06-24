@@ -159,25 +159,32 @@ Phase 5では、プレゼンテーションの**用途・性質**に応じて最
 
 ```bash
 # Phase 1: 要件定義
-claude --file=workflow/phase1-requirements-CLAUDE.md
+cp workflow/phase1-requirements-CLAUDE.md ./CLAUDE.md
+# VS Code + Claude Codeで開発開始
 
 # Phase 2: コンセプト設計
-claude --file=workflow/phase2-concept-CLAUDE.md
+cp workflow/phase2-concept-CLAUDE.md ./CLAUDE.md
+# VS Code + Claude Codeで開発継続
 
 # Phase 3: コンテキスト作成  
-claude --file=workflow/phase3-context-CLAUDE.md
+cp workflow/phase3-context-CLAUDE.md ./CLAUDE.md
+# VS Code + Claude Codeで開発継続
 
 # Phase 4: ビジュアル開発
-claude --file=workflow/phase4-visual-CLAUDE.md
+cp workflow/phase4-visual-CLAUDE.md ./CLAUDE.md
+# VS Code + Claude Codeで開発継続
 
 # Phase 5: HTML生成（例：Educational版）
-claude --file=workflow/phase5-html-educational-CLAUDE.md
+cp workflow/phase5-html-educational-CLAUDE.md ./CLAUDE.md
+# VS Code + Claude Codeで開発継続
 
 # Phase 6: 品質確認
-claude --file=workflow/phase6-quality-CLAUDE.md
+cp workflow/phase6-quality-CLAUDE.md ./CLAUDE.md
+# VS Code + Claude Codeで開発継続
 
 # Phase 7: デプロイ・公開
-claude --file=workflow/phase7-deploy-CLAUDE.md
+cp workflow/phase7-deploy-CLAUDE.md ./CLAUDE.md
+# VS Code + Claude Codeで開発完了
 ```
 
 ### 3. GitHubでのプロジェクト管理
