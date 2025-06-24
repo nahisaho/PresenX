@@ -124,6 +124,12 @@ class BaseSlide extends HTMLElement {
                     overflow: hidden;
                 }
                 
+                /* スライド全体の余白設定 */
+                .reveal .slides {
+                    width: 80%;
+                    margin: 10%;
+                }
+                
                 .slide-content {
                     display: grid;
                     grid-template-rows: auto 1fr auto;

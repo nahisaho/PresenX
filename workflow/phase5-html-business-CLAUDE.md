@@ -65,6 +65,12 @@
     --font-data: 'Courier New', monospace;
 }
 
+/* スライド全体の余白設定 */
+.reveal .slides {
+    width: 80%;
+    margin: 10%;
+}
+
 /* 企業ロゴ配置 */
 .corporate-header {
     position: fixed;

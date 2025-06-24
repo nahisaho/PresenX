@@ -76,6 +76,12 @@
     --font-mono: 'Courier New', monospace;
 }
 
+/* スライド全体の余白設定 */
+.reveal .slides {
+    width: 80%;
+    margin: 10%;
+}
+
 /* 学習目標スタイル */
 .learning-objectives {
     background: linear-gradient(135deg, var(--learning-primary) 0%, var(--learning-secondary) 100%);

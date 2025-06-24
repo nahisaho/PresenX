@@ -97,6 +97,7 @@ code .
 | [🛠️ 環境構築](05-environment-setup.md) | セットアップ手順 | 初回利用者 |
 | [📋 実装方法論](06-implementation-methodology.md) | 開発手法・ワークフロー | 全ての利用者 |
 | [📊 パフォーマンス評価](07-performance-evaluation.md) | 効果測定・実績 | 導入検討者 |
+| [🌟 エピローグ](08-epilogue.md) | 将来展望・コミュニティ | 全ての利用者 |
 
 ### 🔄 ワークフロー
 | フェーズ | 専用CLAUDE.md | 説明 |

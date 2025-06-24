@@ -5,7 +5,7 @@
 **フェーズ名**: コンセプト設計
 **目的**: Phase 1の要件をもとに、生成AIによるストーリーライン作成とペルソナ分析による最適化を行う
 **想定時間**: 20-40分
-**成果物**: storyboard.md, persona-analysis.md, optimized-storyboard.md
+**成果物**: storyline.md, audience-personas.md, storyline-analysis.md
 
 ## 📐 設計要件
 
@@ -40,7 +40,7 @@
 #### 生成AIへの依頼内容
 
 ```markdown
-Claude Codeさん、Phase 1で定義した要件をもとに、以下の要素を含む詳細なストーリーラインを作成してください：
+Phase 1で定義した要件をもとに、以下の要素を含む詳細なストーリーラインを作成してください：
 
 **必須出力要素:**
 1. 📋 **講演タイトル**: インパクトのある魅力的なタイトル
@@ -100,7 +100,7 @@ Claude Codeさん、Phase 1で定義した要件をもとに、以下の要素�
 #### ペルソナ分析の観点
 
 ```markdown
-Claude Codeさん、作成いただいたストーリーラインを以下のペルソナ分析で最適化してください：
+作成いただいたストーリーラインを以下のペルソナ分析で最適化してください：
 
 **主要ペルソナ設定**:
 [Phase 1で定義した主要聴衆の詳細ペルソナ]
@@ -319,9 +319,9 @@ Claude Codeさん、新商品XYZ市場投入のプレゼンテーション（営
 
 ### Phase 2完了時の成果物
 
-1. **storyboard.md**: 初期ストーリーライン
-2. **persona-analysis.md**: ペルソナ分析結果  
-3. **optimized-storyboard.md**: 最適化済みストーリーライン
+1. **storyline.md**: 初期ストーリーライン
+2. **audience-personas.md**: ペルソナ分析結果  
+3. **storyline-analysis.md**: 最適化済みストーリーライン
 
 ### Phase 3への引き継ぎ情報
 
@@ -380,7 +380,7 @@ Claude Codeさん、新商品XYZ市場投入のプレゼンテーション（営
 **Phase 2完了時のアクション:**
 ```bash
 # Phase 2の成果物をコミット
-git add storyboard.md persona-analysis.md optimized-storyboard.md
+git add storyline.md audience-personas.md storyline-analysis.md
 git commit -m "Phase 2: コンセプト設計完了
 
 ✅ ストーリーライン生成完了（6要素）

@@ -145,6 +145,12 @@
             font-size: 1.2em;
         }
         
+        /* スライド全体の余白設定 */
+        .reveal .slides {
+            width: 80%;
+            margin: 10%;
+        }
+        
         @media (max-width: 768px) {
             .reveal .slides section {
                 font-size: 1em;

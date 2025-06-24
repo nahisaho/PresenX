@@ -69,6 +69,12 @@
     --font-math: 'Latin Modern Math', 'STIX Two Math', serif;
 }
 
+/* スライド全体の余白設定 */
+.reveal .slides {
+    width: 80%;
+    margin: 10%;
+}
+
 /* 学術フォーマット基本設定 */
 .reveal .slides section {
     text-align: left;

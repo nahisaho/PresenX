@@ -431,7 +431,7 @@ graph TD
 |:---:|:---:|:---:|
 | **要件定義** | 15-30分 | 要件書（Markdown） |
 | **コンセプト設計** | 30-45分 | 構成案・ストーリーボード |
-| **コンテキスト作成** | 1-2時間 | Markdownコンテンツ |
+| **コンテキスト作成** | 45分-1時間 | Markdownコンテンツ |
 | **ビジュアル開発** | 30-60分 | Mermaid図表・数式 |
 | **HTML生成** | 15-30分 | プレゼンテーションHTML（5種専用版） |
 | **品質確認** | 30-45分 | レビュー・修正 |
@@ -1467,9 +1467,9 @@ requirements.mdの聴衆分析を基に、以下の構造で詳細なオーデ�
 
 #### 📁 Phase 2完了時の成果物
 
-1. **storyboard.md**: 最終ストーリーライン（ストリーテリング技法適用済み）
-2. **persona-analysis.md**: 詳細ペルソナ分析
-3. **optimized-storyboard.md**: ペルソナ分析レポート
+1. **storyline.md**: 最終ストーリーライン（ストリーテリング技法適用済み）
+2. **audience-personas.md**: 詳細ペルソナ分析
+3. **storyline-analysis.md**: ペルソナ分析レポート
 
 #### 🏠 ローカルGit開発の場合
 
@@ -1478,7 +1478,7 @@ requirements.mdの聴衆分析を基に、以下の構造で詳細なオーデ�
 cp workflow/phase2-concept-CLAUDE.md ./CLAUDE.md
 
 # 成果物をコミット
-git add storyboard.md persona-analysis.md optimized-storyboard.md CLAUDE.md
+git add storyline.md audience-personas.md storyline-analysis.md CLAUDE.md
 git commit -m "Phase 2完了: ストーリーライン作成・ペルソナ最適化
 
 ✅ プレゼンテーションストーリーライン作成（論理構造・感情設計）
@@ -1509,15 +1509,15 @@ gh issue close [issue-number]
 
 ---
 
-**persona-analysis.md の作成:**
+**audience-personas.md の作成:**
 
 ```bash
 # ペルソナ分析結果を文書化
 claude
-# "上記のペルソナ分析を基に、persona-analysis.mdファイルを作成してください"
+# "上記のペルソナ分析を基に、audience-personas.mdファイルを作成してください"
 
 # ペルソナ分析をGitHubに記録
-git add persona-analysis.md optimized-storyboard.md
+git add audience-personas.md storyline-analysis.md
 git commit -m "ペルソナ分析完了: 聴衆最適化構成設計
 
 - CEO・営業部長・専門部長のペルソナ詳細分析
@@ -1608,10 +1608,10 @@ Claude Code: 重要な補正をありがとうございます。ペルソナ分�
 ```bash
 # 修正されたペルソナ分析と構成を最終化
 claude
-# "修正されたペルソナ分析を反映して、最終的なoptimized-storyboard.mdを作成してください"
+# "修正されたペルソナ分析を反映して、最終的なstoryline-analysis.mdを作成してください"
 
 # 最終構成をGitHubにコミット
-git add optimized-storyboard.md persona-analysis.md
+git add storyline-analysis.md audience-personas.md
 git commit -m "ペルソナ最適化構成確定: 現実的な聴衆分析反映
 
 - CEOのビジョン重視特性を反映した構成調整
@@ -1642,7 +1642,7 @@ gh issue comment 2 --body "Phase 2完了しました（ペルソナ分析統合�
 gh issue close 2
 ```
 
-**optimized-storyboard.md の最終版作成例:**
+**storyline-analysis.md の最終版作成例:**
 
 ```markdown
 # プレゼンテーション構成書
@@ -1734,7 +1734,7 @@ gh issue close 2
 
 ```bash
 # ペルソナ分析の継続改善を記録
-git add persona-analysis.md optimized-storyboard.md
+git add audience-personas.md storyline-analysis.md
 git commit -m "ペルソナ分析手法確立: 再利用可能テンプレート化
 
 - 聴衆ペルソナ分析の標準手順策定
@@ -1785,7 +1785,7 @@ git push origin main
 **構成の最適化例:**
 
 ```
-人間: optimized-storyboard.mdを確認しましたが、CEOは通常、実行計画よりもリスク対策を重視します。セクション5と6の順序を入れ替え、リスク対策の時間を3分に延長してください。
+人間: storyline-analysis.mdを確認しましたが、CEOは通常、実行計画よりもリスク対策を重視します。セクション5と6の順序を入れ替え、リスク対策の時間を3分に延長してください。
 
 Claude Code: 了解しました。CEOの関心事を考慮して構成を調整します。
 
@@ -1800,7 +1800,7 @@ Claude Code: 了解しました。CEOの関心事を考慮して構成を調整�
 
 ```bash
 # 人間レビューに基づく修正後
-git add optimized-storyboard.md
+git add storyline-analysis.md
 git commit -m "コンセプト設計確定: 人間レビューに基づく最適化
 
 - CEOの関心事を考慮した構成順序変更
@@ -1857,7 +1857,7 @@ graph LR
 
 ### 📝 実行手順
 
-**⚠️ 事前準備**: Phase 2でstoryboard.mdが完成していることを確認してください。
+**⚠️ 事前準備**: Phase 2でstoryline.mdが完成していることを確認してください。
 
 #### Step 1: 詳細コンテキスト作成の開始
 
@@ -1866,7 +1866,7 @@ graph LR
 #### 📝 詳細コンテキスト作成プロンプト（基本）
 
 ```
-Phase 2で作成したstoryboard.mdを基に、プレゼンテーション作成に必要な詳細コンテキストを以下の4つの要素で作成してください：
+Phase 2で作成したstoryline.mdを基に、プレゼンテーション作成に必要な詳細コンテキストを以下の4つの要素で作成してください：
 
 【作成する4つの要素】
 1. 💥 **スライドタイトル（パワーフレーズ）**: 聴衆の関心を引く魅力的で記憶に残るタイトル
@@ -1914,7 +1914,7 @@ Phase 2で作成したstoryboard.mdを基に、プレゼンテーション作成
 
 ## スライド2: [同様の構造で継続...]
 
-この形式で、storyboard.mdの各セクションを詳細なコンテキストに展開してください。
+この形式で、storyline.mdの各セクションを詳細なコンテキストに展開してください。
 ```
 
 #### 💼 用途別詳細化プロンプト例
@@ -1951,13 +1951,13 @@ Phase 2で作成したstoryboard.mdを基に、プレゼンテーション作成
 
 #### Step 2: セクション別詳細コンテキスト作成
 
-**🎯 目標**: storyboard.mdの各セクションを、4つの要素（パワーフレーズ・サブタイトル・箇条書き内容・トークスクリプト）で詳細化します。
+**🎯 目標**: storyline.mdの各セクションを、4つの要素（パワーフレーズ・サブタイトル・箇条書き内容・トークスクリプト）で詳細化します。
 
 #### 実際の協働セッション例
 
 **人間からClaude Codeへの依頼:**
 ```
-storyboard.mdの「エグゼクティブサマリー」セクションを基に、新商品XYZ市場投入プレゼンテーション（営業会議、15分＋質疑5分）の詳細コンテキストを4つの要素で作成してください。
+storyline.mdの「エグゼクティブサマリー」セクションを基に、新商品XYZ市場投入プレゼンテーション（営業会議、15分＋質疑5分）の詳細コンテキストを4つの要素で作成してください。
 
 【ストーリーライン情報（Phase 2から）】
 - 聴衆: 営業部長、マーケティング部長、財務部長、CEO（4名）
@@ -2298,7 +2298,7 @@ Claude Code: 重要な確認事項ですね。以下の修正をご提案しま�
 cp workflow/phase3-context-CLAUDE.md ./CLAUDE.md
 
 # 詳細コンテキスト作成完了後
-git add presentation-context.md storyboard.md CLAUDE.md
+git add presentation-context.md storyline.md CLAUDE.md
 git commit -m "Phase 3完了: 詳細コンテキスト作成
 
 ✅ 4要素詳細コンテキスト作成完了
@@ -4103,7 +4103,7 @@ gh repo create prezenx-template-business-proposal --template --public
 
 # 再利用可能な要素の抽出
 mkdir templates/
-cp optimized-storyboard.md templates/business-proposal-storyboard.md
+cp storyline-analysis.md templates/business-proposal-storyline.md
 cp requirements.md templates/business-proposal-requirements.md
 ```
 
