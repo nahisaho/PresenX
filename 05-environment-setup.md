@@ -823,3 +823,21 @@ explorer.exe ~/test-markdown.md
 ---
 
 **環境構築の完了により、VS Code + Claude Code協働開発でのプレゼンテーション作成が可能になります。次のステップで実際の開発ワークフローを習得しましょう。**
+
+---
+
+## 📋 ナビゲーション
+
+| 前のページ | 目次 | 次のページ |
+|:---:|:---:|:---:|
+| [✨ 機能仕様](04-features-specifications.md) | [🏠 ホーム](README.md) | [📋 実装方法論](06-implementation-methodology.md) |
+
+### 📚 全ドキュメント一覧
+1. [📊 エグゼクティブサマリー](01-executive-summary.md)
+2. [🎯 背景と課題](02-background-challenges.md)
+3. [🏗️ 技術アーキテクチャ](03-technical-architecture.md)
+4. [✨ 機能仕様](04-features-specifications.md)
+5. **[🛠️ 環境構築](05-environment-setup.md) ← 現在のページ**
+6. [📋 実装方法論](06-implementation-methodology.md)
+7. [📊 パフォーマンス評価](07-performance-evaluation.md)
+8. [🌟 エピローグ](08-epilogue.md)

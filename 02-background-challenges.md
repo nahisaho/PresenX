@@ -278,3 +278,21 @@ PrezenX: 高品質 ∧ スピード (同時実現)
 ---
 
 これらの課題を解決することで、**PrezenX**は真の価値を提供し、プレゼンテーション業界に革命をもたらします。
+
+---
+
+## 📋 ナビゲーション
+
+| 前のページ | 目次 | 次のページ |
+|:---:|:---:|:---:|
+| [📊 エグゼクティブサマリー](01-executive-summary.md) | [🏠 ホーム](README.md) | [🏗️ 技術アーキテクチャ](03-technical-architecture.md) |
+
+### 📚 全ドキュメント一覧
+1. [📊 エグゼクティブサマリー](01-executive-summary.md)
+2. **[🎯 背景と課題](02-background-challenges.md) ← 現在のページ**
+3. [🏗️ 技術アーキテクチャ](03-technical-architecture.md)
+4. [✨ 機能仕様](04-features-specifications.md)
+5. [🛠️ 環境構築](05-environment-setup.md)
+6. [📋 実装方法論](06-implementation-methodology.md)
+7. [📊 パフォーマンス評価](07-performance-evaluation.md)
+8. [🌟 エピローグ](08-epilogue.md)
