@@ -1,4 +1,4 @@
-theme: jekyll-theme-slate
+theme: jekyll-theme-minimal
 title: PrezenX
 description: Presentation Zenの概念に基づいた VS Code + Claude Code で実現する次世代プレゼンテーション開発フレームワーク
 

@@ -208,176 +208,40 @@
         margin-top: 3rem;
       }
       
-      /* Override Slate theme defaults */
+      /* Override theme defaults */
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
         background: #ffffff !important;
         color: #333333 !important;
       }
       
-      /* Root reset for text alignment */
-      * {
-        text-align: inherit;
-      }
       
-      /* Main wrapper - clean grid layout for Slate theme */
+      /* Main wrapper - full width layout */
       .wrapper {
-        max-width: 1400px;
+        max-width: 1200px;
         width: 95%;
         margin: 0 auto;
         padding: 20px;
-        display: grid;
-        grid-template-columns: 300px 1fr;
-        gap: 3rem;
+        display: block;
         min-height: 100vh;
         position: relative;
         background: transparent !important;
       }
       
-      /* Left sidebar - fixed width for consistency */
-      .sidebar {
-        width: 300px;
-        position: relative;
-      }
-      
-      /* Header in sidebar - Slate theme override */
-      header {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        padding: 2rem !important;
-        margin: 0 0 2rem 0 !important;
-        position: sticky;
-        top: 2rem;
-        text-align: left !important;
-        width: 300px !important;
-        max-width: 300px !important;
-        border: 1px solid #e9ecef !important;
-      }
-      
-      header *,
-      header h1,
-      header h1 a,
-      header p,
-      header .view,
-      header .view a {
-        text-align: left !important;
-        margin-left: 0 !important;
-        margin-right: auto !important;
-        float: none !important;
-        display: block !important;
-      }
-      
-      header h1 {
-        margin: 0 0 1rem 0 !important;
-        color: #0066cc;
-        font-size: 1.8rem;
-        font-weight: 700;
-        width: 100%;
-      }
-      
-      header h1 a {
-        text-decoration: none;
-        color: inherit;
-        width: 100%;
-        display: block !important;
-      }
-      
-      header p {
-        margin: 0 0 1.5rem 0 !important;
-        font-size: 0.9rem;
-        color: #666;
-        line-height: 1.5;
-        width: 100%;
-      }
-      
-      header .view {
-        margin: 1rem 0 0 0 !important;
-        text-align: left !important;
-      }
-      
-      header .view a {
-        display: inline-block !important;
-        background: #0066cc;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.3s;
-        text-align: center !important;
-        margin-left: 0 !important;
-        float: none !important;
-      }
-      
-      header .view a:hover {
-        background: #0052a3;
-        transform: translateY(-1px);
-      }
-      
-      /* Footer in sidebar - Slate theme override */
-      footer {
-        background: rgba(248, 249, 250, 0.95) !important;
-        backdrop-filter: blur(10px);
-        border: 1px solid #e9ecef !important;
-        border-radius: 10px;
-        padding: 1.5rem 2rem !important;
-        position: fixed !important;
-        bottom: 20px !important;
-        width: 300px !important;
-        max-width: 300px !important;
-        left: 40px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 100;
-        text-align: left !important;
-        margin: 0 !important;
-      }
-      
-      footer *,
-      footer p,
-      footer a,
-      footer small {
-        text-align: left !important;
-        margin-left: 0 !important;
-        margin-right: auto !important;
-        float: none !important;
-        display: block !important;
-      }
-      
-      footer p {
-        margin: 0 0 0.5rem 0 !important;
-        color: #666;
-        font-size: 0.75rem;
-        line-height: 1.4;
-        width: 100%;
-      }
-      
-      footer p:last-child {
-        margin-bottom: 0 !important;
-      }
-      
-      footer a {
-        color: #0066cc;
-        text-decoration: none;
-        display: inline !important;
-      }
-      
-      footer a:hover {
-        text-decoration: underline;
-      }
-      
-      /* Main content area */
+      /* Main content area - full width */
       .content-wrapper {
-        min-width: 0;
-        padding: 2rem 0;
-        margin-bottom: 2rem;
+        width: 100%;
+        padding: 0;
+        margin: 0;
       }
       
       section {
         line-height: 1.8;
         font-size: 16px;
         width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 0;
       }
       
       /* Enhanced typography */
@@ -419,46 +283,15 @@
         border-radius: 4px;
       }
       
-      /* Better footer styling */
-      footer {
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 1px solid #e9ecef;
-        text-align: center;
-        color: #666;
-        font-size: 0.9rem;
-      }
-      
       @media (max-width: 1024px) {
         .wrapper {
           display: block;
           padding: 15px;
         }
         
-        .sidebar {
-          width: 100%;
-        }
-        
-        header {
-          position: relative;
-          top: auto;
-          margin-bottom: 2rem;
-        }
-        
         .content-wrapper {
           width: 100%;
           margin-bottom: 2rem;
-        }
-        
-        footer {
-          position: static;
-          width: 100%;
-          left: auto;
-          margin-top: 2rem;
-        }
-        
-        footer * {
-          text-align: center;
         }
       }
       
@@ -466,14 +299,6 @@
         .wrapper {
           width: 95%;
           padding: 0 15px;
-        }
-        
-        header {
-          padding: 1.5rem 1rem;
-        }
-        
-        header h1 {
-          font-size: 1.5rem;
         }
         
         h1 { font-size: 2rem; }
@@ -491,14 +316,6 @@
           padding: 0 10px;
         }
         
-        header {
-          padding: 1rem;
-        }
-        
-        header h1 {
-          font-size: 1.3rem;
-        }
-        
         h1 { font-size: 1.75rem; }
         h2 { font-size: 1.5rem; }
         h3 { font-size: 1.25rem; }
@@ -507,42 +324,6 @@
   </head>
   <body>
     <div class="wrapper">
-      <div class="sidebar">
-        <header>
-          <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
-          
-          {% if site.logo %}
-            <img src="{{site.logo | relative_url}}" alt="Logo" />
-          {% endif %}
-
-          <p>{{ site.description | default: site.github.project_tagline }}</p>
-
-          {% if site.github.is_project_page %}
-          <p class="view"><a href="{{ site.github.repository_url }}">View Project on GitHub</a></p>
-          {% endif %}
-
-          {% if site.github.is_user_page %}
-          <p class="view"><a href="{{ site.github.owner_url }}">View My GitHub Profile</a></p>
-          {% endif %}
-
-          {% if site.show_downloads %}
-          <ul class="downloads">
-            <li><a href="{{ site.github.zip_url }}">Download <strong>ZIP File</strong></a></li>
-            <li><a href="{{ site.github.tar_url }}">Download <strong>TAR Ball</strong></a></li>
-            <li><a href="{{ site.github.repository_url }}">View On <strong>GitHub</strong></a></li>
-          </ul>
-          {% endif %}
-        </header>
-        
-        <footer>
-          {% if site.github.is_project_page %}
-          <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-          {% endif %}
-          <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-          <p>🤖 Generated with <a href="https://claude.ai/code">Claude Code</a></p>
-        </footer>
-      </div>
-      
       <div class="content-wrapper">
         <section>
           {{ content }}
